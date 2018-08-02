@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- base colors-->
+    <color name="ui_white">#ffffffff</color>
+    <color name="ui_gray">#999999</color>
+    <color name="ui_light_black">#333333</color>
+</resources>

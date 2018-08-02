@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.meituan.android.uitool.library">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application>
+        <activity
+            android:name="com.meituan.android.uitool.FoodTransparentActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:theme="@style/FoodTranslucent"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+    </application>
+</manifest>
