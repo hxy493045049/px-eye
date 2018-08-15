@@ -5,10 +5,10 @@
 
     <application>
         <activity
-            android:name="com.meituan.android.uitool.FoodTransparentActivity"
+            android:name="com.meituan.android.uitool.FoodUEToolsActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:theme="@style/FoodTranslucent"
+            android:theme="@style/Food.UE.Translucent"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 </manifest>

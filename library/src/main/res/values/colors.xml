@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- base colors-->
-    <color name="ui_white">#ffffffff</color>
-    <color name="ui_gray">#999999</color>
-    <color name="ui_light_black">#333333</color>
+    <color name="food_ue_white">#ffffffff</color>
+    <color name="food_ue_gray">#999999</color>
+    <color name="food_ue_light_black">#333333</color>
+
+
+    <!--测量条-->
+    <color name="food_ue_measure_bar_bg_color">#26FF0000</color>
+
+    <!--属性捕捉-->
+    <color name="food_ue_selected_view_bg">#30000000</color>
 </resources>

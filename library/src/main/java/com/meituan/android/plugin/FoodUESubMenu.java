@@ -1,4 +1,4 @@
-package com.meituan.android.uitool;
+package com.meituan.android.plugin;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.meituan.android.uitool.library.R;
 
-
 public class FoodUESubMenu extends LinearLayout {
-
     private ImageView vImage;
     private TextView vTitle;
 
@@ -33,18 +31,18 @@ public class FoodUESubMenu extends LinearLayout {
         vTitle = findViewById(R.id.title);
     }
 
-    public void update(SubMenu subMenu) {
-        vImage.setImageResource(subMenu.getImageRes());
-        vTitle.setText(subMenu.getTitle());
-        setOnClickListener(subMenu.getOnClickListener());
+    public void update(MenuModel menuModel) {
+        vImage.setImageResource(menuModel.getImageRes());
+        vTitle.setText(menuModel.getTitle());
+        setOnClickListener(menuModel.getOnClickListener());
     }
 
-    public static class SubMenu {
+    public static class MenuModel {
         private String title;
         private int imageRes;
         private OnClickListener onClickListener;
 
-        public SubMenu(String title, int imageRes, OnClickListener onClickListener) {
+        public MenuModel(String title, int imageRes, OnClickListener onClickListener) {
             this.title = title;
             this.imageRes = imageRes;
             this.onClickListener = onClickListener;

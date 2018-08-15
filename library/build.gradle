@@ -31,4 +31,5 @@ dependencies {
     compile('com.meituan.roboguice_adapter:library:1.1.6') { transitive = false }
     compile('com.sankuai.meituan.pylon:base:1.0.14')
     compile('com.sankuai.meituan.pylon:netmodule:1.0.25') { transitive = false }
+    compile "com.android.support:recyclerview-v7:26.1.0"
 }
