@@ -1,16 +1,15 @@
 package com.meituan.android.utils;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.app.Application;
+import android.content.res.Resources;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
+
+import com.meituan.android.singleton.ApplicationSingleton;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -22,13 +21,16 @@ import roboguice.util.Ln;
  * Author: gaojin
  * Time: 2018/6/25 下午6:04
  */
+public class FoodUEActivityUtils {
+    private static final Application CONTEXT = ApplicationSingleton.getInstance();
 
-public class FoodDevUtils {
-    @TargetApi(Build.VERSION_CODES.M)
-    public static void requestPermission(Context context) {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    private FoodUEActivityUtils() {
+    }
+
+    public static int getStatusBarHeight() {
+        Resources resources = CONTEXT.getResources();
+        int resId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resId > 0 ? resources.getDimensionPixelSize(resId) : 0;
     }
 
     public static void enableFullscreen(@NonNull Window window) {
@@ -46,6 +48,11 @@ public class FoodDevUtils {
         }
     }
 
+    /**
+     * 通过反射获取最上层的activity, activity必须执行完oncreate才能被获取
+     *
+     * @return 最上层的activity
+     */
     @SuppressLint("PrivateApi")
     public static Activity getCurrentActivity() {
         try {

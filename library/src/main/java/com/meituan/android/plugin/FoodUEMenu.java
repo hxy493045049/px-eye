@@ -1,4 +1,4 @@
-package com.meituan.android.uitool;
+package com.meituan.android.plugin;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,10 +23,11 @@ import android.widget.LinearLayout;
 
 import com.meituan.android.base.BaseConfig;
 import com.meituan.android.singleton.ApplicationSingleton;
+import com.meituan.android.uitool.FoodUETool;
+import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.utils.FoodDevUtils;
+import com.meituan.android.utils.FoodUEActivityUtils;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +37,8 @@ import roboguice.util.Ln;
  * Author: gaojin
  * Time: 2018/6/19 下午3:34
  */
-
 @SuppressLint("ViewConstructor")
 public class FoodUEMenu extends LinearLayout {
-
     private View vMenu;
     private ViewGroup vSubMenuContainer;
     private ValueAnimator animator;
@@ -49,7 +48,7 @@ public class FoodUEMenu extends LinearLayout {
     private WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     private int touchSlop;
 
-    private SubMenuClickEvent exportEvent;
+    private SubMenuClickEvent exitListener;
 
     public FoodUEMenu(final Context context) {
         super(context);
@@ -61,39 +60,9 @@ public class FoodUEMenu extends LinearLayout {
         vMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
 
-        List<FoodUESubMenu.SubMenu> subMenus = new ArrayList<>();
-        subMenus.add(new FoodUESubMenu.SubMenu("测量条", R.drawable.food_ue_show_gridding, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                open(FoodTransparentActivity.Type.TYPE_SHOW_GRIDDING);
-            }
-        }));
-
-        subMenus.add(new FoodUESubMenu.SubMenu("关闭", R.drawable.ui_close, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                if (exportEvent != null) {
-                    exportEvent.onClick(getContext());
-                }
-            }
-        }));
-
-        LayoutParams subMenuParams = new LayoutParams(BaseConfig.dp2px(50), BaseConfig.dp2px(50));
-        subMenuParams.leftMargin = BaseConfig.dp2px(10);
-        for (FoodUESubMenu.SubMenu subMenu : subMenus) {
-            FoodUESubMenu UESubMenu = new FoodUESubMenu(getContext());
-            UESubMenu.update(subMenu);
-            vSubMenuContainer.addView(UESubMenu, subMenuParams);
-        }
-
-        vMenu.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startAnim();
-            }
-        });
-
+        List<FoodUESubMenu.MenuModel> menuModels = initMenuData();
+        initMenuView(menuModels);
+        vMenu.setOnClickListener(v -> startAnim());
         vMenu.setOnTouchListener(new OnTouchListener() {
             private float downX, downY;
             private float lastY;
@@ -114,19 +83,8 @@ public class FoodUEMenu extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (Math.abs(event.getRawX() - downX) < touchSlop && Math.abs(event.getRawY() - downY) < touchSlop) {
-                            try {
-                                Field field = View.class.getDeclaredField("mListenerInfo");
-                                field.setAccessible(true);
-                                Object object = field.get(vMenu);
-                                field = object.getClass().getDeclaredField("mOnClickListener");
-                                field.setAccessible(true);
-                                object = field.get(object);
-                                if (object != null && object instanceof OnClickListener) {
-                                    ((OnClickListener) object).onClick(vMenu);
-                                }
-                            } catch (Exception e) {
-                                Ln.e(e);
-                            }
+                            vMenu.performClick();
+                            return false;
                         }
                         break;
                 }
@@ -135,9 +93,60 @@ public class FoodUEMenu extends LinearLayout {
         });
     }
 
+    //------------- public -------------
+    public void show() {
+        try {
+            windowManager.addView(this, getWindowLayoutParams());
+        } catch (Exception e) {
+            Ln.e(e);
+        }
+    }
+
+    public void dismiss() {
+        try {
+            //取消ui工具后应该还原到最初始的配置
+            windowManager.removeView(this);
+            vSubMenuContainer.setTranslationX(-vSubMenuContainer.getWidth());
+        } catch (Exception e) {
+            Ln.e(e);
+        }
+    }
+
+    public void setOnExitListener(SubMenuClickEvent exportEvent) {
+        this.exitListener = exportEvent;
+    }
+
+    //------------- private -------------
+    private List<FoodUESubMenu.MenuModel> initMenuData() {
+        List<FoodUESubMenu.MenuModel> menuModels = new ArrayList<>();
+        menuModels.add(new FoodUESubMenu.MenuModel("测量条", R.drawable.food_ue_show_gridding,
+                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_MEASURE)));
+
+        menuModels.add(new FoodUESubMenu.MenuModel("属性", R.drawable.food_ue_show_gridding,
+                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR)));
+
+        menuModels.add(new FoodUESubMenu.MenuModel("关闭", R.drawable.ui_close, (v) -> {
+            FoodUETool.getInstance().exit();
+            if (exitListener != null) {
+                exitListener.onClick(getContext());
+            }
+        }));
+        return menuModels;
+    }
+
+    private void initMenuView(List<FoodUESubMenu.MenuModel> menuModels) {
+        LayoutParams subMenuParams = new LayoutParams(BaseConfig.dp2px(50), BaseConfig.dp2px(50));
+        subMenuParams.leftMargin = BaseConfig.dp2px(10);
+        for (FoodUESubMenu.MenuModel model : menuModels) {
+            FoodUESubMenu subMenu = new FoodUESubMenu(getContext());
+            subMenu.update(model);
+            vSubMenuContainer.addView(subMenu, subMenuParams);
+        }
+    }
+
     private void startAnim() {
-        ensureAnim();
         final boolean isOpen = vSubMenuContainer.getTranslationX() <= -vSubMenuContainer.getWidth();
+        ensureAnim();
         animator.setInterpolator(isOpen ? defaultInterpolator : new ReverseInterpolator(defaultInterpolator));
         animator.removeAllListeners();
         animator.addListener(new AnimatorListenerAdapter() {
@@ -159,49 +168,24 @@ public class FoodUEMenu extends LinearLayout {
     private void ensureAnim() {
         if (animator == null) {
             animator = ValueAnimator.ofInt(-vSubMenuContainer.getWidth(), 0);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    vSubMenuContainer.setTranslationX((int) animation.getAnimatedValue());
-                }
-            });
+            animator.addUpdateListener(animation -> vSubMenuContainer.setTranslationX((int) animation.getAnimatedValue()));
             animator.setDuration(400);
         }
     }
 
-    private void open(@FoodTransparentActivity.Type int type) {
-        Activity currentTopActivity = FoodDevUtils.getCurrentActivity();
+    private void triggerOpen(@FoodUEToolsActivity.Type int type) {
+        Activity currentTopActivity = FoodUEActivityUtils.getCurrentActivity();
         if (currentTopActivity == null) {
             return;
-        } else if (currentTopActivity.getClass() == FoodTransparentActivity.class) {
+        } else if (currentTopActivity.getClass() == FoodUEToolsActivity.class) {
             currentTopActivity.finish();
             return;
         }
-        Intent intent = new Intent(currentTopActivity, FoodTransparentActivity.class);
-        intent.putExtra(FoodTransparentActivity.EXTRA_TYPE, type);
+        Intent intent = new Intent(currentTopActivity, FoodUEToolsActivity.class);
+        intent.putExtra(FoodUEToolsActivity.EXTRA_TYPE, type);
         currentTopActivity.startActivity(intent);
         currentTopActivity.overridePendingTransition(0, 0);
         FoodUETool.getInstance().setTargetActivity(currentTopActivity);
-    }
-
-    public void show() {
-        try {
-            windowManager.addView(this, getWindowLayoutParams());
-        } catch (Exception e) {
-            Ln.e(e);
-        }
-    }
-
-    public void dismiss() {
-        try {
-            windowManager.removeView(this);
-        } catch (Exception e) {
-            Ln.e(e);
-        }
-    }
-
-    public void setExportEvent(SubMenuClickEvent exportEvent) {
-        this.exportEvent = exportEvent;
     }
 
     private WindowManager.LayoutParams getWindowLayoutParams() {
@@ -214,7 +198,7 @@ public class FoodUEMenu extends LinearLayout {
         }
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         params.format = PixelFormat.TRANSLUCENT;
-        params.gravity = Gravity.TOP | Gravity.LEFT;
+        params.gravity = Gravity.TOP | Gravity.START;
         params.x = 10;
         params.y = 10;
         return params;
@@ -232,5 +216,9 @@ public class FoodUEMenu extends LinearLayout {
         public float getInterpolation(float input) {
             return mWrappedInterpolator.getInterpolation(Math.abs(input - 1f));
         }
+    }
+
+    public interface SubMenuClickEvent {
+        void onClick(Context context);
     }
 }

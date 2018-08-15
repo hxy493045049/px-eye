@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <dimen name="food_ue_tools_measure_wheel_size">65dp</dimen>
+    <dimen name="food_ue_attr_dialog_padding">15dp</dimen>
+</resources>
