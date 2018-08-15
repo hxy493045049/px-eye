@@ -1,4 +1,4 @@
-package com.meituan.android.measure;
+package com.meituan.android.plugin;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,10 @@ import android.view.View;
 import com.meituan.android.base.BaseConfig;
 import com.meituan.android.uitool.FoodUETool;
 
-public class FoodGriddingLayout extends View {
+/**
+ * 测量功能的边框
+ */
+public class FoodUEGriddingLayout extends View {
 
     public static final int LINE_INTERVAL_DP = 5;
     public static final int LINE_INTERVAL = BaseConfig.dp2px(LINE_INTERVAL_DP);
@@ -21,17 +24,17 @@ public class FoodGriddingLayout extends View {
     private final int screenHeight = BaseConfig.height;
 
     private Paint paintRed = new Paint();
-    private Activity bindActivity = FoodUETool.getInstance().getTargetActivity();
+    private Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
 
-    public FoodGriddingLayout(Context context) {
+    public FoodUEGriddingLayout(Context context) {
         this(context, null);
     }
 
-    public FoodGriddingLayout(Context context, @Nullable AttributeSet attrs) {
+    public FoodUEGriddingLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FoodGriddingLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public FoodUEGriddingLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paintRed.setAntiAlias(true);
         paintRed.setColor(Color.RED);
@@ -50,7 +53,7 @@ public class FoodGriddingLayout extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        bindActivity.dispatchTouchEvent(event);
+        targetActivity.dispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
     }
 
@@ -62,6 +65,6 @@ public class FoodGriddingLayout extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        bindActivity = null;
+        targetActivity = null;
     }
 }

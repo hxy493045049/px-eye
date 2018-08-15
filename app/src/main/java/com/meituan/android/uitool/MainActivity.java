@@ -7,6 +7,8 @@ import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.meituan.android.plugin.FoodUEMenu;
+
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     @Override
@@ -15,7 +17,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         SwitchCompat switchCompat = findViewById(R.id.switch_button);
         switchCompat.setOnCheckedChangeListener(this);
-        FoodUETool.getInstance().setExportEvent(new SubMenuClickEvent() {
+
+        FoodUETool.getInstance().setOnExitListener(new FoodUEMenu.SubMenuClickEvent() {
             @Override
             public void onClick(Context context) {
                 Toast.makeText(context, "退出啦！！！", Toast.LENGTH_SHORT).show();
@@ -26,9 +29,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            FoodUETool.showUETMenu();
+            FoodUETool.getInstance().open();
         } else {
-            FoodUETool.dismissUETMenu();
+            FoodUETool.getInstance().exit();
         }
     }
 }
