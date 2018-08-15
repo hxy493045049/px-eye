@@ -1,4 +1,4 @@
-package com.meituan.android.measure;
+package com.meituan.android.biz.measure;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -17,17 +17,17 @@ import com.meituan.android.uitool.library.R;
  * Time: 2018/8/2 下午3:03
  */
 
-public class FoodSetValueDialog extends Dialog implements View.OnClickListener {
+public class FoodUESetValueDialog extends Dialog implements View.OnClickListener {
 
     private InputMethodManager manager;
     private onClickListener listener;
-    private EditText editText;
+    private EditText editHeight, editWidth;
 
-    public FoodSetValueDialog(@NonNull Context context) {
-        this(context, R.style.FoodSetValueDialog);
+    public FoodUESetValueDialog(@NonNull Context context) {
+        this(context, R.style.Food_UE_Measure_Dialog);
     }
 
-    public FoodSetValueDialog(@NonNull Context context, int themeResId) {
+    public FoodUESetValueDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
 
@@ -35,14 +35,14 @@ public class FoodSetValueDialog extends Dialog implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getWindow() != null) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
-        setContentView(R.layout.food_ui_set_value_dialog);
+        setContentView(R.layout.food_ui_measure_dialog);
         manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        editText = findViewById(R.id.dialog_edit_text);
+        editHeight = findViewById(R.id.dialog_edit_text_height);
+        editWidth = findViewById(R.id.dialog_edit_text_width);
         TextView ensureBtn = findViewById(R.id.dialog_ensure);
         ensureBtn.setOnClickListener(this);
     }
@@ -50,11 +50,11 @@ public class FoodSetValueDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (manager != null) {
-            manager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            manager.hideSoftInputFromWindow(editHeight.getWindowToken(), 0);
         }
         dismiss();
         if (listener != null) {
-            listener.onClick(editText.getText().toString());
+            listener.onClick(editWidth.getText().toString(), editHeight.getText().toString());
         }
     }
 
@@ -63,6 +63,6 @@ public class FoodSetValueDialog extends Dialog implements View.OnClickListener {
     }
 
     public interface onClickListener {
-        void onClick(String value);
+        void onClick(String width, String height);
     }
 }

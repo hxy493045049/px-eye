@@ -12,17 +12,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/ui_dialog_title"
-        android:textColor="@color/ui_light_black"
+        android:text="@string/ue_dialog_title"
+        android:textColor="@color/food_ue_light_black"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/dialog_edit_text"
+        android:id="@+id/dialog_edit_text_width"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:hint="@string/ui_dialog_set_height"
+        android:hint="@string/ue_dialog_set_width"
+        android:inputType="number"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/dialog_edit_text_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="@string/ue_dialog_set_height"
         android:inputType="number"
         android:textSize="16sp" />
 
@@ -42,8 +52,8 @@
         android:gravity="center"
         android:paddingBottom="9dp"
         android:paddingTop="9dp"
-        android:text="@string/ui_dialog_ensure"
-        android:textColor="@color/ui_white"
+        android:text="@string/ue_dialog_ensure"
+        android:textColor="@color/food_ue_white"
         android:textSize="16sp" />
 
 </LinearLayout>

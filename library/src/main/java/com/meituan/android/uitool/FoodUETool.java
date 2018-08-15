@@ -1,13 +1,20 @@
 package com.meituan.android.uitool;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.meituan.android.biz.element.impl.FoodUEDefaultAttrProviderImpl;
+import com.meituan.android.plugin.FoodUEMenu;
 import com.meituan.android.singleton.ApplicationSingleton;
-import com.meituan.android.utils.FoodDevUtils;
+import com.meituan.android.utils.FoodUEActivityUtils;
+import com.meituan.android.utils.FoodUEPermissionUtils;
+
+import java.lang.ref.WeakReference;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Author: gaojin
@@ -15,75 +22,87 @@ import com.meituan.android.utils.FoodDevUtils;
  */
 
 public final class FoodUETool {
-
-    @SuppressLint("StaticFieldLeak")
-    private static volatile FoodUETool instance;
-
-    private Activity targetActivity;
+    private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
+    //这里放string是为了单例
+    private Set<String> attrsProviderSet = new LinkedHashSet<String>() {
+        {
+            add(FoodUEDefaultAttrProviderImpl.class.getName());
+        }
+    };
 
     private FoodUETool() {
+        initMenu();
     }
 
+    //------------public------------
     public static FoodUETool getInstance() {
-        if (instance == null) {
-            synchronized (FoodUETool.class) {
-                if (instance == null) {
-                    instance = new FoodUETool();
-                }
-            }
-        }
-        return instance;
+        return Holder.instance;
     }
 
-    public static boolean showUETMenu() {
-        return getInstance().showMenu();
-    }
-
-    public static void dismissUETMenu() {
-        getInstance().dismissMenu();
-    }
-
-    void release() {
-        targetActivity = null;
-    }
-
+    @Nullable
     public Activity getTargetActivity() {
-        return targetActivity;
+        if (targetActivityRef.get() != null) {
+            return targetActivityRef.get();
+        }
+        return null;
     }
 
-    public void setTargetActivity(Activity targetActivity) {
-        this.targetActivity = targetActivity;
+    public void setTargetActivity(Activity targetActivityRef) {
+        this.targetActivityRef = new WeakReference<>(targetActivityRef);
     }
 
-    public void setExportEvent(SubMenuClickEvent exportEvent) {
-        checkUeMenu();
-        ueMenu.setExportEvent(exportEvent);
+    public void setOnExitListener(FoodUEMenu.SubMenuClickEvent exportEvent) {
+        ueMenu.setOnExitListener(exportEvent);
     }
 
-    private boolean showMenu() {
+    public void open() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(ApplicationSingleton.getInstance())) {
-                FoodDevUtils.requestPermission(ApplicationSingleton.getInstance());
+                FoodUEPermissionUtils.requestOverlayPermission(ApplicationSingleton.getInstance());
                 Toast.makeText(ApplicationSingleton.getInstance(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
-                return false;
             }
         }
-        checkUeMenu();
         ueMenu.show();
-        return true;
     }
 
-    private void checkUeMenu() {
+    public void exit() {
+        ueMenu.dismiss();
+        closeAct();
+    }
+
+    //释放资源
+    public void release() {
+        if (targetActivityRef != null) {
+            targetActivityRef.clear();
+        }
+        targetActivityRef = null;
+    }
+
+    public void setAttrProvider(String providerClassName) {
+        attrsProviderSet.add(providerClassName);
+    }
+
+    public Set<String> getAttrProviders() {
+        return attrsProviderSet;
+    }
+
+    //------------private------------
+    private void initMenu() {
         if (ueMenu == null) {
             ueMenu = new FoodUEMenu(ApplicationSingleton.getInstance());
         }
     }
 
-    private void dismissMenu() {
-        if (ueMenu != null) {
-            ueMenu.dismiss();
-            ueMenu = null;
+    private static class Holder {
+        private static FoodUETool instance = new FoodUETool();
+    }
+
+    //重置
+    private void closeAct() {
+        Activity act = FoodUEActivityUtils.getCurrentActivity();
+        if (act instanceof FoodUEToolsActivity) {
+            act.finish();
         }
     }
 }
