@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.meituan.android.biz.IFoodUEFunction;
-import com.meituan.android.biz.element.impl.FoodUEElementFunctionImpl;
+import com.meituan.android.biz.element.FoodUEElementFunctionImpl;
 import com.meituan.android.biz.measure.FoodUEMeasureFunctionImpl;
 
 /**
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/8 on 下午4:46
+ * 功能管理器,识别运用了哪种功能并提供实现
  */
 public class FoodUEViewManager {
     private SparseArray<IFoodUEFunction> factoryCache = new SparseArray<>();

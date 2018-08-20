@@ -1,4 +1,4 @@
-package com.meituan.android.biz.element.impl;
+package com.meituan.android.biz.element;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.meituan.android.biz.IFoodUEFunction;
-import com.meituan.android.biz.element.FoodUEAttrsDialog;
+import com.meituan.android.biz.element.dialog.FoodUEAttrsDialog;
 import com.meituan.android.plugin.FoodUEBoardTextView;
 import com.meituan.android.plugin.FoodUEElementLayout;
 import com.meituan.android.plugin.FoodUEGriddingLayout;
@@ -41,8 +41,7 @@ public class FoodUEElementFunctionImpl implements IFoodUEFunction {
             if (dialog == null) {
                 dialog = new FoodUEAttrsDialog(container.getContext());
                 dialog.show(selectedViewInfo);
-            }
-            if (dialog.isShowing() || selectedViewInfo == null) {
+            } else if (dialog.isShowing() || selectedViewInfo == null) {
                 dialog.dismiss();
             } else {
                 dialog.show(selectedViewInfo);

@@ -1,4 +1,4 @@
-package com.meituan.android.biz.measure;
+package com.meituan.android.biz.measure.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

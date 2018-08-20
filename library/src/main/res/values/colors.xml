@@ -11,4 +11,8 @@
 
     <!--属性捕捉-->
     <color name="food_ue_selected_view_bg">#30000000</color>
+
+    <!--dialog-->
+    <color name="food_ue_attr_dialog_bg">#C0000000</color>
+
 </resources>

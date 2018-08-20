@@ -11,6 +11,7 @@ import com.meituan.android.utils.FoodUEActivityUtils;
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/9 on 下午5:18
+ * 捕捉到的view模型, 提供rect数据和View信息
  */
 public class FoodUEViewInfo {
     private View view;

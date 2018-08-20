@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.meituan.android.plugin.FoodUEMenu;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 Toast.makeText(context, "退出啦！！！", Toast.LENGTH_SHORT).show();
             }
         });
+
+        ListView lv = findViewById(R.id.lv);
+        lv.setAdapter(new ListViewAdapter());
     }
 
     @Override

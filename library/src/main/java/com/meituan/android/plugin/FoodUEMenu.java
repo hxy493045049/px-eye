@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +36,6 @@ import roboguice.util.Ln;
  * Author: gaojin
  * Time: 2018/6/19 下午3:34
  */
-@SuppressLint("ViewConstructor")
 public class FoodUEMenu extends LinearLayout {
     private View vMenu;
     private ViewGroup vSubMenuContainer;

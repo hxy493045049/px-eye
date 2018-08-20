@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.meituan.android.biz.element.impl.FoodUEImageViewProvider;
-import com.meituan.android.biz.element.impl.FoodUETextViewProvider;
-import com.meituan.android.biz.IFoodUEAttrProvider;
+import com.meituan.android.biz.element.provider.IFoodUEAttrProvider;
+import com.meituan.android.biz.element.provider.impl.FoodUEImageViewProvider;
+import com.meituan.android.biz.element.provider.impl.FoodUETextViewProvider;
 
 import java.util.WeakHashMap;
 

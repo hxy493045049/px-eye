@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.meituan.android.biz.element.FoodUEAttrMode;
-import com.meituan.android.biz.element.FoodUEBaseElementMode;
+import com.meituan.android.biz.element.mode.FoodUEAttrMode;
+import com.meituan.android.biz.element.mode.FoodUEBaseElementMode;
 import com.meituan.android.model.FoodUEViewInfo;
 
 /**

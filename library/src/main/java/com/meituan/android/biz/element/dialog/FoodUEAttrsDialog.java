@@ -1,4 +1,4 @@
-package com.meituan.android.biz.element;
+package com.meituan.android.biz.element.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -39,8 +39,14 @@ public class FoodUEAttrsDialog extends Dialog {
         list.setLayoutManager(layoutManager);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     public void show(FoodUEViewInfo viewInfo) {
         show();
+
         Window dialogWindow = getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setGravity(Gravity.START | Gravity.TOP);
@@ -62,5 +68,6 @@ public class FoodUEAttrsDialog extends Dialog {
         dialogWindow.setAttributes(lp);
         adapter.notifyDataSetChanged(viewInfo);
         layoutManager.scrollToPosition(0);
+
     }
 }

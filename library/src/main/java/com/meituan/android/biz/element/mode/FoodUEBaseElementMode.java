@@ -1,4 +1,4 @@
-package com.meituan.android.biz.element;
+package com.meituan.android.biz.element.mode;
 
 import android.app.Application;
 import android.graphics.Canvas;
@@ -24,9 +24,10 @@ import java.util.List;
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/11 on 下午1:10
+ * 基础mode,提供绘制边框线,宽高信息,选中状态,捕捉元素,释放资源功能
  */
 public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode {
-    protected Application CONTEXT = ApplicationSingleton.getInstance();
+    protected Application APPLICATION = ApplicationSingleton.getInstance();
     protected List<FoodUEViewInfo> viewsInfo;//捕捉到的activity中元素的集合
     protected FoodUEViewInfo anchorView;//手指点击时最上层的view
     protected FoodUEViewInfo cursorView;//游标,当再次点击同一位置时响应当前view的上一级
@@ -46,7 +47,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
     protected Paint areaPaint = new Paint() {
         {
             setAntiAlias(true);
-            setColor(CONTEXT.getResources().getColor(R.color.food_ue_selected_view_bg));
+            setColor(APPLICATION.getResources().getColor(R.color.food_ue_selected_view_bg));
         }
     };
 
@@ -124,7 +125,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
             }
         }
         if (target == null) {
-            Toast.makeText(CONTEXT, CONTEXT.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
+            Toast.makeText(APPLICATION, APPLICATION.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
         }
         return target;
     }
@@ -218,6 +219,9 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
         }
     }
 
+    /**
+     * 元素选中时的回调
+     */
     public interface OnViewInfoSelectedListener {
         void onViewInfoSelected(FoodUEViewInfo selectedViewInfo);
     }

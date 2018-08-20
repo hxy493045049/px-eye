@@ -244,10 +244,18 @@ public class FoodUEViewUtils {
         List<Pair<String, Bitmap>> bitmaps = new ArrayList<>();
         try {
             Drawable[] drawables = textView.getCompoundDrawables();
-            bitmaps.add(new Pair<>("DrawableLeft", getDrawableBitmap(drawables[0])));
-            bitmaps.add(new Pair<>("DrawableTop", getDrawableBitmap(drawables[1])));
-            bitmaps.add(new Pair<>("DrawableRight", getDrawableBitmap(drawables[2])));
-            bitmaps.add(new Pair<>("DrawableBottom", getDrawableBitmap(drawables[3])));
+            if (getDrawableBitmap(drawables[0]) != null) {
+                bitmaps.add(new Pair<>("DrawableLeft", getDrawableBitmap(drawables[0])));
+            }
+            if (getDrawableBitmap(drawables[1]) != null) {
+                bitmaps.add(new Pair<>("DrawableTop", getDrawableBitmap(drawables[1])));
+            }
+            if (getDrawableBitmap(drawables[2]) != null) {
+                bitmaps.add(new Pair<>("DrawableRight", getDrawableBitmap(drawables[2])));
+            }
+            if (getDrawableBitmap(drawables[3]) != null) {
+                bitmaps.add(new Pair<>("DrawableBottom", getDrawableBitmap(drawables[3])));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

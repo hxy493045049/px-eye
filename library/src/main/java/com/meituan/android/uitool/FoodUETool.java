@@ -6,7 +6,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.meituan.android.biz.element.impl.FoodUEDefaultAttrProviderImpl;
+import com.meituan.android.biz.element.provider.impl.FoodUEDefaultAttrProvider;
 import com.meituan.android.plugin.FoodUEMenu;
 import com.meituan.android.singleton.ApplicationSingleton;
 import com.meituan.android.utils.FoodUEActivityUtils;
@@ -19,15 +19,15 @@ import java.util.Set;
 /**
  * Author: gaojin
  * Time: 2018/6/19 下午3:25
+ * FoodUE工具的开关, 提供了默认的属性获取器
  */
-
 public final class FoodUETool {
     private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
     //这里放string是为了单例
     private Set<String> attrsProviderSet = new LinkedHashSet<String>() {
         {
-            add(FoodUEDefaultAttrProviderImpl.class.getName());
+            add(FoodUEDefaultAttrProvider.class.getName());
         }
     };
 
@@ -83,7 +83,7 @@ public final class FoodUETool {
         attrsProviderSet.add(providerClassName);
     }
 
-    public Set<String> getAttrProviders() {
+    public Set<String> getAttrProviderNames() {
         return attrsProviderSet;
     }
 

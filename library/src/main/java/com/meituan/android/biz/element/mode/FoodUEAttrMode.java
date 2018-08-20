@@ -1,4 +1,4 @@
-package com.meituan.android.biz.element;
+package com.meituan.android.biz.element.mode;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;

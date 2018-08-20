@@ -6,31 +6,50 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="horizontal"
-    android:paddingBottom="13dp"
     android:paddingLeft="@dimen/food_ue_attr_dialog_padding"
     android:paddingRight="@dimen/food_ue_attr_dialog_padding"
     android:paddingStart="@dimen/food_ue_attr_dialog_padding"
-    android:paddingTop="13dp"
     tools:background="@color/food_ue_gray">
 
-    <TextView
-        android:id="@+id/attrName"
+    <HorizontalScrollView
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:gravity="center|right"
-        android:textColor="@color/food_ue_white"
-        android:textSize="14sp"
-        tools:text="字体:" />
+        android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/attrValue"
+        <TextView
+            android:id="@+id/attrName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center|end"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/food_ue_attr_dialog_vertical_padding"
+            android:paddingTop="@dimen/food_ue_attr_dialog_vertical_padding"
+            android:textColor="@color/food_ue_white"
+            android:textSize="14sp"
+            tools:text="字体:" />
+    </HorizontalScrollView>
+
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center|left"
-        android:maxLines="1"
-        android:textColor="@color/food_ue_white"
-        android:textSize="14sp"
-        tools:text="宋体" />
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/attrValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/food_ue_attr_dialog_vertical_padding"
+            android:paddingTop="@dimen/food_ue_attr_dialog_vertical_padding"
+            android:textColor="@color/food_ue_white"
+            android:textSize="14sp"
+            tools:text="宋体" />
+    </HorizontalScrollView>
+
 </LinearLayout>
