@@ -7,6 +7,7 @@ import com.meituan.android.model.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEViewInfo;
 import com.meituan.android.utils.FoodUEAttrUtils;
 import com.meituan.android.utils.FoodUEDimensionUtils;
+import com.meituan.android.utils.FoodUEResourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class FoodUEDefaultAttrProvider implements IFoodUEAttrProvider {
 //        items.add(new FoodUEBaseAttr<>("Id", FoodUEResourceUtils.getResId(view), viewInfo));
 //        items.add(new FoodUEBaseAttr<>("ResName", FoodUEResourceUtils.getResourceName(view.getId()), viewInfo));
 //        items.add(new FoodUEBaseAttr<>("Clickable", Boolean.toString(view.isClickable()).toUpperCase(), viewInfo));
-//        items.add(new FoodUEBaseAttr<>("Focused", Boolean.toString(view.isFocused()).toUpperCase(), viewInfo));
+        items.add(new FoodUEBaseAttr<>("ID", FoodUEResourceUtils.getResourceName(view.getId()), viewInfo));
         items.add(new FoodUEBaseAttr<>("宽度(dp)", FoodUEDimensionUtils.px2dip(view.getWidth()), viewInfo));
         items.add(new FoodUEBaseAttr<>("高度(dp)", FoodUEDimensionUtils.px2dip(view.getHeight()), viewInfo));
         items.add(new FoodUEBaseAttr<>("透明度", String.valueOf(view.getAlpha()), viewInfo));
