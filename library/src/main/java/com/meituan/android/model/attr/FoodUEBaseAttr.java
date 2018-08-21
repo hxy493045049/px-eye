@@ -1,11 +1,12 @@
-package com.meituan.android.model;
+package com.meituan.android.model.attr;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
-import com.meituan.android.biz.element.dialog.FoodUEAttrDialogAdapter;
+import com.meituan.android.biz.IFoodUEHolderTypeFactory;
 import com.meituan.android.constant.FoodUEHolderType;
+import com.meituan.android.model.FoodUEViewInfo;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,21 +16,21 @@ import java.lang.ref.WeakReference;
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/13 on 下午4:41
- * view的属性模型, 子类需要重载{@link FoodUEAttrDialogAdapter.ViewHolderTypeFactory}接口,用于创建不同的ViewHol实现
+ * view的属性模型, 子类需要重载{@link IFoodUEHolderTypeFactory}接口,用于创建不同的ViewHol实现
  * <p> 不同的泛型K,V对应不同的mHolderType</p>
  * <p>
  * {@link AttrType} 区分属性的用途
  * {@link FoodUEHolderType.AttrDialogHolder} 标识渲染这个attr需要哪种viewHolder,默认为{@link FoodUEHolderType.AttrDialogHolder#NORMAL}
  * viewHolder通过{@link com.meituan.android.factory.FoodUEViewHolderFactory}创建
  */
-public class FoodUEBaseAttr<K, V> implements FoodUEAttrDialogAdapter.ViewHolderTypeFactory {
+public abstract class FoodUEBaseAttr<K, V> implements IFoodUEHolderTypeFactory {
     private Pair<K, V> mAttr;
     private WeakReference<FoodUEViewInfo> viewInfoRef;
     @AttrType
     private int mAttrType = AttrType.NONE; //区分属性的用途
 
     @FoodUEHolderType.AttrDialogHolder
-    private int mHolderType = FoodUEHolderType.AttrDialogHolder.NORMAL;//holderType和泛型K,V对应
+    private int mHolderType = FoodUEHolderType.AttrDialogHolder.NONE;//holderType和泛型K,V对应
 
     public FoodUEBaseAttr(K k, FoodUEViewInfo viewInfo) {
         this(k, null, viewInfo, AttrType.NONE);
@@ -51,7 +52,10 @@ public class FoodUEBaseAttr<K, V> implements FoodUEAttrDialogAdapter.ViewHolderT
         mAttr = pair;
         viewInfoRef = new WeakReference<>(viewInfo);
         mAttrType = type;
+        initHolderType();
     }
+
+    abstract void initHolderType();
 
     boolean isValid() {
         return true;
@@ -107,10 +111,14 @@ public class FoodUEBaseAttr<K, V> implements FoodUEAttrDialogAdapter.ViewHolderT
             AttrType.TYPE_PADDING_RIGHT,
             AttrType.TYPE_PADDING_TOP,
             AttrType.TYPE_PADDING_BOTTOM,
+            AttrType.TYPE_MARGIN_LEFT,
+            AttrType.TYPE_MARGIN_RIGHT,
+            AttrType.TYPE_MARGIN_TOP,
+            AttrType.TYPE_MARGIN_BOTTOM
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface AttrType {
-        int NONE = 0;
+        int NONE = 0; //不指定
         int TYPE_TEXT = 1; //文本
         int TYPE_TEXT_SIZE = 2;//字体大小
         int TYPE_TEXT_COLOR = 3;//字体颜色
@@ -120,5 +128,9 @@ public class FoodUEBaseAttr<K, V> implements FoodUEAttrDialogAdapter.ViewHolderT
         int TYPE_PADDING_RIGHT = 7;
         int TYPE_PADDING_TOP = 8;
         int TYPE_PADDING_BOTTOM = 9;
+        int TYPE_MARGIN_LEFT = 10;
+        int TYPE_MARGIN_RIGHT = 11;
+        int TYPE_MARGIN_TOP = 12;
+        int TYPE_MARGIN_BOTTOM = 13;
     }
 }

@@ -1,10 +1,10 @@
 package com.meituan.android.biz.element.dialog.viewholder;
 
 import android.graphics.Bitmap;
-import android.view.View;
+import android.view.ViewGroup;
 
-import com.meituan.android.model.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEBaseViewHolder;
+import com.meituan.android.model.attr.FoodUEBaseAttr;
 
 /**
  * @author shawn
@@ -12,8 +12,8 @@ import com.meituan.android.model.FoodUEBaseViewHolder;
  * 2018/8/20 on 下午5:07
  */
 public class FoodUEBitmapHolder extends FoodUEBaseViewHolder<String, Bitmap> {
-    public FoodUEBitmapHolder(View itemView) {
-        super(itemView);
+    public FoodUEBitmapHolder(ViewGroup parent) {
+        super(null);
     }
 
     @Override

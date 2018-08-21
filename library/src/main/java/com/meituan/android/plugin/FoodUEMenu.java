@@ -51,7 +51,7 @@ public class FoodUEMenu extends LinearLayout {
         inflate(context, R.layout.food_ue_menu_layout, this);
         setGravity(Gravity.CENTER_VERTICAL);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        windowManager = (WindowManager) FoodUETool.applicationContext.getSystemService(Context.WINDOW_SERVICE);
+        windowManager = (WindowManager) FoodUETool.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
         vMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
@@ -122,7 +122,7 @@ public class FoodUEMenu extends LinearLayout {
                 (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR)));
 
         menuModels.add(new FoodUESubMenu.MenuModel("关闭", R.drawable.ui_close, (v) -> {
-            FoodUETool.getInstance(FoodUETool.applicationContext).exit();
+            FoodUETool.getInstance(null).exit();
             if (exitListener != null) {
                 exitListener.onClick(getContext());
             }
@@ -181,7 +181,7 @@ public class FoodUEMenu extends LinearLayout {
         intent.putExtra(FoodUEToolsActivity.EXTRA_TYPE, type);
         currentTopActivity.startActivity(intent);
         currentTopActivity.overridePendingTransition(0, 0);
-        FoodUETool.getInstance(FoodUETool.applicationContext).setTargetActivity(currentTopActivity);
+        FoodUETool.getInstance(null).setTargetActivity(currentTopActivity);
     }
 
     private WindowManager.LayoutParams getWindowLayoutParams() {

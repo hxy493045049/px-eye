@@ -25,7 +25,7 @@ public class FoodUEActivityUtils {
     }
 
     public static int getStatusBarHeight() {
-        Resources resources = FoodUETool.applicationContext.getResources();
+        Resources resources = FoodUETool.getApplicationContext().getResources();
         int resId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resId > 0 ? resources.getDimensionPixelSize(resId) : 0;
     }
