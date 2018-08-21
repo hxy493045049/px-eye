@@ -46,7 +46,7 @@ public class FoodUEViewInfo {
         int left = location[0];
         int right = left + width;
         int top = location[1];
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {//19及以下,去掉statusbar高度
             top -= FoodUEActivityUtils.getStatusBarHeight();
         }
         int bottom = top + height;
