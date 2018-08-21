@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 
 import com.meituan.android.biz.element.dialog.viewholder.FoodUEBitmapHolder;
 import com.meituan.android.biz.element.dialog.viewholder.FoodUENormalHolder;
+import com.meituan.android.biz.element.dialog.viewholder.FoodUETitleHolder;
 import com.meituan.android.model.FoodUEBaseViewHolder;
 
 import static com.meituan.android.constant.FoodUEHolderType.AttrDialogHolder;
@@ -24,12 +25,14 @@ public class FoodUEViewHolderFactory {
 
     public FoodUEBaseViewHolder createViewHolder(ViewGroup parent, int type) {
         switch (type) {
+            case AttrDialogHolder.TITLE:
+                return new FoodUETitleHolder(parent);
             case AttrDialogHolder.NORMAL:
-                return new FoodUENormalHolder(parent.getContext());
+                return new FoodUENormalHolder(parent);
             case AttrDialogHolder.BITMAP:
                 return new FoodUEBitmapHolder(null);//todo 待完善
             default:
-                return new FoodUENormalHolder(parent.getContext());
+                return new FoodUENormalHolder(parent);
         }
     }
 

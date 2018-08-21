@@ -19,8 +19,9 @@ import com.meituan.android.uitool.library.R;
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/10 on 上午10:37
+ * 属性捕捉功能实现
  */
-public class FoodUEElementFunctionImpl implements IFoodUEFunction {
+public class FoodUEAttrFunctionImpl implements IFoodUEFunction {
     private FoodUEAttrsDialog dialog;
 
     @Override

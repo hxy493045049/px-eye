@@ -3,6 +3,8 @@ package com.meituan.android.model;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.meituan.android.model.attr.FoodUEBaseAttr;
+
 /**
  * @author shawn
  * Created with IntelliJ IDEA.

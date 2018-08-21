@@ -1,7 +1,7 @@
 package com.meituan.android.biz.element.provider.impl;
 
 import com.meituan.android.biz.element.provider.IFoodUEAttrProvider;
-import com.meituan.android.model.FoodUEBaseAttr;
+import com.meituan.android.model.attr.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEViewInfo;
 
 import java.util.List;

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.meituan.android.biz.FoodUEBaseElementMode;
 import com.meituan.android.utils.FoodUEDimensionUtils;
 
 /**

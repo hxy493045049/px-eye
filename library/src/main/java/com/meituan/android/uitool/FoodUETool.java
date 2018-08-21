@@ -22,7 +22,7 @@ import java.util.Set;
  * FoodUE工具的开关, 提供了默认的属性获取器
  */
 public final class FoodUETool {
-    public static Context applicationContext;
+    private static WeakReference<Context> APPLICATION_CONTEXT_REF;
     private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
     //这里放string是为了单例
@@ -38,10 +38,21 @@ public final class FoodUETool {
 
     //------------public------------
     public static FoodUETool getInstance(Context applicationContext) {
-        if (FoodUETool.applicationContext == null) {
-            FoodUETool.applicationContext = applicationContext;
+        if (FoodUETool.APPLICATION_CONTEXT_REF == null || FoodUETool.APPLICATION_CONTEXT_REF.get() == null) {
+            if (applicationContext == null) {
+                throw new IllegalArgumentException("初始化的context不能为空");
+            } else {
+                APPLICATION_CONTEXT_REF = new WeakReference<>(applicationContext.getApplicationContext());
+            }
         }
         return Holder.instance;
+    }
+
+    public static Context getApplicationContext() {
+        if (APPLICATION_CONTEXT_REF != null) {
+            return APPLICATION_CONTEXT_REF.get();
+        }
+        return null;
     }
 
     @Nullable
@@ -62,9 +73,9 @@ public final class FoodUETool {
 
     public void open() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(FoodUETool.applicationContext)) {
-                FoodUEPermissionUtils.requestOverlayPermission(FoodUETool.applicationContext);
-                Toast.makeText(FoodUETool.applicationContext, "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
+            if (!Settings.canDrawOverlays(FoodUETool.APPLICATION_CONTEXT_REF.get())) {
+                FoodUEPermissionUtils.requestOverlayPermission(FoodUETool.APPLICATION_CONTEXT_REF.get());
+                Toast.makeText(FoodUETool.APPLICATION_CONTEXT_REF.get(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
             }
         }
         ueMenu.show();
@@ -94,7 +105,7 @@ public final class FoodUETool {
     //------------private------------
     private void initMenu() {
         if (ueMenu == null) {
-            ueMenu = new FoodUEMenu(FoodUETool.applicationContext);
+            ueMenu = new FoodUEMenu(FoodUETool.APPLICATION_CONTEXT_REF.get());
         }
     }
 

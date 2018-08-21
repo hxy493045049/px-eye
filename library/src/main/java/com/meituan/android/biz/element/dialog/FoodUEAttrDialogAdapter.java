@@ -4,9 +4,8 @@ import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.ViewGroup;
 
 import com.meituan.android.biz.element.provider.IFoodUEAttrProvider;
-import com.meituan.android.constant.FoodUEHolderType;
 import com.meituan.android.factory.FoodUEViewHolderFactory;
-import com.meituan.android.model.FoodUEBaseAttr;
+import com.meituan.android.model.attr.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEBaseViewHolder;
 import com.meituan.android.model.FoodUEViewInfo;
 import com.meituan.android.uitool.FoodUETool;
@@ -56,18 +55,10 @@ public class FoodUEAttrDialogAdapter extends Adapter<FoodUEBaseViewHolder> {
         return super.getItemViewType(position);
     }
 
-    public interface ViewHolderTypeFactory {
-
-        @FoodUEHolderType.AttrDialogHolder
-        int getHolderType();
-
-        void setHolderType(@FoodUEHolderType.AttrDialogHolder int holderType);
-    }
-
     //------------ private ---------------
     private void generateAttrMap() {
         attrs.clear();
-        for (String providerName : FoodUETool.getInstance(FoodUETool.applicationContext).getAttrProviderNames()) {
+        for (String providerName : FoodUETool.getInstance(null).getAttrProviderNames()) {
             IFoodUEAttrProvider provider = FoodUEAttrUtils.getCachedProviderByName(providerName);
             if (provider != null) {
                 attrs.addAll(provider.getAttrs(mViewInfo));

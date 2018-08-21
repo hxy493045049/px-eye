@@ -20,11 +20,11 @@ public class FoodUEGriddingLayout extends View {
 
     public static final int LINE_INTERVAL_DP = 5;
     public static final int LINE_INTERVAL = FoodUEDimensionUtils.dip2px(LINE_INTERVAL_DP);
-    private final int screenWidth = FoodUEDimensionUtils.getScreenWidth();
-    private final int screenHeight = FoodUEDimensionUtils.getScreenHeight();
+    private final int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+    private final int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
 
     private Paint paintRed = new Paint();
-    private Activity targetActivity = FoodUETool.getInstance(FoodUETool.applicationContext).getTargetActivity();
+    private Activity targetActivity = FoodUETool.getInstance(null).getTargetActivity();
 
     public FoodUEGriddingLayout(Context context) {
         this(context, null);
@@ -45,10 +45,10 @@ public class FoodUEGriddingLayout extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int startX = LINE_INTERVAL * 3;
-        canvas.drawLine(startX, 0, startX, screenHeight, paintRed);
+        canvas.drawLine(startX, 0, startX, SCREEN_HEIGHT, paintRed);
 
-        int rightPadding = screenWidth - LINE_INTERVAL * 3;
-        canvas.drawLine(rightPadding, 0, rightPadding, screenHeight, paintRed);
+        int rightPadding = SCREEN_WIDTH - LINE_INTERVAL * 3;
+        canvas.drawLine(rightPadding, 0, rightPadding, SCREEN_HEIGHT, paintRed);
     }
 
     @Override

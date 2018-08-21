@@ -1,11 +1,11 @@
 package com.meituan.android.biz.element.dialog.viewholder;
 
-import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.meituan.android.model.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEBaseViewHolder;
+import com.meituan.android.model.attr.FoodUEBaseAttr;
 import com.meituan.android.uitool.library.R;
 
 /**
@@ -16,8 +16,8 @@ import com.meituan.android.uitool.library.R;
 public class FoodUENormalHolder extends FoodUEBaseViewHolder<String, String> {
     public TextView attrName, attrValue;
 
-    public FoodUENormalHolder(Context context) {
-        super(View.inflate(context, R.layout.food_ue_attr_dialog_item, null));
+    public FoodUENormalHolder(ViewGroup parent) {
+        super(View.inflate(parent.getContext(), R.layout.food_ue_attr_dialog_item, null));
         attrName = itemView.findViewById(R.id.attrName);
         attrValue = itemView.findViewById(R.id.attrValue);
     }

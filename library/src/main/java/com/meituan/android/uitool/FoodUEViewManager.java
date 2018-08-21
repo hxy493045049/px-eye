@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.meituan.android.biz.IFoodUEFunction;
-import com.meituan.android.biz.element.FoodUEElementFunctionImpl;
+import com.meituan.android.biz.element.FoodUEAttrFunctionImpl;
 import com.meituan.android.biz.measure.FoodUEMeasureFunctionImpl;
 
 /**
@@ -43,7 +43,7 @@ public class FoodUEViewManager {
         IFoodUEFunction factory = null;
         switch (type) {
             case FoodUEToolsActivity.Type.TYPE_EDIT_ATTR:
-                factory = new FoodUEElementFunctionImpl();
+                factory = new FoodUEAttrFunctionImpl();
                 break;
             case FoodUEToolsActivity.Type.TYPE_MEASURE:
                 factory = new FoodUEMeasureFunctionImpl();
