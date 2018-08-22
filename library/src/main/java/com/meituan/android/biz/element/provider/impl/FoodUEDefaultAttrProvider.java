@@ -7,7 +7,6 @@ import com.meituan.android.model.FoodUEBaseAttr;
 import com.meituan.android.model.FoodUEViewInfo;
 import com.meituan.android.utils.FoodUEAttrUtils;
 import com.meituan.android.utils.FoodUEDimensionUtils;
-import com.sankuai.common.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class FoodUEDefaultAttrProvider implements IFoodUEAttrProvider {
         IFoodUEAttrProvider iAttrs = FoodUEAttrUtils.createAttrs(view);
         if (iAttrs != null) {
             List<FoodUEBaseAttr> newAttr = iAttrs.getAttrs(viewInfo);
-            if (!CollectionUtils.isEmpty(newAttr)) {
+            if (newAttr != null && newAttr.size() > 0) {
                 items.addAll(newAttr);
             }
         }

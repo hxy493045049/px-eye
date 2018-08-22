@@ -67,7 +67,7 @@ public class FoodUEAttrDialogAdapter extends Adapter<FoodUEBaseViewHolder> {
     //------------ private ---------------
     private void generateAttrMap() {
         attrs.clear();
-        for (String providerName : FoodUETool.getInstance().getAttrProviderNames()) {
+        for (String providerName : FoodUETool.getInstance(FoodUETool.applicationContext).getAttrProviderNames()) {
             IFoodUEAttrProvider provider = FoodUEAttrUtils.getCachedProviderByName(providerName);
             if (provider != null) {
                 attrs.addAll(provider.getAttrs(mViewInfo));

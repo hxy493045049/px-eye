@@ -2,33 +2,30 @@ package com.meituan.android.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
-import com.meituan.android.singleton.ApplicationSingleton;
+import com.meituan.android.uitool.FoodUETool;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import roboguice.util.Ln;
 
 /**
  * Author: gaojin
  * Time: 2018/6/25 下午6:04
  */
 public class FoodUEActivityUtils {
-    private static final Application CONTEXT = ApplicationSingleton.getInstance();
 
     private FoodUEActivityUtils() {
     }
 
     public static int getStatusBarHeight() {
-        Resources resources = CONTEXT.getResources();
+        Resources resources = FoodUETool.applicationContext.getResources();
         int resId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resId > 0 ? resources.getDimensionPixelSize(resId) : 0;
     }
@@ -73,7 +70,7 @@ public class FoodUEActivityUtils {
                 }
             }
         } catch (Exception e) {
-            Ln.e(e);
+            Log.e("FoodUEActivityUtils", "getCurrentActivity", e);
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.meituan.android.biz.element.mode;
 
-import android.app.Application;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,12 +9,10 @@ import android.widget.Toast;
 
 import com.meituan.android.model.FoodUEViewInfo;
 import com.meituan.android.plugin.FoodUEElementLayout;
-import com.meituan.android.singleton.ApplicationSingleton;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.utils.FoodUEDimensionUtils;
 import com.meituan.android.utils.FoodUEViewUtils;
-import com.sankuai.common.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ import java.util.List;
  * 基础mode,提供绘制边框线,宽高信息,选中状态,捕捉元素,释放资源功能
  */
 public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode {
-    protected Application APPLICATION = ApplicationSingleton.getInstance();
     protected List<FoodUEViewInfo> viewsInfo;//捕捉到的activity中元素的集合
     protected FoodUEViewInfo anchorView;//手指点击时最上层的view
     protected FoodUEViewInfo cursorView;//游标,当再次点击同一位置时响应当前view的上一级
@@ -47,7 +43,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
     protected Paint areaPaint = new Paint() {
         {
             setAntiAlias(true);
-            setColor(APPLICATION.getResources().getColor(R.color.food_ue_selected_view_bg));
+            setColor(FoodUETool.applicationContext.getResources().getColor(R.color.food_ue_selected_view_bg));
         }
     };
 
@@ -86,7 +82,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
 
     @Override
     public void onAttach2Window() {
-        viewsInfo = FoodUEViewUtils.getTargetActivityViews(FoodUETool.getInstance().getTargetActivity());
+        viewsInfo = FoodUEViewUtils.getTargetActivityViews(FoodUETool.getInstance(FoodUETool.applicationContext).getTargetActivity());
     }
 
     @Override
@@ -98,7 +94,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
 
     @Nullable
     protected FoodUEViewInfo getViewInfoByPosition(float x, float y) {
-        if (CollectionUtils.isEmpty(viewsInfo)) {
+        if (viewsInfo == null || viewsInfo.size() < 1) {
             return null;
         }
         FoodUEViewInfo target = null;
@@ -125,14 +121,14 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
             }
         }
         if (target == null) {
-            Toast.makeText(APPLICATION, APPLICATION.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
+            Toast.makeText(FoodUETool.applicationContext, FoodUETool.applicationContext.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
         }
         return target;
     }
 
     @Nullable
     protected List<FoodUEViewInfo> getTargetElements(float x, float y) {
-        if (CollectionUtils.isEmpty(viewsInfo)) {
+        if (viewsInfo == null || viewsInfo.size() < 1) {
             return null;
         }
         List<FoodUEViewInfo> validList = new ArrayList<>();

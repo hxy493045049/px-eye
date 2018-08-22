@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.meituan.android.base.BaseConfig;
 import com.meituan.android.uitool.FoodUETool;
+import com.meituan.android.utils.FoodUEDimensionUtils;
 
 /**
  * 测量功能的边框
@@ -19,12 +19,12 @@ import com.meituan.android.uitool.FoodUETool;
 public class FoodUEGriddingLayout extends View {
 
     public static final int LINE_INTERVAL_DP = 5;
-    public static final int LINE_INTERVAL = BaseConfig.dp2px(LINE_INTERVAL_DP);
-    private final int screenWidth = BaseConfig.width;
-    private final int screenHeight = BaseConfig.height;
+    public static final int LINE_INTERVAL = FoodUEDimensionUtils.dip2px(LINE_INTERVAL_DP);
+    private final int screenWidth = FoodUEDimensionUtils.getScreenWidth();
+    private final int screenHeight = FoodUEDimensionUtils.getScreenHeight();
 
     private Paint paintRed = new Paint();
-    private Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
+    private Activity targetActivity = FoodUETool.getInstance(FoodUETool.applicationContext).getTargetActivity();
 
     public FoodUEGriddingLayout(Context context) {
         this(context, null);
