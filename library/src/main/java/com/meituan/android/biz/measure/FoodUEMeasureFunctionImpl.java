@@ -3,12 +3,12 @@ package com.meituan.android.biz.measure;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.meituan.android.base.BaseConfig;
 import com.meituan.android.biz.IFoodUEFunction;
 import com.meituan.android.biz.measure.dialog.FoodUESetValueDialog;
 import com.meituan.android.plugin.FoodUEBoardTextView;
@@ -17,8 +17,7 @@ import com.meituan.android.plugin.FoodUEGriddingLayout;
 import com.meituan.android.plugin.FoodUiSteeringWheel;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
-
-import roboguice.util.Ln;
+import com.meituan.android.utils.FoodUEDimensionUtils;
 
 /**
  * @author shawn
@@ -44,8 +43,8 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
         steeringWheel.setOnWheelTouchListener(this);
         int size = (int) ctx.getResources().getDimension(R.dimen.food_ue_tools_measure_wheel_size);
         FrameLayout.LayoutParams wheelParams = new FrameLayout.LayoutParams(size, size);
-        wheelParams.rightMargin = BaseConfig.dp2px(18);
-        wheelParams.bottomMargin = BaseConfig.dp2px(18);
+        wheelParams.rightMargin = FoodUEDimensionUtils.dip2px(18);
+        wheelParams.bottomMargin = FoodUEDimensionUtils.dip2px(18);
         wheelParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         container.addView(steeringWheel, wheelParams);
 
@@ -58,7 +57,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
 
     //---------------private---------------
     private View initBottomHint(Context ctx) {
-        Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
+        Activity targetActivity = FoodUETool.getInstance(ctx).getTargetActivity();
         String defaultInfo = "";
         if (targetActivity != null) {
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();
@@ -78,24 +77,24 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
 
         if (!TextUtils.isEmpty(width)) {
             try {
-                int w = BaseConfig.dp2px(Integer.valueOf(width));
-                if (w > BaseConfig.width) {
+                int w = FoodUEDimensionUtils.dip2px(Integer.valueOf(width));
+                if (w > FoodUEDimensionUtils.getScreenWidth()) {
                     w = FrameLayout.LayoutParams.MATCH_PARENT;
                 }
                 params.width = w;
             } catch (NumberFormatException e) {
-                Ln.e(e, "invalid width");
+                Log.e("FoodUEMeasureFunction", "invalid width", e);
             }
         }
         if (!TextUtils.isEmpty(height)) {
             try {
-                int h = BaseConfig.dp2px(Integer.valueOf(height));
-                if (h > BaseConfig.height) {
+                int h = FoodUEDimensionUtils.dip2px(Integer.valueOf(height));
+                if (h > FoodUEDimensionUtils.getScreenHeight()) {
                     h = FrameLayout.LayoutParams.MATCH_PARENT;
                 }
                 params.height = h;
             } catch (NumberFormatException e) {
-                Ln.e(e, "invalid width");
+                Log.e("FoodUEMeasureFunction", "invalid width", e);
             }
         }
         measureBar.setLayoutParams(params);

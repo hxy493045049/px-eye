@@ -57,7 +57,7 @@ public class FoodUEElementFunctionImpl implements IFoodUEFunction {
 
     //-----------private-----------
     private View initBottomHint(Context ctx) {
-        Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
+        Activity targetActivity = FoodUETool.getInstance(ctx).getTargetActivity();
         String defaultInfo = "";
         if (targetActivity != null) {
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();

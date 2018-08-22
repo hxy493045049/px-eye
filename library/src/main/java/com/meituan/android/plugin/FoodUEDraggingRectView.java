@@ -16,15 +16,15 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.meituan.android.base.BaseConfig;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.utils.FoodUEDimensionUtils;
 
 /**
  * Author: gaojin
  * Time: 2018/6/25 下午9:34
  */
 public class FoodUEDraggingRectView extends View {
-    private final static int UNIT = BaseConfig.dp2px(1);
+    private final static int UNIT = FoodUEDimensionUtils.dip2px(1);
     private Paint paintRed = new Paint();
     private Paint paintText = new Paint();
     private int touchSlop;
@@ -58,7 +58,7 @@ public class FoodUEDraggingRectView extends View {
 
         touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, BaseConfig.dp2px(height));
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, FoodUEDimensionUtils.dip2px(height));
         params.gravity = Gravity.CENTER;
         setLayoutParams(params);
         setBackgroundColor(getResources().getColor(R.color.food_ue_measure_bar_bg_color));
@@ -75,7 +75,7 @@ public class FoodUEDraggingRectView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float y = getMeasuredHeight() / 2;
-        canvas.drawLine(0, y, BaseConfig.width, y, paintRed);
+        canvas.drawLine(0, y, FoodUEDimensionUtils.getScreenWidth(), y, paintRed);
         canvas.drawText("height: " + height + "dp", 0, y, paintText);
     }
 
@@ -115,16 +115,16 @@ public class FoodUEDraggingRectView extends View {
     private void updateTranslation(float translationX, float translationY) {
         if (getX() + translationX <= 0) {
             setX(0);
-        } else if (getX() + translationX >= BaseConfig.width - getWidth()) {
-            setX(BaseConfig.width - getWidth());
+        } else if (getX() + translationX >= FoodUEDimensionUtils.getScreenWidth() - getWidth()) {
+            setX(FoodUEDimensionUtils.getScreenWidth() - getWidth());
         } else {
             setTranslationX(getTranslationX() + translationX);
         }
 
         if (getY() + translationY <= 0) {
             setY(0);
-        } else if (getY() + translationY >= BaseConfig.height - getHeight()) {
-            setY(BaseConfig.height - getHeight());
+        } else if (getY() + translationY >= FoodUEDimensionUtils.getScreenHeight() - getHeight()) {
+            setY(FoodUEDimensionUtils.getScreenHeight() - getHeight());
         } else {
             setTranslationY(getTranslationY() + translationY);
         }
@@ -149,16 +149,16 @@ public class FoodUEDraggingRectView extends View {
             float newX = e2.getRawX() - getWidth() / 2 + offectX;
             float newY = e2.getRawY() - getHeight() / 2 + offectY;
 
-            if (newX + getWidth() > BaseConfig.width) {
-                setX(BaseConfig.width - getWidth());
+            if (newX + getWidth() > FoodUEDimensionUtils.getScreenWidth()) {
+                setX(FoodUEDimensionUtils.getScreenWidth() - getWidth());
             } else if (newX <= 0) {
                 setX(0);
             } else {
                 setX(newX);
             }
 
-            if (newY + getHeight() > BaseConfig.height) {
-                setY(BaseConfig.height - getHeight());
+            if (newY + getHeight() > FoodUEDimensionUtils.getScreenHeight()) {
+                setY(FoodUEDimensionUtils.getScreenHeight() - getHeight());
             } else if (newY <= 0) {
                 setY(0);
             } else {

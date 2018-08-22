@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.meituan.android.base.BaseConfig;
+import com.meituan.android.utils.FoodUEDimensionUtils;
 
 public class FoodUEBoardTextView extends AppCompatTextView {
 
-    private final int padding = BaseConfig.dp2px(3);
+    private final int padding = FoodUEDimensionUtils.dip2px(3);
 
     public FoodUEBoardTextView(Context context) {
         this(context, null);

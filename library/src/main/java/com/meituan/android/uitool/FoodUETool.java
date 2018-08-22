@@ -1,6 +1,7 @@
 package com.meituan.android.uitool;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -8,7 +9,6 @@ import android.widget.Toast;
 
 import com.meituan.android.biz.element.provider.impl.FoodUEDefaultAttrProvider;
 import com.meituan.android.plugin.FoodUEMenu;
-import com.meituan.android.singleton.ApplicationSingleton;
 import com.meituan.android.utils.FoodUEActivityUtils;
 import com.meituan.android.utils.FoodUEPermissionUtils;
 
@@ -22,6 +22,7 @@ import java.util.Set;
  * FoodUE工具的开关, 提供了默认的属性获取器
  */
 public final class FoodUETool {
+    public static Context applicationContext;
     private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
     //这里放string是为了单例
@@ -36,7 +37,10 @@ public final class FoodUETool {
     }
 
     //------------public------------
-    public static FoodUETool getInstance() {
+    public static FoodUETool getInstance(Context applicationContext) {
+        if (FoodUETool.applicationContext == null) {
+            FoodUETool.applicationContext = applicationContext;
+        }
         return Holder.instance;
     }
 
@@ -58,9 +62,9 @@ public final class FoodUETool {
 
     public void open() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(ApplicationSingleton.getInstance())) {
-                FoodUEPermissionUtils.requestOverlayPermission(ApplicationSingleton.getInstance());
-                Toast.makeText(ApplicationSingleton.getInstance(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
+            if (!Settings.canDrawOverlays(FoodUETool.applicationContext)) {
+                FoodUEPermissionUtils.requestOverlayPermission(FoodUETool.applicationContext);
+                Toast.makeText(FoodUETool.applicationContext, "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
             }
         }
         ueMenu.show();
@@ -90,7 +94,7 @@ public final class FoodUETool {
     //------------private------------
     private void initMenu() {
         if (ueMenu == null) {
-            ueMenu = new FoodUEMenu(ApplicationSingleton.getInstance());
+            ueMenu = new FoodUEMenu(FoodUETool.applicationContext);
         }
     }
 
