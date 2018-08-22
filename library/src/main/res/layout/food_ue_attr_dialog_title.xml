@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:scrollbars="none"
+    tools:background="@color/food_ue_gray">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/food_ue_white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="字体:" />
+
+</ScrollView>

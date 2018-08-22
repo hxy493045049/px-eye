@@ -13,11 +13,15 @@ import java.lang.annotation.RetentionPolicy;
 public class FoodUEHolderType {
     @IntDef({
             AttrDialogHolder.NORMAL,
-            AttrDialogHolder.BITMAP
+            AttrDialogHolder.BITMAP,
+            AttrDialogHolder.NONE,
+            AttrDialogHolder.TITLE
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface AttrDialogHolder {
-        int NORMAL = 1;//对应FoodUEBaseAttr的泛型为<String,String>
-        int BITMAP = 2;//<String,Bitmap>
+        int NONE = 0;//为指定泛型类型
+        int NORMAL = 1;//
+        int TITLE = 2;//
+        int BITMAP = 3;//
     }
 }

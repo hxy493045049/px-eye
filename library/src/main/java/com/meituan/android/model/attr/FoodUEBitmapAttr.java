@@ -1,9 +1,10 @@
-package com.meituan.android.model;
+package com.meituan.android.model.attr;
 
 import android.graphics.Bitmap;
 import android.util.Pair;
 
 import com.meituan.android.constant.FoodUEHolderType;
+import com.meituan.android.model.FoodUEViewInfo;
 
 /**
  * @author shawn
@@ -13,6 +14,10 @@ import com.meituan.android.constant.FoodUEHolderType;
 public class FoodUEBitmapAttr extends FoodUEBaseAttr<String, Bitmap> {
     public FoodUEBitmapAttr(Pair<String, Bitmap> pair, FoodUEViewInfo viewInfo) {
         super(pair, viewInfo);
+    }
+
+    @Override
+    void initHolderType() {
         setHolderType(FoodUEHolderType.AttrDialogHolder.BITMAP);
     }
 }

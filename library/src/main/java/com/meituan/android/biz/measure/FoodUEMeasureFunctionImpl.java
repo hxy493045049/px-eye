@@ -28,6 +28,8 @@ import com.meituan.android.utils.FoodUEDimensionUtils;
 public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickListener, FoodUiSteeringWheel.OnWheelTouchListener {
     private FoodUEDraggingRectView measureBar;//测量条
     private FoodUiSteeringWheel steeringWheel;//方向盘
+    private static final int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+    private static final int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
 
     @Override
     public View getView(ViewGroup container) {
@@ -45,7 +47,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
         FrameLayout.LayoutParams wheelParams = new FrameLayout.LayoutParams(size, size);
         wheelParams.rightMargin = FoodUEDimensionUtils.dip2px(18);
         wheelParams.bottomMargin = FoodUEDimensionUtils.dip2px(18);
-        wheelParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        wheelParams.gravity = Gravity.BOTTOM | Gravity.END;
         container.addView(steeringWheel, wheelParams);
 
         //底部提示
@@ -78,7 +80,8 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
         if (!TextUtils.isEmpty(width)) {
             try {
                 int w = FoodUEDimensionUtils.dip2px(Integer.valueOf(width));
-                if (w > FoodUEDimensionUtils.getScreenWidth()) {
+
+                if (w > SCREEN_WIDTH) {
                     w = FrameLayout.LayoutParams.MATCH_PARENT;
                 }
                 params.width = w;
@@ -89,7 +92,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
         if (!TextUtils.isEmpty(height)) {
             try {
                 int h = FoodUEDimensionUtils.dip2px(Integer.valueOf(height));
-                if (h > FoodUEDimensionUtils.getScreenHeight()) {
+                if (h > SCREEN_HEIGHT) {
                     h = FrameLayout.LayoutParams.MATCH_PARENT;
                 }
                 params.height = h;

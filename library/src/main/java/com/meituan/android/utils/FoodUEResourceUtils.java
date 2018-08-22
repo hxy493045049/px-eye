@@ -14,7 +14,7 @@ import static android.view.View.NO_ID;
  */
 public class FoodUEResourceUtils {
     public static String getResourceName(int id) {
-        Resources resources = FoodUETool.applicationContext.getResources();
+        Resources resources = FoodUETool.getApplicationContext().getResources();
         try {
             if (id == NO_ID || id == 0) {
                 return "";

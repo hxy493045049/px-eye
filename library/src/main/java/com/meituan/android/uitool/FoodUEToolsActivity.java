@@ -48,7 +48,7 @@ public class FoodUEToolsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FoodUETool.getInstance(FoodUETool.applicationContext).release();
+        FoodUETool.getInstance(FoodUETool.getApplicationContext()).release();
     }
 
     @Override

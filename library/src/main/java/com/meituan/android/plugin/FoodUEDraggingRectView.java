@@ -25,6 +25,8 @@ import com.meituan.android.utils.FoodUEDimensionUtils;
  */
 public class FoodUEDraggingRectView extends View {
     private final static int UNIT = FoodUEDimensionUtils.dip2px(1);
+    private final static int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+    private final static int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
     private Paint paintRed = new Paint();
     private Paint paintText = new Paint();
     private int touchSlop;
@@ -75,7 +77,7 @@ public class FoodUEDraggingRectView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float y = getMeasuredHeight() / 2;
-        canvas.drawLine(0, y, FoodUEDimensionUtils.getScreenWidth(), y, paintRed);
+        canvas.drawLine(0, y, SCREEN_WIDTH, y, paintRed);
         canvas.drawText("height: " + height + "dp", 0, y, paintText);
     }
 
@@ -115,16 +117,16 @@ public class FoodUEDraggingRectView extends View {
     private void updateTranslation(float translationX, float translationY) {
         if (getX() + translationX <= 0) {
             setX(0);
-        } else if (getX() + translationX >= FoodUEDimensionUtils.getScreenWidth() - getWidth()) {
-            setX(FoodUEDimensionUtils.getScreenWidth() - getWidth());
+        } else if (getX() + translationX >= SCREEN_WIDTH - getWidth()) {
+            setX(SCREEN_WIDTH - getWidth());
         } else {
             setTranslationX(getTranslationX() + translationX);
         }
 
         if (getY() + translationY <= 0) {
             setY(0);
-        } else if (getY() + translationY >= FoodUEDimensionUtils.getScreenHeight() - getHeight()) {
-            setY(FoodUEDimensionUtils.getScreenHeight() - getHeight());
+        } else if (getY() + translationY >= SCREEN_HEIGHT - getHeight()) {
+            setY(SCREEN_HEIGHT - getHeight());
         } else {
             setTranslationY(getTranslationY() + translationY);
         }
@@ -149,16 +151,18 @@ public class FoodUEDraggingRectView extends View {
             float newX = e2.getRawX() - getWidth() / 2 + offectX;
             float newY = e2.getRawY() - getHeight() / 2 + offectY;
 
-            if (newX + getWidth() > FoodUEDimensionUtils.getScreenWidth()) {
-                setX(FoodUEDimensionUtils.getScreenWidth() - getWidth());
+
+            if (newX + getWidth() > SCREEN_WIDTH) {
+                setX(SCREEN_WIDTH - getWidth());
             } else if (newX <= 0) {
                 setX(0);
             } else {
                 setX(newX);
             }
 
-            if (newY + getHeight() > FoodUEDimensionUtils.getScreenHeight()) {
-                setY(FoodUEDimensionUtils.getScreenHeight() - getHeight());
+
+            if (newY + getHeight() > SCREEN_HEIGHT) {
+                setY(SCREEN_HEIGHT - getHeight());
             } else if (newY <= 0) {
                 setY(0);
             } else {

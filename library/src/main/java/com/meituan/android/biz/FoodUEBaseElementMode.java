@@ -1,5 +1,6 @@
-package com.meituan.android.biz.element.mode;
+package com.meituan.android.biz;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,7 +9,6 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.meituan.android.model.FoodUEViewInfo;
-import com.meituan.android.plugin.FoodUEElementLayout;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.utils.FoodUEDimensionUtils;
@@ -23,7 +23,9 @@ import java.util.List;
  * 2018/8/11 on 下午1:10
  * 基础mode,提供绘制边框线,宽高信息,选中状态,捕捉元素,释放资源功能
  */
-public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode {
+
+public abstract class FoodUEBaseElementMode implements IFoodUEMode {
+    protected Context APPLICATION_CONTEXT = FoodUETool.getApplicationContext();
     protected List<FoodUEViewInfo> viewsInfo;//捕捉到的activity中元素的集合
     protected FoodUEViewInfo anchorView;//手指点击时最上层的view
     protected FoodUEViewInfo cursorView;//游标,当再次点击同一位置时响应当前view的上一级
@@ -43,7 +45,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
     protected Paint areaPaint = new Paint() {
         {
             setAntiAlias(true);
-            setColor(FoodUETool.applicationContext.getResources().getColor(R.color.food_ue_selected_view_bg));
+            setColor(FoodUETool.getApplicationContext().getResources().getColor(R.color.food_ue_selected_view_bg));
         }
     };
 
@@ -82,7 +84,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
 
     @Override
     public void onAttach2Window() {
-        viewsInfo = FoodUEViewUtils.getTargetActivityViews(FoodUETool.getInstance(FoodUETool.applicationContext).getTargetActivity());
+        viewsInfo = FoodUEViewUtils.getTargetActivityViews(FoodUETool.getInstance(null).getTargetActivity());
     }
 
     @Override
@@ -110,7 +112,7 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
                 if (viewInfo != anchorView) {
                     anchorView = viewInfo;
                     cursorView = anchorView;
-                } else if (cursorView.hasParentViewInfo()) {
+                } else {
                     //当再次点击同一坐标范围,返回的锚点和viewInfo相同时, 目标应该为当前选中元素的父元素
                     //当第三次在点击该范围时, 返回的应该是其父元素的父元素
                     cursorView = cursorView.getParentViewInfo();
@@ -121,7 +123,9 @@ public abstract class FoodUEBaseElementMode implements FoodUEElementLayout.Mode 
             }
         }
         if (target == null) {
-            Toast.makeText(FoodUETool.applicationContext, FoodUETool.applicationContext.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
+            anchorView = null;
+            cursorView = null;
+            Toast.makeText(APPLICATION_CONTEXT, APPLICATION_CONTEXT.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
         }
         return target;
     }

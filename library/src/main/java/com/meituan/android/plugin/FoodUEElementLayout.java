@@ -7,8 +7,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.meituan.android.biz.FoodUEBaseElementMode;
+import com.meituan.android.biz.IFoodUEMode;
 import com.meituan.android.biz.element.mode.FoodUEAttrMode;
-import com.meituan.android.biz.element.mode.FoodUEBaseElementMode;
 import com.meituan.android.model.FoodUEViewInfo;
 
 /**
@@ -17,7 +18,7 @@ import com.meituan.android.model.FoodUEViewInfo;
  * 2018/8/10 on 上午10:56
  */
 public class FoodUEElementLayout extends View {
-    private Mode mModeImpl;
+    private IFoodUEMode mModeImpl;
     private FoodUEBaseElementMode.OnViewInfoSelectedListener listener;
 
     public FoodUEElementLayout(Context context) {
@@ -37,7 +38,7 @@ public class FoodUEElementLayout extends View {
         listener = l;
     }
 
-    public void setModeType(Mode modeImpl) {
+    public void setModeImpl(IFoodUEMode modeImpl) {
         if (modeImpl != null) {
             mModeImpl = modeImpl;
         }
@@ -88,20 +89,6 @@ public class FoodUEElementLayout extends View {
         if (mModeImpl != null) {
             mModeImpl.onDraw(canvas);
         }
-    }
-
-    public interface Mode {
-        void onDraw(Canvas canvas);
-
-        void onActionDown(MotionEvent event);
-
-        void triggerActionMove(MotionEvent event);
-
-        void triggerActionUp(MotionEvent event);
-
-        void onAttach2Window();
-
-        void onDetachedFromWindow();
     }
 
     private class DefaultSelectedViewInfoListener implements FoodUEBaseElementMode.OnViewInfoSelectedListener {

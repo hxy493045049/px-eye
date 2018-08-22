@@ -144,6 +144,9 @@ public class FoodUEViewUtils {
         if (view.getAlpha() == 0 || view.getVisibility() != View.VISIBLE) {
             return;
         }
+        if (view instanceof ViewGroup && ((ViewGroup) view).getChildCount() == 0) {//去掉没有子view的占位符
+            return;
+        }
         viewInfo.add(new FoodUEViewInfo(view));
         if (view instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) view;
