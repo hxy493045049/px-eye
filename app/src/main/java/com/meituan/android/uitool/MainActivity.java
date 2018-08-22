@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         SwitchCompat switchCompat = findViewById(R.id.switch_button);
         switchCompat.setOnCheckedChangeListener(this);
 
-        FoodUETool.getInstance().setOnExitListener(new FoodUEMenu.SubMenuClickEvent() {
+        FoodUETool.getInstance(getApplicationContext()).setOnExitListener(new FoodUEMenu.SubMenuClickEvent() {
             @Override
             public void onClick(Context context) {
                 Toast.makeText(context, "退出啦！！！", Toast.LENGTH_SHORT).show();
@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            FoodUETool.getInstance().open();
+            FoodUETool.getInstance(getApplicationContext()).open();
         } else {
-            FoodUETool.getInstance().exit();
+            FoodUETool.getInstance(getApplicationContext()).exit();
         }
     }
 }

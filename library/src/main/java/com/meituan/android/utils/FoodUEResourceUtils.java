@@ -3,7 +3,7 @@ package com.meituan.android.utils;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.meituan.android.singleton.ApplicationSingleton;
+import com.meituan.android.uitool.FoodUETool;
 
 import static android.view.View.NO_ID;
 
@@ -14,7 +14,7 @@ import static android.view.View.NO_ID;
  */
 public class FoodUEResourceUtils {
     public static String getResourceName(int id) {
-        Resources resources = ApplicationSingleton.getInstance().getResources();
+        Resources resources = FoodUETool.applicationContext.getResources();
         try {
             if (id == NO_ID || id == 0) {
                 return "";
