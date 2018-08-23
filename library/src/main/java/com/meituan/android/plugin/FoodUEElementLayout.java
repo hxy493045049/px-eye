@@ -10,6 +10,7 @@ import android.view.View;
 import com.meituan.android.biz.FoodUEBaseElementMode;
 import com.meituan.android.biz.IFoodUEMode;
 import com.meituan.android.biz.element.mode.FoodUEAttrMode;
+import com.meituan.android.biz.relative.mode.FoodUERelativeMode;
 import com.meituan.android.model.FoodUEViewInfo;
 
 /**
@@ -17,9 +18,9 @@ import com.meituan.android.model.FoodUEViewInfo;
  * Created with IntelliJ IDEA.
  * 2018/8/10 on 上午10:56
  */
-public class FoodUEElementLayout extends View {
+public class FoodUEElementLayout extends View implements FoodUEBaseElementMode.OnViewChangeListener {
     private IFoodUEMode mModeImpl;
-    private FoodUEBaseElementMode.OnViewInfoSelectedListener listener;
+    private FoodUEBaseElementMode.OnViewInfoSelectedListener viewInfoSelectedListener;
 
     public FoodUEElementLayout(Context context) {
         this(context, null);
@@ -35,12 +36,15 @@ public class FoodUEElementLayout extends View {
     }
 
     public void setOnViewInfoSelectedListener(FoodUEBaseElementMode.OnViewInfoSelectedListener l) {
-        listener = l;
+        viewInfoSelectedListener = l;
     }
 
     public void setModeImpl(IFoodUEMode modeImpl) {
         if (modeImpl != null) {
             mModeImpl = modeImpl;
+            if (mModeImpl instanceof FoodUEBaseElementMode) {
+                ((FoodUEBaseElementMode) mModeImpl).setOnViewChangeListener(this);
+            }
         }
     }
 
@@ -91,12 +95,19 @@ public class FoodUEElementLayout extends View {
         }
     }
 
+    //mode的逻辑触发了view变化,重绘
+    @Override
+    public void onViewChange() {
+        invalidate();
+    }
+
+
     private class DefaultSelectedViewInfoListener implements FoodUEBaseElementMode.OnViewInfoSelectedListener {
 
         @Override
         public void onViewInfoSelected(FoodUEViewInfo selectedViewInfo) {
-            if (listener != null) {
-                listener.onViewInfoSelected(selectedViewInfo);
+            if (viewInfoSelectedListener != null) {
+                viewInfoSelectedListener.onViewInfoSelected(selectedViewInfo);
             }
         }
     }

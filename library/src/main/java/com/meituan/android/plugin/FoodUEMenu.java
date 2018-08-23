@@ -121,6 +121,9 @@ public class FoodUEMenu extends LinearLayout {
         menuModels.add(new FoodUESubMenu.MenuModel("属性", R.drawable.food_ue_show_gridding,
                 (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR)));
 
+        menuModels.add(new FoodUESubMenu.MenuModel("相对位置", R.drawable.food_ue_show_gridding,
+                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION)));
+
         menuModels.add(new FoodUESubMenu.MenuModel("关闭", R.drawable.ui_close, (v) -> {
             FoodUETool.getInstance(null).exit();
             if (exitListener != null) {

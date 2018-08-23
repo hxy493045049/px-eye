@@ -3,6 +3,7 @@ package com.meituan.android.biz;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
@@ -25,42 +26,44 @@ import java.util.List;
  */
 
 public abstract class FoodUEBaseElementMode implements IFoodUEMode {
-    protected Context APPLICATION_CONTEXT = FoodUETool.getApplicationContext();
+    protected Context applicationContext = FoodUETool.getApplicationContext();
     protected List<FoodUEViewInfo> viewsInfo;//捕捉到的activity中元素的集合
-    protected FoodUEViewInfo anchorView;//手指点击时最上层的view
-    protected FoodUEViewInfo cursorView;//游标,当再次点击同一位置时响应当前view的上一级
     protected FoodUEViewInfo selectedViewInfo;//选中的view
-    protected float actionDownX, actionDownY;//点击时actionDown的坐标
+    protected int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+    protected int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
 
-    private final int textLineDistance = FoodUEDimensionUtils.dip2px(5);
-    private final int textBgFillingSpace = FoodUEDimensionUtils.dip2px(2);
-    private final int halfEndPointWidth = FoodUEDimensionUtils.dip2px(2.5f);
-    private OnViewInfoSelectedListener mListener;
+    //文字相对红线的偏移量
+    protected final int textLineDistance = FoodUEDimensionUtils.dip2px(5);
+    //文字两边的填充空白
+    protected final int textBgFillingSpace = FoodUEDimensionUtils.dip2px(2);
+    //线头线尾
+    protected final int halfEndPointWidth = FoodUEDimensionUtils.dip2px(2.5f);
 
-    public FoodUEBaseElementMode(OnViewInfoSelectedListener listener) {
-        mListener = listener;
-    }
+    protected OnViewInfoSelectedListener mListener;
+    protected OnViewChangeListener mViewChangeListener;
 
-    //用于绘制选中元素的画笔,添加蒙层
+    private FoodUEViewInfo anchorView;//手指点击时最上层的view
+    private FoodUEViewInfo cursorView;//游标,当再次点击同一位置时响应当前view的上一级
+
+    //用于绘制选中元素的画笔,添加灰色半透明蒙层
     protected Paint areaPaint = new Paint() {
         {
             setAntiAlias(true);
-            setColor(FoodUETool.getApplicationContext().getResources().getColor(R.color.food_ue_selected_view_bg));
         }
     };
 
-    //用于绘制文本的画笔
+    //用于绘制 文本内容 及 描边 的红色画笔
     protected Paint textPaint = new Paint() {
         {
             setAntiAlias(true);
-            setTextSize(FoodUEDimensionUtils.sp2px(10));
+            setTextSize(FoodUETool.getResource().getDimension(R.dimen.food_ue_attr_text_size));
             setColor(Color.RED);
-            setStrokeWidth(FoodUEDimensionUtils.dip2px(1));
+            setStrokeWidth(FoodUETool.getResource().getDimension(R.dimen.food_ue_attr_stroke_width));
         }
     };
 
-    //绘制文字所在矩形的画笔
-    private Paint textBgPaint = new Paint() {
+    //绘制文本的白色背景的画笔
+    protected Paint textBgPaint = new Paint() {
         {
             setAntiAlias(true);
             setColor(Color.WHITE);
@@ -68,10 +71,24 @@ public abstract class FoodUEBaseElementMode implements IFoodUEMode {
         }
     };
 
+    //虚线
+    protected Paint dashLinePaint = new Paint() {
+        {
+            setStyle(Style.STROKE);
+            setAntiAlias(true);
+        }
+    };
+
+    public FoodUEBaseElementMode(OnViewInfoSelectedListener listener) {
+        mListener = listener;
+    }
+
     @Override
     public void onActionDown(MotionEvent event) {
-        actionDownX = event.getX();
-        actionDownY = event.getY();
+    }
+
+    @Override
+    public void triggerActionMove(MotionEvent event) {
     }
 
     @Override
@@ -125,7 +142,7 @@ public abstract class FoodUEBaseElementMode implements IFoodUEMode {
         if (target == null) {
             anchorView = null;
             cursorView = null;
-            Toast.makeText(APPLICATION_CONTEXT, APPLICATION_CONTEXT.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext, applicationContext.getResources().getString(R.string.ue_attr_view_not_found, x, y), Toast.LENGTH_SHORT).show();
         }
         return target;
     }
@@ -165,13 +182,13 @@ public abstract class FoodUEBaseElementMode implements IFoodUEMode {
             endY = tempY;
         }
 
-        if (startX == endX) {
+        if (startX == endX) {//竖线
             drawLineWithEndPoint(canvas, startX, startY + endPointSpace, endX, endY - endPointSpace);
             String text = FoodUEDimensionUtils.px2dip(endY - startY, true);
             drawText(canvas, text, startX + textLineDistance,
                     startY + (endY - startY) / 2 + FoodUEDimensionUtils.getTextHeight(text, textPaint) / 2);
 
-        } else if (startY == endY) {
+        } else if (startY == endY) {//横线
             drawLineWithEndPoint(canvas, startX + endPointSpace, startY, endX - endPointSpace, endY);
             String text = FoodUEDimensionUtils.px2dip(endX - startX, true);
             drawText(canvas, text, startX + (endX - startX) / 2 - FoodUEDimensionUtils.getTextWidth(text, textPaint) / 2,
@@ -193,36 +210,44 @@ public abstract class FoodUEBaseElementMode implements IFoodUEMode {
             bottom -= top;
             top = 0;
         }
-        if (bottom > FoodUEDimensionUtils.getScreenHeight()) {
+        if (bottom > SCREEN_HEIGHT) {
             float diff = top - bottom;
-            bottom = FoodUEDimensionUtils.getScreenHeight();
+            bottom = SCREEN_HEIGHT;
             top = bottom + diff;
         }
-        if (right > FoodUEDimensionUtils.getScreenWidth()) {
+        if (right > SCREEN_WIDTH) {
             float diff = left - right;
-            right = FoodUEDimensionUtils.getScreenWidth();
+            right = SCREEN_WIDTH;
             left = right + diff;
         }
         canvas.drawRect(left, top, right, bottom, textBgPaint);
         canvas.drawText(text, left + textBgFillingSpace, bottom - textBgFillingSpace, textPaint);
     }
 
-    //------------private--------------
-    private void drawLineWithEndPoint(Canvas canvas, int startX, int startY, int endX, int endY) {
+    protected void drawLineWithEndPoint(Canvas canvas, int startX, int startY, int endX, int endY) {
         canvas.drawLine(startX, startY, endX, endY, textPaint);
-        if (startX == endX) {
+        if (startX == endX) {//画竖线线头线尾
             canvas.drawLine(startX - halfEndPointWidth, startY, endX + halfEndPointWidth, startY, textPaint);
             canvas.drawLine(startX - halfEndPointWidth, endY, endX + halfEndPointWidth, endY, textPaint);
-        } else if (startY == endY) {
+        } else if (startY == endY) {//画横线线头线尾
             canvas.drawLine(startX, startY - halfEndPointWidth, startX, endY + halfEndPointWidth, textPaint);
             canvas.drawLine(endX, startY - halfEndPointWidth, endX, endY + halfEndPointWidth, textPaint);
         }
     }
+    //------------private--------------
 
     /**
      * 元素选中时的回调
      */
     public interface OnViewInfoSelectedListener {
         void onViewInfoSelected(FoodUEViewInfo selectedViewInfo);
+    }
+
+    public void setOnViewChangeListener(OnViewChangeListener listener) {
+        mViewChangeListener = listener;
+    }
+
+    public interface OnViewChangeListener {
+        void onViewChange();
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.meituan.android.biz.IFoodUEFunction;
 import com.meituan.android.biz.element.FoodUEAttrFunctionImpl;
 import com.meituan.android.biz.measure.FoodUEMeasureFunctionImpl;
+import com.meituan.android.biz.relative.FoodUERelativeFunctionImpl;
 
 /**
  * @author shawn
@@ -19,7 +20,7 @@ public class FoodUEViewManager {
     private SparseArray<IFoodUEFunction> factoryCache = new SparseArray<>();
 
     public View generateView(@FoodUEToolsActivity.Type int type, ViewGroup container) {
-        IFoodUEFunction factory = getFunctionByType(type);
+        IFoodUEFunction factory = getFunctionFactoryByType(type);
         return factory.getView(container);
     }
 
@@ -29,7 +30,7 @@ public class FoodUEViewManager {
 
     //------------------------private------------------------
     @NonNull
-    private IFoodUEFunction getFunctionByType(@FoodUEToolsActivity.Type int type) {
+    private IFoodUEFunction getFunctionFactoryByType(@FoodUEToolsActivity.Type int type) {
         IFoodUEFunction factory = factoryCache.get(type);
         if (factory == null) {
             factory = createNewFunction(type);
@@ -49,9 +50,9 @@ public class FoodUEViewManager {
                 factory = new FoodUEMeasureFunctionImpl();
                 break;
             case FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION:
-                // TODO: 2018/8/8  
+                factory = new FoodUERelativeFunctionImpl();
                 break;
-            case FoodUEToolsActivity.Type.TYPE_UNKNOWN:// TODO: 2018/8/10
+            case FoodUEToolsActivity.Type.TYPE_Default:// TODO: 2018/8/10
             default:
                 factory = new FoodUEMeasureFunctionImpl();// TODO: 2018/8/10
                 break;

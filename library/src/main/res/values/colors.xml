@@ -10,9 +10,12 @@
     <color name="food_ue_measure_bar_bg_color">#26FF0000</color>
 
     <!--属性捕捉-->
-    <color name="food_ue_selected_view_bg">#30000000</color>
+    <color name="food_ue_attr_selected_view_bg">#30000000</color>
 
     <!--dialog-->
     <color name="food_ue_attr_dialog_bg">#C0000000</color>
+
+    <!--相对位置-->
+    <color name="food_ue_relative_dash_link_color">#90FF0000</color>
 
 </resources>
