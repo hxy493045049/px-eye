@@ -3,4 +3,8 @@
     <dimen name="food_ue_tools_measure_wheel_size">65dp</dimen>
     <dimen name="food_ue_attr_dialog_padding">15dp</dimen>
     <dimen name="food_ue_attr_dialog_vertical_padding">13dp</dimen>
+
+    <!--边框-->
+    <dimen name="food_ue_attr_text_size">10sp</dimen>
+    <dimen name="food_ue_attr_stroke_width">1dp</dimen>
 </resources>

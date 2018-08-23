@@ -21,30 +21,30 @@ public class FoodUEDimensionUtils {
     }
 
     public static String px2dip(float pxValue, boolean withUnit) {
-        float scale = FoodUETool.getApplicationContext().getResources().getDisplayMetrics().density;
+        float scale = FoodUETool.getResource().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5F) + (withUnit ? "dp" : "");
     }
 
     public static int dip2px(float dpValue) {
-        float scale = FoodUETool.getApplicationContext().getResources().getDisplayMetrics().density;
+        float scale = FoodUETool.getResource().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5F);
     }
 
     public static int sp2px(float sp) {
-        return (int) TypedValue.applyDimension(2, sp, FoodUETool.getApplicationContext().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(2, sp, FoodUETool.getResource().getDisplayMetrics());
     }
 
     public static String px2sp(float pxValue) {
-        final float fontScale = FoodUETool.getApplicationContext().getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = FoodUETool.getResource().getDisplayMetrics().scaledDensity;
         return String.valueOf((int) (pxValue / fontScale + 0.5f));
     }
 
     public static int getScreenWidth() {
-        return FoodUETool.getApplicationContext().getResources().getDisplayMetrics().widthPixels;
+        return FoodUETool.getResource().getDisplayMetrics().widthPixels;
     }
 
     public static int getScreenHeight() {
-        return FoodUETool.getApplicationContext().getResources().getDisplayMetrics().heightPixels;
+        return FoodUETool.getResource().getDisplayMetrics().heightPixels;
     }
 
     public static float getTextHeight(String text, Paint textPaint) {

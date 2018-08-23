@@ -34,7 +34,7 @@ public class FoodUEToolsActivity extends AppCompatActivity {
 
         View v = View.inflate(this, R.layout.food_ue_activity_transparent, null);
         ViewGroup vContainer = v.findViewById(R.id.container);
-        int type = getIntent().getIntExtra(EXTRA_TYPE, Type.TYPE_UNKNOWN);
+        int type = getIntent().getIntExtra(EXTRA_TYPE, Type.TYPE_Default);
         View root = FoodUEViewManager.getInstance().generateView(type, vContainer);
         setContentView(root);
     }
@@ -59,13 +59,13 @@ public class FoodUEToolsActivity extends AppCompatActivity {
 
     @IntDef({
             Type.TYPE_EDIT_ATTR,
-            Type.TYPE_UNKNOWN,
+            Type.TYPE_Default,
             Type.TYPE_MEASURE,
             Type.TYPE_RELATIVE_POSITION,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {
-        int TYPE_UNKNOWN = -1;
+        int TYPE_Default = -1;//默认走TYPE_MEASURE分支
         int TYPE_EDIT_ATTR = 1;//属性捕捉
         int TYPE_MEASURE = 2;//测量类型
         int TYPE_RELATIVE_POSITION = 3;//相对位置

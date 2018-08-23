@@ -2,8 +2,10 @@ package com.meituan.android.uitool;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -48,11 +50,22 @@ public final class FoodUETool {
         return Holder.instance;
     }
 
+    @NonNull
     public static Context getApplicationContext() {
         if (APPLICATION_CONTEXT_REF != null) {
             return APPLICATION_CONTEXT_REF.get();
+        } else {
+            throw new IllegalStateException("context为空,必须先执行初始化");
         }
-        return null;
+    }
+
+    @NonNull
+    public static Resources getResource() {
+        if (APPLICATION_CONTEXT_REF != null) {
+            return APPLICATION_CONTEXT_REF.get().getResources();
+        } else {
+            throw new IllegalStateException("context为空,必须先执行初始化");
+        }
     }
 
     @Nullable

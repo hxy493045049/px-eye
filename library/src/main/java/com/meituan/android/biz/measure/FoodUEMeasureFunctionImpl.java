@@ -33,14 +33,17 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
 
     @Override
     public View getView(ViewGroup container) {
+        //边距线
         Context ctx = container.getContext();
-        container.addView(new FoodUEGriddingLayout(ctx));//边距线
+        container.addView(new FoodUEGriddingLayout(ctx));
 
-        measureBar = new FoodUEDraggingRectView(ctx);//测量条
+        //测量条
+        measureBar = new FoodUEDraggingRectView(ctx);
         measureBar.setOnClickListener(this);
         measureBar.setId(R.id.food_ui_tools_measure_bar);
         container.addView(measureBar);
 
+        //方向盘
         steeringWheel = new FoodUiSteeringWheel(ctx);
         steeringWheel.setOnWheelTouchListener(this);
         int size = (int) ctx.getResources().getDimension(R.dimen.food_ue_tools_measure_wheel_size);
@@ -71,7 +74,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
         return board;
     }
 
-    private void updateFrame(String width, String height) {
+    private void updateMeasureBar(String width, String height) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) measureBar.getLayoutParams();
         if (params == null) {
             return;
@@ -107,7 +110,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.food_ui_tools_measure_bar) {
             FoodUESetValueDialog dialog = new FoodUESetValueDialog(v.getContext());
-            dialog.setOnClickListener(this::updateFrame);
+            dialog.setOnClickListener(this::updateMeasureBar);
             dialog.show();
         }
     }
