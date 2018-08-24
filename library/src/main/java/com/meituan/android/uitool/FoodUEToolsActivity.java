@@ -62,7 +62,8 @@ public class FoodUEToolsActivity extends AppCompatActivity {
             Type.TYPE_Default,
             Type.TYPE_MEASURE,
             Type.TYPE_RELATIVE_POSITION,
-            Type.TYPE_EXIT
+            Type.TYPE_EXIT,
+            Type.TYPE_COLOR
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {
@@ -71,5 +72,6 @@ public class FoodUEToolsActivity extends AppCompatActivity {
         int TYPE_MEASURE = 2;//测量类型
         int TYPE_RELATIVE_POSITION = 3;//相对位置
         int TYPE_EXIT = 4;//关闭
+        int TYPE_COLOR = 5;//关闭
     }
 }

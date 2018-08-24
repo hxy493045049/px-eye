@@ -9,13 +9,14 @@
 
 
     <FrameLayout
+        android:id="@+id/sub_menu_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/food_ue_white"
         android:translationY="-10000dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/sub_menu_container"
+            android:id="@+id/sub_menu_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp" />

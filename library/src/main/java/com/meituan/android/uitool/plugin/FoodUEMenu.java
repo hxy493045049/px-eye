@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -30,8 +31,11 @@ import com.meituan.android.uitool.plugin.model.MenuModel;
 import com.meituan.android.uitool.utils.FoodUEActivityUtils;
 import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: gaojin
@@ -39,7 +43,8 @@ import java.util.List;
  */
 public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, FoodUESubMenuAdapter.SubMenuClickListener {
     private View vMenu;
-    private RecyclerView vSubMenuContainer;
+    private View vSubMenuContainer;
+    private RecyclerView subMenuRecycler;
     private ValueAnimator animator;
     private Interpolator defaultInterpolator = new AccelerateDecelerateInterpolator();
 
@@ -67,11 +72,13 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
         vMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
-        vSubMenuContainer.setLayoutManager(new LinearLayoutManager(getContext()));
-        vSubMenuContainer.setHasFixedSize(true);
+
+        subMenuRecycler = findViewById(R.id.sub_menu_recycler);
+        subMenuRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        subMenuRecycler.setHasFixedSize(true);
         subMenuAdapter = new FoodUESubMenuAdapter(initMenuData());
         subMenuAdapter.setOnSubMenuClickListener(this);
-        vSubMenuContainer.setAdapter(subMenuAdapter);
+        subMenuRecycler.setAdapter(subMenuAdapter);
 
         vMenu.setOnClickListener(v -> startAnim());
         vMenu.setOnTouchListener(this);
@@ -107,6 +114,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         menuModels.add(new MenuModel("属性", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
         menuModels.add(new MenuModel("相对位置", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
         menuModels.add(new MenuModel("关闭", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EXIT));
+        menuModels.add(new MenuModel("颜色", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_COLOR));
         return menuModels;
     }
 
@@ -152,6 +160,22 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         currentTopActivity.startActivity(intent);
         currentTopActivity.overridePendingTransition(0, 0);
         FoodUETool.getInstance(null).setTargetActivity(currentTopActivity);
+
+        if (type == FoodUEToolsActivity.Type.TYPE_COLOR) { //fixme  待优化
+            Activity activity = getActivity();
+            ViewGroup decorView = ((ViewGroup) activity.getWindow().getDecorView());
+
+            for (int i = decorView.getChildCount() - 1; i > 0; i--) {
+                View view = decorView.getChildAt(i);
+                if (view instanceof FoodUITakeColorView) {
+                    decorView.removeView(view);
+                    return;
+                }
+            }
+            FoodUITakeColorView takeColorView = new FoodUITakeColorView(activity);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            decorView.addView(takeColorView, params);
+        }
     }
 
     private WindowManager.LayoutParams getWindowLayoutParams() {
@@ -233,5 +257,38 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     public interface SubMenuClickEvent {
         void onClick(Context context);
+    }
+
+    public static Activity getActivity() {
+        Class activityThreadClass = null;
+        try {
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            Map activities = (Map) activitiesField.get(activityThread);
+            for (Object activityRecord : activities.values()) {
+                Class activityRecordClass = activityRecord.getClass();
+                Field pausedField = activityRecordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!pausedField.getBoolean(activityRecord)) {
+                    Field activityField = activityRecordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    Activity activity = (Activity) activityField.get(activityRecord);
+                    return activity;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
