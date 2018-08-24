@@ -8,7 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.meituan.android.plugin.FoodUEMenu;
+import com.meituan.android.uitool.plugin.FoodUEMenu;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
