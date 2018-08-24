@@ -5,10 +5,10 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.meituan.android.biz.IFoodUEFunction;
-import com.meituan.android.biz.element.FoodUEAttrFunctionImpl;
-import com.meituan.android.biz.measure.FoodUEMeasureFunctionImpl;
-import com.meituan.android.biz.relative.FoodUERelativeFunctionImpl;
+import com.meituan.android.uitool.biz.IFoodUEFunction;
+import com.meituan.android.uitool.biz.element.FoodUEAttrFunctionImpl;
+import com.meituan.android.uitool.biz.measure.FoodUEMeasureFunctionImpl;
+import com.meituan.android.uitool.biz.relative.FoodUERelativeFunctionImpl;
 
 /**
  * @author shawn

@@ -9,10 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.meituan.android.biz.element.provider.impl.FoodUEDefaultAttrProvider;
-import com.meituan.android.plugin.FoodUEMenu;
-import com.meituan.android.utils.FoodUEActivityUtils;
-import com.meituan.android.utils.FoodUEPermissionUtils;
+import com.meituan.android.uitool.biz.element.provider.impl.FoodUEDefaultAttrProvider;
+import com.meituan.android.uitool.plugin.FoodUEMenu;
+import com.meituan.android.uitool.utils.FoodUEActivityUtils;
+import com.meituan.android.uitool.utils.FoodUEPermissionUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;

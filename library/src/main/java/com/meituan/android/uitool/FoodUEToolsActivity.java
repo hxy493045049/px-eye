@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.utils.FoodUEActivityUtils;
+import com.meituan.android.uitool.utils.FoodUEActivityUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
