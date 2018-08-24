@@ -5,7 +5,8 @@
     <color name="food_ue_gray">#999999</color>
     <color name="food_ue_light_black">#333333</color>
 
-
+    <!--按钮-->
+    <color name="food_ue_sub_mean_text_color">#3B2F2F</color>
     <!--测量条-->
     <color name="food_ue_measure_bar_bg_color">#26FF0000</color>
 

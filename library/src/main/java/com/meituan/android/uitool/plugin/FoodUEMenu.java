@@ -9,12 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -24,6 +25,8 @@ import android.widget.LinearLayout;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.uitool.plugin.adapter.FoodUESubMenuAdapter;
+import com.meituan.android.uitool.plugin.model.MenuModel;
 import com.meituan.android.uitool.utils.FoodUEActivityUtils;
 import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 
@@ -34,9 +37,9 @@ import java.util.List;
  * Author: gaojin
  * Time: 2018/6/19 下午3:34
  */
-public class FoodUEMenu extends LinearLayout {
+public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, FoodUESubMenuAdapter.SubMenuClickListener {
     private View vMenu;
-    private ViewGroup vSubMenuContainer;
+    private RecyclerView vSubMenuContainer;
     private ValueAnimator animator;
     private Interpolator defaultInterpolator = new AccelerateDecelerateInterpolator();
 
@@ -44,49 +47,34 @@ public class FoodUEMenu extends LinearLayout {
     private WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     private int touchSlop;
 
+    private int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
+    private int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+
     private SubMenuClickEvent exitListener;
+    private FoodUESubMenuAdapter subMenuAdapter;
+
+    private float downX, downY;
+    private float lastY, lastX;
 
     public FoodUEMenu(final Context context) {
         super(context);
         inflate(context, R.layout.food_ue_menu_layout, this);
-        setGravity(Gravity.CENTER_VERTICAL);
+        setOrientation(VERTICAL);
+        setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         windowManager = (WindowManager) FoodUETool.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
         vMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
+        vSubMenuContainer.setLayoutManager(new LinearLayoutManager(getContext()));
+        vSubMenuContainer.setHasFixedSize(true);
+        subMenuAdapter = new FoodUESubMenuAdapter(initMenuData());
+        subMenuAdapter.setOnSubMenuClickListener(this);
+        vSubMenuContainer.setAdapter(subMenuAdapter);
 
-        List<FoodUESubMenu.MenuModel> menuModels = initMenuData();
-        initMenuView(menuModels);
         vMenu.setOnClickListener(v -> startAnim());
-        vMenu.setOnTouchListener(new OnTouchListener() {
-            private float downX, downY;
-            private float lastY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        downX = event.getRawX();
-                        downY = event.getRawY();
-                        lastY = downY;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        params.y += event.getRawY() - lastY;
-                        params.y = Math.max(0, params.y);
-                        windowManager.updateViewLayout(FoodUEMenu.this, params);
-                        lastY = event.getRawY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (Math.abs(event.getRawX() - downX) < touchSlop && Math.abs(event.getRawY() - downY) < touchSlop) {
-                            vMenu.performClick();
-                            return false;
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
+        vMenu.setOnTouchListener(this);
     }
 
     //------------- public -------------
@@ -113,38 +101,17 @@ public class FoodUEMenu extends LinearLayout {
     }
 
     //------------- private -------------
-    private List<FoodUESubMenu.MenuModel> initMenuData() {
-        List<FoodUESubMenu.MenuModel> menuModels = new ArrayList<>();
-        menuModels.add(new FoodUESubMenu.MenuModel("测量条", R.drawable.food_ue_show_gridding,
-                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_MEASURE)));
-
-        menuModels.add(new FoodUESubMenu.MenuModel("属性", R.drawable.food_ue_show_gridding,
-                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR)));
-
-        menuModels.add(new FoodUESubMenu.MenuModel("相对位置", R.drawable.food_ue_show_gridding,
-                (v) -> triggerOpen(FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION)));
-
-        menuModels.add(new FoodUESubMenu.MenuModel("关闭", R.drawable.ui_close, (v) -> {
-            FoodUETool.getInstance(null).exit();
-            if (exitListener != null) {
-                exitListener.onClick(getContext());
-            }
-        }));
+    private List<MenuModel> initMenuData() {
+        List<MenuModel> menuModels = new ArrayList<>();
+        menuModels.add(new MenuModel("测量条", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_MEASURE));
+        menuModels.add(new MenuModel("属性", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
+        menuModels.add(new MenuModel("相对位置", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
+        menuModels.add(new MenuModel("关闭", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EXIT));
         return menuModels;
     }
 
-    private void initMenuView(List<FoodUESubMenu.MenuModel> menuModels) {
-        LayoutParams subMenuParams = new LayoutParams(FoodUEDimensionUtils.dip2px(50), FoodUEDimensionUtils.dip2px(50));
-        subMenuParams.leftMargin = FoodUEDimensionUtils.dip2px(10);
-        for (FoodUESubMenu.MenuModel model : menuModels) {
-            FoodUESubMenu subMenu = new FoodUESubMenu(getContext());
-            subMenu.update(model);
-            vSubMenuContainer.addView(subMenu, subMenuParams);
-        }
-    }
-
     private void startAnim() {
-        final boolean isOpen = vSubMenuContainer.getTranslationX() <= -vSubMenuContainer.getWidth();
+        final boolean isOpen = vSubMenuContainer.getTranslationY() <= -vSubMenuContainer.getHeight();
         ensureAnim();
         animator.setInterpolator(isOpen ? defaultInterpolator : new ReverseInterpolator(defaultInterpolator));
         animator.removeAllListeners();
@@ -166,8 +133,8 @@ public class FoodUEMenu extends LinearLayout {
 
     private void ensureAnim() {
         if (animator == null) {
-            animator = ValueAnimator.ofInt(-vSubMenuContainer.getWidth(), 0);
-            animator.addUpdateListener(animation -> vSubMenuContainer.setTranslationX((int) animation.getAnimatedValue()));
+            animator = ValueAnimator.ofInt(-vSubMenuContainer.getHeight(), 0);
+            animator.addUpdateListener(animation -> vSubMenuContainer.setTranslationY((int) animation.getAnimatedValue()));
             animator.setDuration(400);
         }
     }
@@ -201,6 +168,53 @@ public class FoodUEMenu extends LinearLayout {
         params.x = 10;
         params.y = 10;
         return params;
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getRawX();
+                downY = event.getRawY();
+                lastY = downY;
+                lastX = downX;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                params.y += event.getRawY() - lastY;
+                params.x += event.getRawX() - lastX;
+                if (params.y < 0) {
+                    params.y = 0;
+                } else if (params.y + v.getHeight() > SCREEN_HEIGHT) {
+                    params.y = SCREEN_HEIGHT - v.getHeight();
+                }
+                if (params.x < 0) {
+                    params.x = 0;
+                } else if (params.x + v.getWidth() > SCREEN_WIDTH) {
+                    params.x = SCREEN_WIDTH = v.getWidth();
+                }
+
+                windowManager.updateViewLayout(FoodUEMenu.this, params);
+                lastY = event.getRawY();
+                lastX = event.getRawX();
+                break;
+            case MotionEvent.ACTION_UP:
+                if (Math.abs(event.getRawX() - downX) < touchSlop && Math.abs(event.getRawY() - downY) < touchSlop) {
+                    v.performClick();
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onSubMenuClick(MenuModel model, View subMenu) {
+        if (model.getType() == FoodUEToolsActivity.Type.TYPE_EXIT) {
+            exitListener.onClick(getContext());
+        } else {
+            triggerOpen(model.getType());
+        }
     }
 
     private static class ReverseInterpolator implements TimeInterpolator {

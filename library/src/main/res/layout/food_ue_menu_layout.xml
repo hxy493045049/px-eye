@@ -7,20 +7,17 @@
         android:layout_height="wrap_content"
         android:src="@drawable/food_ue_menu" />
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/food_ue_white"
+        android:translationY="-10000dp">
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/sub_menu_container"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@drawable/food_ue_sub_menu_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:translationX="-10000dp" />
-
-    </HorizontalScrollView>
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" />
+    </FrameLayout>
 </merge>
