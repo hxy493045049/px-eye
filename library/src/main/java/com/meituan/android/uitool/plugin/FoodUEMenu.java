@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -157,8 +158,11 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     }
 
     private void startFunctionByType(@FoodUEToolsActivity.Type int type, Activity act) {
-        Intent intent = new Intent(act, FoodUEToolsActivity.class);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri.Builder builder = Uri.parse(FoodUEToolsActivity.ACTION).buildUpon();
+        intent.setData(builder.build());
         intent.putExtra(FoodUEToolsActivity.EXTRA_TYPE, type);
+
         act.startActivity(intent);
         act.overridePendingTransition(0, 0);
         FoodUETool.getInstance(null).setTargetActivity(act);

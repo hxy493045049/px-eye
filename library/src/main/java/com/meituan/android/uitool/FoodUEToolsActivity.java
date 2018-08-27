@@ -20,6 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FoodUEToolsActivity extends AppCompatActivity {
     public static final String EXTRA_TYPE = "extra_type";
+    public static final String ACTION = "imeituan://www.meituan.com/food/ui/tool";
     public int currentType = Type.TYPE_Default;
 
     @Override

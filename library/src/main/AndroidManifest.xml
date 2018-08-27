@@ -6,9 +6,21 @@
     <application>
         <activity
             android:name="com.meituan.android.uitool.FoodUEToolsActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Food.UE.Translucent"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.meituan.com"
+                    android:path="/food/ui/tool"
+                    android:scheme="imeituan" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
