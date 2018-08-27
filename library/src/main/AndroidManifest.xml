@@ -9,7 +9,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Food.UE.Translucent"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
