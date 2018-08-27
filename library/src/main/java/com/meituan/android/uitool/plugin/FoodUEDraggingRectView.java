@@ -29,6 +29,7 @@ public class FoodUEDraggingRectView extends View {
     private final static int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
     private Paint paintRed = new Paint();
     private Paint paintText = new Paint();
+    private int textHeight = -1;
     private int touchSlop;
     private int height = 50;
     private GestureDetectorCompat mDetectorCompat;
@@ -57,6 +58,8 @@ public class FoodUEDraggingRectView extends View {
         paintText.setStrokeWidth(1);
         paintText.setTextSize(24);
         paintText.setTextAlign(Paint.Align.LEFT);
+        Paint.FontMetrics metrics = paintText.getFontMetrics();
+        textHeight = (int) (metrics.bottom - metrics.top);
 
         touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -78,7 +81,8 @@ public class FoodUEDraggingRectView extends View {
         super.onDraw(canvas);
         float y = getMeasuredHeight() / 2;
         canvas.drawLine(0, y, SCREEN_WIDTH, y, paintRed);
-        canvas.drawText("height: " + height + "dp", 0, y, paintText);
+        canvas.drawText("width: " + FoodUEDimensionUtils.px2dip(getWidth()) + "dp", 0, y - 10, paintText);
+        canvas.drawText("height:" + FoodUEDimensionUtils.px2dip(getHeight()) + "dp", 0, textHeight + y, paintText);
     }
 
     //根据方向盘的弧度微调位置

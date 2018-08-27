@@ -20,6 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FoodUEToolsActivity extends AppCompatActivity {
     public static final String EXTRA_TYPE = "extra_type";
+    public int currentType = Type.TYPE_Default;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +34,13 @@ public class FoodUEToolsActivity extends AppCompatActivity {
         FoodUEActivityUtils.enableFullscreen(getWindow());
 
         View v = View.inflate(this, R.layout.food_ue_activity_transparent, null);
-        ViewGroup vContainer = v.findViewById(R.id.container);
-        int type = getIntent().getIntExtra(EXTRA_TYPE, Type.TYPE_Default);
-        View root = FoodUEViewManager.getInstance().generateView(type, vContainer);
+        currentType = getIntent().getIntExtra(EXTRA_TYPE, Type.TYPE_Default);
+        View root = FoodUEViewManager.getInstance().generateView(currentType, (ViewGroup) v);
         setContentView(root);
+    }
+
+    public int getCurrentType() {
+        return currentType;
     }
 
     @Override

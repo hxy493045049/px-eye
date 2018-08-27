@@ -81,11 +81,11 @@ public class FoodUESubMenuAdapter extends RecyclerView.Adapter<FoodUESubMenuAdap
     class SubMenuHolder extends RecyclerView.ViewHolder {
         private ImageView vImage;
         private TextView vTitle;
-        private View item;
+        private ViewGroup item;
 
         private SubMenuHolder(View itemView) {
             super(itemView);
-            this.item = itemView;
+            this.item = (ViewGroup) itemView;
             vImage = itemView.findViewById(R.id.image);
             vTitle = itemView.findViewById(R.id.title);
         }

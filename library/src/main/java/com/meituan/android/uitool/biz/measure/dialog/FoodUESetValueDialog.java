@@ -10,7 +10,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 
 /**
  * Author: gaojin
@@ -22,6 +24,10 @@ public class FoodUESetValueDialog extends Dialog implements View.OnClickListener
     private InputMethodManager manager;
     private onClickListener listener;
     private EditText editHeight, editWidth;
+
+    private String
+            measureBarWidth = FoodUETool.getResource().getString(R.string.ue_dialog_set_width),
+            measureBarHeight = FoodUETool.getResource().getString(R.string.ue_dialog_set_height);
 
     public FoodUESetValueDialog(@NonNull Context context) {
         this(context, R.style.Food_UE_Measure_Dialog);
@@ -42,7 +48,9 @@ public class FoodUESetValueDialog extends Dialog implements View.OnClickListener
         manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         editHeight = findViewById(R.id.dialog_edit_text_height);
+        editHeight.setHint(measureBarHeight);
         editWidth = findViewById(R.id.dialog_edit_text_width);
+        editWidth.setHint(measureBarWidth);
         TextView ensureBtn = findViewById(R.id.dialog_ensure);
         ensureBtn.setOnClickListener(this);
     }
@@ -60,6 +68,12 @@ public class FoodUESetValueDialog extends Dialog implements View.OnClickListener
 
     public void setOnClickListener(onClickListener listener) {
         this.listener = listener;
+    }
+
+
+    public void setHint(int measuredWidth, int measuredHeight) {
+        measureBarWidth = "当前宽度: " + FoodUEDimensionUtils.px2dip(measuredWidth) + " dp";
+        measureBarHeight = "当前高度: " + FoodUEDimensionUtils.px2dip(measuredHeight) + " dp";
     }
 
     public interface onClickListener {

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="34dp"
-    android:gravity="center"
+    android:descendantFocusability="beforeDescendants"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="15dp"
     android:paddingStart="15dp">
@@ -17,18 +18,16 @@
         android:scaleType="centerCrop"
         tools:src="@drawable/ui_close" />
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/food_ue_sub_mean_text_color"
-            android:textSize="14sp"
-            tools:text="捕捉" />
-    </HorizontalScrollView>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/food_ue_sub_mean_text_color"
+        android:textSize="14sp"
+        tools:text="捕捉" />
 
 </LinearLayout>

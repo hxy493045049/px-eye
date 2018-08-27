@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/food_ue_menu" />
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="115dp"
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/sub_menu_container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/food_ue_white"
-        android:translationY="-10000dp">
+        android:layout_marginTop="50dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sub_menu_recycler"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp" />
+            android:layout_marginTop="14dp"
+            android:background="@color/food_ue_white"
+            android:translationY="-10000dp" />
     </FrameLayout>
-</merge>
+
+
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:scaleType="center"
+        android:src="@drawable/food_ue_menu"
+        tools:ignore="contentDescription" />
+</FrameLayout>

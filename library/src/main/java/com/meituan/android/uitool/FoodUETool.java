@@ -91,11 +91,14 @@ public final class FoodUETool {
                 Toast.makeText(FoodUETool.APPLICATION_CONTEXT_REF.get(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
             }
         }
+
+        initMenu();
         ueMenu.show();
     }
 
     public void exit() {
         ueMenu.dismiss();
+        ueMenu = null;
         closeAct();
     }
 

@@ -3,15 +3,14 @@ package com.meituan.android.uitool.biz;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import com.meituan.android.uitool.model.FoodUEViewInfo;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.uitool.model.FoodUEViewInfo;
 import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 import com.meituan.android.uitool.utils.FoodUEViewUtils;
 
@@ -106,7 +105,9 @@ public abstract class FoodUEBaseElementMode implements IFoodUEMode {
 
     @Override
     public void onDetachedFromWindow() {
-        viewsInfo.clear();
+        if (viewsInfo != null) {
+            viewsInfo.clear();
+        }
         anchorView = null;
         cursorView = null;
     }

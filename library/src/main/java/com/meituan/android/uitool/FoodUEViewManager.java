@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.meituan.android.uitool.biz.IFoodUEFunction;
+import com.meituan.android.uitool.biz.color.FoodUEColorFunctionImpl;
 import com.meituan.android.uitool.biz.element.FoodUEAttrFunctionImpl;
 import com.meituan.android.uitool.biz.measure.FoodUEMeasureFunctionImpl;
 import com.meituan.android.uitool.biz.relative.FoodUERelativeFunctionImpl;
@@ -55,6 +56,9 @@ public class FoodUEViewManager {
             case FoodUEToolsActivity.Type.TYPE_Default:// TODO: 2018/8/10
             default:
                 factory = new FoodUEMeasureFunctionImpl();// TODO: 2018/8/10
+                break;
+            case FoodUEToolsActivity.Type.TYPE_COLOR:
+                factory = new FoodUEColorFunctionImpl();
                 break;
         }
         return factory;//fixme nonnull

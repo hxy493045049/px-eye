@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 
 public class FoodUITakeColorView extends FrameLayout {
+    private View root;
 
     public FoodUITakeColorView(Context context) {
         super(context);
@@ -32,6 +33,10 @@ public class FoodUITakeColorView extends FrameLayout {
         init();
     }
 
+    public void setRoot(View rootView) {
+        this.root = rootView;
+    }
+
     @SuppressLint("NewApi")
     public FoodUITakeColorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -46,8 +51,15 @@ public class FoodUITakeColorView extends FrameLayout {
 
     private long pressTime;
 
-    private void init(){
-        addView(new TakeColorView(getContext()));
+    private void init() {
+        TakeColorView colorView = new TakeColorView(getContext());
+        colorView.post(() -> {
+            FrameLayout.LayoutParams param = new LayoutParams(-2, -2);
+            param.leftMargin = (FoodUEDimensionUtils.getScreenWidth() - colorView.getWidth()) / 2;
+            param.topMargin = (FoodUEDimensionUtils.getScreenHeight() - colorView.getHeight()) / 2;
+            colorView.setLayoutParams(param);
+        });
+        addView(colorView);
     }
 
     @Override
@@ -91,7 +103,6 @@ public class FoodUITakeColorView extends FrameLayout {
             if (child instanceof OnMoveListener) {
                 OnMoveListener moveListener = ((OnMoveListener) child);
                 switch (event.getAction()) {
-
                     case MotionEvent.ACTION_DOWN:
                         moveListener.down(event.getX(), event.getY());
                         break;
@@ -121,7 +132,7 @@ public class FoodUITakeColorView extends FrameLayout {
         void cancel(float x, float y);
     }
 
-    public static class TakeColorView extends View implements FoodUITakeColorView.OnMoveListener {
+    public class TakeColorView extends View implements FoodUITakeColorView.OnMoveListener {
         public TakeColorView(Context context) {
             super(context);
             init();
@@ -237,7 +248,7 @@ public class FoodUITakeColorView extends FrameLayout {
 
             setVisibility(INVISIBLE);
             try {
-                View root = findRootView();
+//                View root = findRootView();
                 if (bitmap == null) {
                     bitmap = Bitmap.createBitmap(root.getWidth(), root.getHeight(), Bitmap.Config.ARGB_8888);
                 }

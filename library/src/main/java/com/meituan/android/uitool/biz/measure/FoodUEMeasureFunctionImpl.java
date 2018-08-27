@@ -110,6 +110,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.food_ui_tools_measure_bar) {
             FoodUESetValueDialog dialog = new FoodUESetValueDialog(v.getContext());
+            dialog.setHint(v.getMeasuredWidth(),v.getMeasuredHeight());
             dialog.setOnClickListener(this::updateMeasureBar);
             dialog.show();
         }

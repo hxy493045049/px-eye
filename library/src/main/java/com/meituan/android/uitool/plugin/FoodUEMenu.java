@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -31,11 +30,8 @@ import com.meituan.android.uitool.plugin.model.MenuModel;
 import com.meituan.android.uitool.utils.FoodUEActivityUtils;
 import com.meituan.android.uitool.utils.FoodUEDimensionUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Author: gaojin
@@ -65,7 +61,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         super(context);
         inflate(context, R.layout.food_ue_menu_layout, this);
         setOrientation(VERTICAL);
-        setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        setGravity(Gravity.END);
 
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         windowManager = (WindowManager) FoodUETool.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
@@ -87,7 +83,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     //------------- public -------------
     public void show() {
         try {
-            windowManager.addView(this, getWindowLayoutParams());
+            windowManager.addView(this, initToolParams());
         } catch (Exception e) {
             Log.e("FoodUEMenu", "show", e);
         }
@@ -97,7 +93,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         try {
             //取消ui工具后应该还原到最初始的配置
             windowManager.removeView(this);
-            vSubMenuContainer.setTranslationX(-vSubMenuContainer.getWidth());
+            subMenuRecycler.setTranslationX(-subMenuRecycler.getWidth());
         } catch (Exception e) {
             Log.e("FoodUEMenu", "dismiss", e);
         }
@@ -113,13 +109,13 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         menuModels.add(new MenuModel("测量条", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_MEASURE));
         menuModels.add(new MenuModel("属性", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
         menuModels.add(new MenuModel("相对位置", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
+        menuModels.add(new MenuModel("取色器", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_COLOR));
         menuModels.add(new MenuModel("关闭", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EXIT));
-        menuModels.add(new MenuModel("颜色", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_COLOR));
         return menuModels;
     }
 
     private void startAnim() {
-        final boolean isOpen = vSubMenuContainer.getTranslationY() <= -vSubMenuContainer.getHeight();
+        final boolean isOpen = subMenuRecycler.getTranslationY() <= -subMenuRecycler.getHeight();
         ensureAnim();
         animator.setInterpolator(isOpen ? defaultInterpolator : new ReverseInterpolator(defaultInterpolator));
         animator.removeAllListeners();
@@ -127,12 +123,14 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
             @Override
             public void onAnimationStart(Animator animation) {
                 vSubMenuContainer.setVisibility(VISIBLE);
+                subMenuRecycler.setVisibility(VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (!isOpen) {
                     vSubMenuContainer.setVisibility(GONE);
+                    subMenuRecycler.setVisibility(GONE);
                 }
             }
         });
@@ -141,8 +139,8 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     private void ensureAnim() {
         if (animator == null) {
-            animator = ValueAnimator.ofInt(-vSubMenuContainer.getHeight(), 0);
-            animator.addUpdateListener(animation -> vSubMenuContainer.setTranslationY((int) animation.getAnimatedValue()));
+            animator = ValueAnimator.ofInt(-subMenuRecycler.getHeight(), 0);
+            animator.addUpdateListener(animation -> subMenuRecycler.setTranslationY((int) animation.getAnimatedValue()));
             animator.setDuration(400);
         }
     }
@@ -155,30 +153,21 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
             currentTopActivity.finish();
             return;
         }
-        Intent intent = new Intent(currentTopActivity, FoodUEToolsActivity.class);
-        intent.putExtra(FoodUEToolsActivity.EXTRA_TYPE, type);
-        currentTopActivity.startActivity(intent);
-        currentTopActivity.overridePendingTransition(0, 0);
-        FoodUETool.getInstance(null).setTargetActivity(currentTopActivity);
-
-        if (type == FoodUEToolsActivity.Type.TYPE_COLOR) { //fixme  待优化
-            Activity activity = getActivity();
-            ViewGroup decorView = ((ViewGroup) activity.getWindow().getDecorView());
-
-            for (int i = decorView.getChildCount() - 1; i > 0; i--) {
-                View view = decorView.getChildAt(i);
-                if (view instanceof FoodUITakeColorView) {
-                    decorView.removeView(view);
-                    return;
-                }
-            }
-            FoodUITakeColorView takeColorView = new FoodUITakeColorView(activity);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-            decorView.addView(takeColorView, params);
-        }
+        startFunctionByType(type, currentTopActivity);
     }
 
-    private WindowManager.LayoutParams getWindowLayoutParams() {
+    private void startFunctionByType(@FoodUEToolsActivity.Type int type, Activity act) {
+        Intent intent = new Intent(act, FoodUEToolsActivity.class);
+        intent.putExtra(FoodUEToolsActivity.EXTRA_TYPE, type);
+        act.startActivity(intent);
+        act.overridePendingTransition(0, 0);
+        FoodUETool.getInstance(null).setTargetActivity(act);
+    }
+
+    /**
+     * @return 整个ui工具初始的param状态
+     */
+    private WindowManager.LayoutParams initToolParams() {
         params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
         params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -193,7 +182,6 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         params.y = 10;
         return params;
     }
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -225,20 +213,22 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
             case MotionEvent.ACTION_UP:
                 if (Math.abs(event.getRawX() - downX) < touchSlop && Math.abs(event.getRawY() - downY) < touchSlop) {
                     v.performClick();
-                    return false;
+                    return true;
                 }
                 break;
         }
-        return true;
+        return false;
     }
 
     @Override
     public void onSubMenuClick(MenuModel model, View subMenu) {
         if (model.getType() == FoodUEToolsActivity.Type.TYPE_EXIT) {
             exitListener.onClick(getContext());
+            FoodUETool.getInstance(null).exit();
         } else {
             triggerOpen(model.getType());
         }
+        startAnim();
     }
 
     private static class ReverseInterpolator implements TimeInterpolator {
@@ -257,38 +247,5 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     public interface SubMenuClickEvent {
         void onClick(Context context);
-    }
-
-    public static Activity getActivity() {
-        Class activityThreadClass = null;
-        try {
-            activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-            activitiesField.setAccessible(true);
-            Map activities = (Map) activitiesField.get(activityThread);
-            for (Object activityRecord : activities.values()) {
-                Class activityRecordClass = activityRecord.getClass();
-                Field pausedField = activityRecordClass.getDeclaredField("paused");
-                pausedField.setAccessible(true);
-                if (!pausedField.getBoolean(activityRecord)) {
-                    Field activityField = activityRecordClass.getDeclaredField("activity");
-                    activityField.setAccessible(true);
-                    Activity activity = (Activity) activityField.get(activityRecord);
-                    return activity;
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
