@@ -97,7 +97,9 @@ public final class FoodUETool {
     }
 
     public void exit() {
-        ueMenu.dismiss();
+        if (ueMenu != null) {
+            ueMenu.dismiss();
+        }
         ueMenu = null;
         closeAct();
     }

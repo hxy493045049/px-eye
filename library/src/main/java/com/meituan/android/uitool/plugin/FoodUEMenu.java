@@ -227,7 +227,9 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     @Override
     public void onSubMenuClick(MenuModel model, View subMenu) {
         if (model.getType() == FoodUEToolsActivity.Type.TYPE_EXIT) {
-            exitListener.onClick(getContext());
+            if (exitListener != null) {
+                exitListener.onClick(getContext());
+            }
             FoodUETool.getInstance(null).exit();
         } else {
             triggerOpen(model.getType());
