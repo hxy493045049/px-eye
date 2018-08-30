@@ -81,6 +81,7 @@ public final class FoodUETool {
     }
 
     public void setOnExitListener(FoodUEMenu.SubMenuClickEvent exportEvent) {
+        initMenu();
         ueMenu.setOnExitListener(exportEvent);
     }
 

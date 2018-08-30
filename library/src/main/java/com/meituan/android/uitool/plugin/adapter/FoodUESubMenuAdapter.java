@@ -47,7 +47,7 @@ public class FoodUESubMenuAdapter extends RecyclerView.Adapter<FoodUESubMenuAdap
 
     @Override
     public SubMenuHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View subMenu = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_ue_sub_menu_layout, parent, false);
+        View subMenu = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_ue_sub_menu_container, parent, false);
         return new SubMenuHolder(subMenu);
     }
 

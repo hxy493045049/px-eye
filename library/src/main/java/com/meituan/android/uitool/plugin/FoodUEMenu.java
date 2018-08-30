@@ -44,6 +44,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     private RecyclerView subMenuRecycler;
     private ValueAnimator animator;
     private Interpolator defaultInterpolator = new AccelerateDecelerateInterpolator();
+    private boolean hasAttach2Window;
 
     private WindowManager windowManager;
     private WindowManager.LayoutParams params = new WindowManager.LayoutParams();
@@ -60,7 +61,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     public FoodUEMenu(final Context context) {
         super(context);
-        inflate(context, R.layout.food_ue_menu_layout, this);
+        inflate(context, R.layout.food_ue_menu_container, this);
         setOrientation(VERTICAL);
         setGravity(Gravity.END);
 
@@ -70,7 +71,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         vMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
 
-        subMenuRecycler = findViewById(R.id.sub_menu_recycler);
+        subMenuRecycler = findViewById(R.id.sub_menu_recycler_view);
         subMenuRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         subMenuRecycler.setHasFixedSize(true);
         subMenuAdapter = new FoodUESubMenuAdapter(initMenuData());
@@ -85,6 +86,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     public void show() {
         try {
             windowManager.addView(this, initToolParams());
+            hasAttach2Window = true;
         } catch (Exception e) {
             Log.e("FoodUEMenu", "show", e);
         }
@@ -92,8 +94,14 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     public void dismiss() {
         try {
-            //取消ui工具后应该还原到最初始的配置
-            windowManager.removeView(this);
+            if (Build.VERSION.SDK_INT >= 19) {
+                if (isAttachedToWindow()) {
+                    windowManager.removeView(this);
+                }
+            } else if (hasAttach2Window) {
+                //取消ui工具后应该还原到最初始的配置
+                windowManager.removeView(this);
+            }
             subMenuRecycler.setTranslationX(-subMenuRecycler.getWidth());
         } catch (Exception e) {
             Log.e("FoodUEMenu", "dismiss", e);

@@ -36,10 +36,10 @@ public class FoodUETextViewProvider implements IFoodUEAttrProvider {
             items.add(new FoodUENormalAttr("字体大小(px)", textView.getTextSize() + "", viewInfo));
             items.add(new FoodUENormalAttr("字体颜色", FoodUEResourceUtils.intToHexColor(textView.getCurrentTextColor()), viewInfo));
 
-            List<Pair<String, Bitmap>> pairs = FoodUEViewUtils.getTextViewBitmap(textView);
-            for (Pair<String, Bitmap> pair : pairs) {
-                items.add(new FoodUEBitmapAttr(pair, viewInfo));
-            }
+//            List<Pair<String, Bitmap>> pairs = FoodUEViewUtils.getTextViewBitmap(textView);
+//            for (Pair<String, Bitmap> pair : pairs) {
+//                items.add(new FoodUEBitmapAttr(pair, viewInfo));
+//            }
         }
         return items;
     }

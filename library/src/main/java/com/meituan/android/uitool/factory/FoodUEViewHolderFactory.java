@@ -1,6 +1,7 @@
 package com.meituan.android.uitool.factory;
 
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.meituan.android.uitool.biz.element.dialog.viewholder.FoodUEBitmapHolder;
 import com.meituan.android.uitool.biz.element.dialog.viewholder.FoodUENormalHolder;
@@ -30,7 +31,7 @@ public class FoodUEViewHolderFactory {
             case AttrDialogHolder.NORMAL:
                 return new FoodUENormalHolder(parent);
             case AttrDialogHolder.BITMAP:
-                return new FoodUEBitmapHolder(null);//todo 待完善
+                return new FoodUEBitmapHolder(new LinearLayout(parent.getContext()));//todo 待完善
             default:
                 return new FoodUENormalHolder(parent);
         }
