@@ -2,6 +2,7 @@ package com.meituan.android.uitool.biz.measure;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -112,6 +113,7 @@ public class FoodUEMeasureFunctionImpl implements IFoodUEFunction, View.OnClickL
             FoodUESetValueDialog dialog = new FoodUESetValueDialog(v.getContext());
             dialog.setHint(v.getMeasuredWidth(),v.getMeasuredHeight());
             dialog.setOnClickListener(this::updateMeasureBar);
+             
             dialog.show();
         }
     }

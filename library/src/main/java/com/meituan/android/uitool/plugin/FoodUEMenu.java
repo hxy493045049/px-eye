@@ -107,11 +107,11 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
     //------------- private -------------
     private List<MenuModel> initMenuData() {
         List<MenuModel> menuModels = new ArrayList<>();
-        menuModels.add(new MenuModel("测量条", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_MEASURE));
-        menuModels.add(new MenuModel("属性", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
-        menuModels.add(new MenuModel("相对位置", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
-        menuModels.add(new MenuModel("取色器", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_COLOR));
-        menuModels.add(new MenuModel("关闭", R.drawable.ui_close, FoodUEToolsActivity.Type.TYPE_EXIT));
+        menuModels.add(new MenuModel("测量条", R.drawable.food_ue_measure, FoodUEToolsActivity.Type.TYPE_MEASURE));
+        menuModels.add(new MenuModel("属性", R.drawable.food_ue_attr, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
+        menuModels.add(new MenuModel("相对位置", R.drawable.food_ue_relative, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
+        menuModels.add(new MenuModel("取色器", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_COLOR));
+        menuModels.add(new MenuModel("关闭", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_EXIT));
         return menuModels;
     }
 
