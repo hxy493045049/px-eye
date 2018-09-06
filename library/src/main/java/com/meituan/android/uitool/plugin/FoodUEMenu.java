@@ -163,6 +163,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
             return;
         }
         startFunctionByType(type, currentTopActivity);
+        startAnim();
     }
 
     private void startFunctionByType(@FoodUEToolsActivity.Type int type, Activity act) {
@@ -242,7 +243,6 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         } else {
             triggerOpen(model.getType());
         }
-        startAnim();
     }
 
     private static class ReverseInterpolator implements TimeInterpolator {

@@ -12,6 +12,7 @@ import com.meituan.android.uitool.FoodUETool;
  * 2018/8/10 on 上午10:59
  */
 public class FoodUEDimensionUtils {
+    public static Rect screenRect = new Rect(0, 0, getScreenWidth(), getScreenHeight());
 
     private FoodUEDimensionUtils() {
     }
@@ -45,6 +46,28 @@ public class FoodUEDimensionUtils {
 
     public static int getScreenHeight() {
         return FoodUETool.getResource().getDisplayMetrics().heightPixels;
+    }
+
+    /**
+     * 判断矩形是否在屏幕内
+     *
+     * @param r 目标矩形
+     * @return 判断矩形是否在屏幕内, 部分交互或者被包含返回true, 完全不交互返回false
+     */
+    public static boolean isRectInScreen(Rect r) {
+        if (r == null) {
+            return false;
+        }
+        if (r.left >= r.right || r.top >= r.bottom) {
+            return false;
+        }
+        boolean result = false;
+        //如果两个矩形相交
+        if (screenRect.left < r.right && r.left < screenRect.right
+                && screenRect.top < r.bottom && r.top < screenRect.bottom) {
+            result = true;
+        }
+        return result || screenRect.contains(r);
     }
 
     public static float getTextHeight(String text, Paint textPaint) {

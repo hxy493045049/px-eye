@@ -29,8 +29,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.meituan.android.uitool.model.FoodUEViewInfo;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.uitool.model.FoodUEViewInfo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -144,9 +144,11 @@ public class FoodUEViewUtils {
         if (view.getAlpha() == 0 || view.getVisibility() != View.VISIBLE) {
             return;
         }
-        if (view instanceof ViewGroup && ((ViewGroup) view).getChildCount() == 0) {//去掉没有子view的占位符
+        //去掉没有子view的占位符或者view内的子view都不可见的view
+        if (view instanceof ViewGroup && !isChildVisible((ViewGroup) view)) {
             return;
         }
+
         viewInfo.add(new FoodUEViewInfo(view));
         if (view instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) view;
@@ -154,6 +156,31 @@ public class FoodUEViewUtils {
                 traverseRecordViews(parent.getChildAt(i), viewInfo);
             }
         }
+    }
+
+    /**
+     * 遍历ViewGroup, 查看其子view是否有visible,
+     *
+     * @param group view容器
+     * @return 如果全部不可见或没有子view, 返回false, 反之有任意一个view可见并且在屏幕内,返回true
+     */
+    private static boolean isChildVisible(ViewGroup group) {
+        if (group == null) {
+            return false;
+        }
+        if (group.getChildCount() <= 0) {
+            return false;
+        }
+        int count = group.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View v = group.getChildAt(i);
+            Rect r = new Rect();
+            v.getGlobalVisibleRect(r);
+            if (v.getVisibility() == View.VISIBLE && FoodUEDimensionUtils.isRectInScreen(r)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
