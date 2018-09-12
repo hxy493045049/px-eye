@@ -1,9 +1,11 @@
 package com.meituan.android.uitool;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +17,8 @@ import com.meituan.android.uitool.utils.FoodUEActivityUtils;
 import com.meituan.android.uitool.utils.FoodUEPermissionUtils;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -27,10 +31,65 @@ public final class FoodUETool {
     private static WeakReference<Context> APPLICATION_CONTEXT_REF;
     private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
+    private boolean hasStartedNewActivity = false;
     //这里放string是为了单例
     private Set<String> attrsProviderSet = new LinkedHashSet<String>() {
         {
             add(FoodUEDefaultAttrProvider.class.getName());
+        }
+    };
+
+    private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            if (!hasStartedNewActivity) {
+                if (ueMenu != null) {
+                    ueMenu.show();
+                }
+            }
+            hasStartedNewActivity = true;
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            if (!hasStartedNewActivity) {
+                if(ueMenu!=null){
+                    ueMenu.dismiss();
+                    ueMenu = null;
+                    closeAct();
+                }
+                Application application = activity.getApplication();
+                if (application != null) {
+                    application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+                }
+            } else {
+                hasStartedNewActivity = false;
+            }
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+
         }
     };
 
@@ -95,6 +154,12 @@ public final class FoodUETool {
 
         initMenu();
         ueMenu.show();
+
+        hasStartedNewActivity = false;
+        Application application = getApplication();
+        if (application != null) {
+            application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        }
     }
 
     public void exit() {
@@ -103,6 +168,12 @@ public final class FoodUETool {
         }
         ueMenu = null;
         closeAct();
+
+        hasStartedNewActivity = false;
+        Application application = getApplication();
+        if (application != null) {
+            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        }
     }
 
     //释放资源
@@ -138,5 +209,22 @@ public final class FoodUETool {
         if (act instanceof FoodUEToolsActivity) {
             act.finish();
         }
+    }
+
+
+    public Application getApplication() {
+        Application application = null;
+        try {
+            Class activityThreadClazz = Class.forName("android.app.ActivityThread");
+            Method method = activityThreadClazz.getMethod("currentActivityThread");
+            Object activityThreadObj = method.invoke(activityThreadClazz, new Object[0]);
+            Class activityThreadCls = activityThreadObj.getClass();
+            Field field = activityThreadCls.getDeclaredField("mInitialApplication");
+            field.setAccessible(true);
+            application = (Application) field.get(activityThreadObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return application;
     }
 }
