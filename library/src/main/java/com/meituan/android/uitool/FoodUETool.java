@@ -31,7 +31,6 @@ public final class FoodUETool {
     private static WeakReference<Context> APPLICATION_CONTEXT_REF;
     private WeakReference<Activity> targetActivityRef;
     private FoodUEMenu ueMenu;
-    private boolean hasStartedNewActivity = false;
     //这里放string是为了单例
     private Set<String> attrsProviderSet = new LinkedHashSet<String>() {
         {
@@ -47,12 +46,9 @@ public final class FoodUETool {
 
         @Override
         public void onActivityStarted(Activity activity) {
-            if (!hasStartedNewActivity) {
-                if (ueMenu != null) {
-                    ueMenu.show();
-                }
+            if (ueMenu != null) {
+                ueMenu.show();
             }
-            hasStartedNewActivity = true;
         }
 
         @Override
@@ -67,18 +63,11 @@ public final class FoodUETool {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (!hasStartedNewActivity) {
-                if(ueMenu!=null){
+            if (FoodUEActivityUtils.getCurrentActivity() == null) {
+                if (ueMenu != null) {
                     ueMenu.dismiss();
-                    ueMenu = null;
                     closeAct();
                 }
-                Application application = activity.getApplication();
-                if (application != null) {
-                    application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
-                }
-            } else {
-                hasStartedNewActivity = false;
             }
         }
 
@@ -155,7 +144,6 @@ public final class FoodUETool {
         initMenu();
         ueMenu.show();
 
-        hasStartedNewActivity = false;
         Application application = getApplication();
         if (application != null) {
             application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
@@ -163,17 +151,16 @@ public final class FoodUETool {
     }
 
     public void exit() {
+        Application application = getApplication();
+        if (application != null) {
+            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        }
+
         if (ueMenu != null) {
             ueMenu.dismiss();
         }
         ueMenu = null;
         closeAct();
-
-        hasStartedNewActivity = false;
-        Application application = getApplication();
-        if (application != null) {
-            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
-        }
     }
 
     //释放资源
@@ -212,7 +199,7 @@ public final class FoodUETool {
     }
 
 
-    public Application getApplication() {
+    private Application getApplication() {
         Application application = null;
         try {
             Class activityThreadClazz = Class.forName("android.app.ActivityThread");
