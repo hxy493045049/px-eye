@@ -40,6 +40,7 @@ public class FoodUEToolsActivity extends AppCompatActivity {
         setContentView(root);
     }
 
+    @Type
     public int getCurrentType() {
         return currentType;
     }

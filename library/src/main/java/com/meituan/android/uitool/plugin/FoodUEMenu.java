@@ -18,7 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -35,29 +35,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: gaojin
+ * Author: shawn
  * Time: 2018/6/19 下午3:34
  */
 public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, FoodUESubMenuAdapter.SubMenuClickListener {
-    private View vMenu;
     private View vSubMenuContainer;
     private RecyclerView subMenuRecycler;
     private ValueAnimator animator;
-    private Interpolator defaultInterpolator = new AccelerateDecelerateInterpolator();
+    private Interpolator defaultInterpolator = new DecelerateInterpolator();
     private boolean hasAttach2Window;
 
     private WindowManager windowManager;
-    private WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+    private WindowManager.LayoutParams params;
     private int touchSlop;
 
-    private int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
-    private int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
+    private static final int SCREEN_HEIGHT = FoodUEDimensionUtils.getScreenHeight();
+    private static final int SCREEN_WIDTH = FoodUEDimensionUtils.getScreenWidth();
 
     private SubMenuClickEvent exitListener;
-    private FoodUESubMenuAdapter subMenuAdapter;
+    private int ANIM_HEIGHT = 0;
 
     private float downX, downY;
     private float lastY, lastX;
+    private View mMainMenu;
+    //------------- public -------------
 
     public FoodUEMenu(final Context context) {
         super(context);
@@ -68,27 +69,34 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         windowManager = (WindowManager) FoodUETool.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
-        vMenu = findViewById(R.id.menu);
+        mMainMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
 
         subMenuRecycler = findViewById(R.id.sub_menu_recycler_view);
         subMenuRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         subMenuRecycler.setHasFixedSize(true);
-        subMenuAdapter = new FoodUESubMenuAdapter(initMenuData());
+        FoodUESubMenuAdapter subMenuAdapter = new FoodUESubMenuAdapter(initMenuData());
         subMenuAdapter.setOnSubMenuClickListener(this);
         subMenuRecycler.setAdapter(subMenuAdapter);
 
-        vMenu.setOnClickListener(v -> startAnim());
-        vMenu.setOnTouchListener(this);
+        mMainMenu.setOnTouchListener(this);
+        subMenuRecycler.post(new Runnable() {
+            @Override
+            public void run() {
+                ANIM_HEIGHT = subMenuRecycler.getHeight();
+                //如果这里不设置gone的话,ui按钮无法滑动到底部
+                vSubMenuContainer.setVisibility(GONE);
+            }
+        });
     }
 
-    //------------- public -------------
     public void show() {
         try {
             windowManager.addView(this, initToolParams());
             hasAttach2Window = true;
         } catch (Exception e) {
-            Log.e("FoodUEMenu", "show", e);
+            Log.e("FoodUEMenu", "failed add to window", e);
+            hasAttach2Window = false;
         }
     }
 
@@ -102,7 +110,6 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
                 //取消ui工具后应该还原到最初始的配置
                 windowManager.removeView(this);
             }
-            subMenuRecycler.setTranslationX(-subMenuRecycler.getWidth());
         } catch (Exception e) {
             Log.e("FoodUEMenu", "dismiss", e);
         }
@@ -118,13 +125,14 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
         menuModels.add(new MenuModel("测量条", R.drawable.food_ue_measure, FoodUEToolsActivity.Type.TYPE_MEASURE));
         menuModels.add(new MenuModel("属性", R.drawable.food_ue_attr, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
         menuModels.add(new MenuModel("相对位置", R.drawable.food_ue_relative, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
-        menuModels.add(new MenuModel("取色器", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_COLOR));
+        menuModels.add(new MenuModel("取色器", R.drawable.food_ue_attr, FoodUEToolsActivity.Type.TYPE_COLOR));
         menuModels.add(new MenuModel("关闭", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_EXIT));
         return menuModels;
     }
 
     private void startAnim() {
         final boolean isOpen = subMenuRecycler.getTranslationY() <= -subMenuRecycler.getHeight();
+
         ensureAnim();
         animator.setInterpolator(isOpen ? defaultInterpolator : new ReverseInterpolator(defaultInterpolator));
         animator.removeAllListeners();
@@ -132,14 +140,14 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
             @Override
             public void onAnimationStart(Animator animation) {
                 vSubMenuContainer.setVisibility(VISIBLE);
-                subMenuRecycler.setVisibility(VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!isOpen) {
+                if (isOpen) {
+                    vSubMenuContainer.setVisibility(VISIBLE);
+                } else {
                     vSubMenuContainer.setVisibility(GONE);
-                    subMenuRecycler.setVisibility(GONE);
                 }
             }
         });
@@ -148,8 +156,10 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
 
     private void ensureAnim() {
         if (animator == null) {
-            animator = ValueAnimator.ofInt(-subMenuRecycler.getHeight(), 0);
-            animator.addUpdateListener(animation -> subMenuRecycler.setTranslationY((int) animation.getAnimatedValue()));
+            subMenuRecycler.setVisibility(VISIBLE);
+            animator = ValueAnimator.ofInt(-ANIM_HEIGHT, 0);
+            animator.addUpdateListener(animation ->
+                    subMenuRecycler.setTranslationY((int) animation.getAnimatedValue()));
             animator.setDuration(400);
         }
     }
@@ -181,18 +191,21 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
      * @return 整个ui工具初始的param状态
      */
     private WindowManager.LayoutParams initToolParams() {
-        params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
-        params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        } else {
-            params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        if (params == null) {
+            params = new WindowManager.LayoutParams();
+            params.width = FrameLayout.LayoutParams.WRAP_CONTENT;
+            params.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            } else {
+                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            }
+            params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            params.format = PixelFormat.TRANSLUCENT;
+            params.gravity = Gravity.TOP | Gravity.START;
+            params.x = -500;
+            params.y = 10;
         }
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.format = PixelFormat.TRANSLUCENT;
-        params.gravity = Gravity.TOP | Gravity.START;
-        params.x = 10;
-        params.y = 10;
         return params;
     }
 
@@ -210,13 +223,13 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
                 params.x += event.getRawX() - lastX;
                 if (params.y < 0) {
                     params.y = 0;
-                } else if (params.y + v.getHeight() > SCREEN_HEIGHT) {
-                    params.y = SCREEN_HEIGHT - v.getHeight();
+                } else if (params.y + mMainMenu.getHeight() > SCREEN_HEIGHT) {
+                    params.y = SCREEN_HEIGHT - mMainMenu.getHeight();
                 }
                 if (params.x < 0) {
                     params.x = 0;
-                } else if (params.x + v.getWidth() > SCREEN_WIDTH) {
-                    params.x = SCREEN_WIDTH = v.getWidth();
+                } else if (params.x + mMainMenu.getWidth() > SCREEN_WIDTH) {
+                    params.x = SCREEN_WIDTH - mMainMenu.getWidth();
                 }
 
                 windowManager.updateViewLayout(FoodUEMenu.this, params);
@@ -225,7 +238,7 @@ public class FoodUEMenu extends LinearLayout implements View.OnTouchListener, Fo
                 break;
             case MotionEvent.ACTION_UP:
                 if (Math.abs(event.getRawX() - downX) < touchSlop && Math.abs(event.getRawY() - downY) < touchSlop) {
-                    v.performClick();
+                    startAnim();
                     return true;
                 }
                 break;
