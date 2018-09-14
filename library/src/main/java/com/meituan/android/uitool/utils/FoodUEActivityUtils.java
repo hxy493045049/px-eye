@@ -2,6 +2,7 @@ package com.meituan.android.uitool.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -73,5 +74,22 @@ public class FoodUEActivityUtils {
             Log.e("FoodUEActivityUtils", "getCurrentActivity", e);
         }
         return null;
+    }
+
+
+    public static Application getApplication() {
+        Application application = null;
+        try {
+            Class activityThreadClazz = Class.forName("android.app.ActivityThread");
+            Method method = activityThreadClazz.getMethod("currentActivityThread");
+            Object activityThreadObj = method.invoke(null);
+            Class activityThreadCls = activityThreadObj.getClass();
+            Field field = activityThreadCls.getDeclaredField("mInitialApplication");
+            field.setAccessible(true);
+            application = (Application) field.get(activityThreadObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return application;
     }
 }

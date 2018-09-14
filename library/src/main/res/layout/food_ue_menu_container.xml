@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="115dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <FrameLayout
@@ -20,14 +19,13 @@
     </FrameLayout>
 
 
-    <ImageView
+    <Button
         android:id="@+id/menu"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="end"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:scaleType="center"
-        android:src="@drawable/food_ue_menu"
-        tools:ignore="contentDescription" />
+        android:background="@drawable/food_pxe_menu"
+        android:text="UI"
+        android:textStyle="bold" />
 </FrameLayout>
