@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
-    <dimen name="food_ue_tools_measure_wheel_size">65dp</dimen>
-    <dimen name="food_ue_attr_dialog_padding">15dp</dimen>
-    <dimen name="food_ue_attr_dialog_vertical_padding">13dp</dimen>
+    <dimen name="pxe_measure_wheel_size">65dp</dimen>
+    <dimen name="pxe_attr_dialog_padding">15dp</dimen>
+    <dimen name="pxe_attr_dialog_vertical_padding">13dp</dimen>
 
     <!--边框-->
-    <dimen name="food_ue_attr_text_size">10sp</dimen>
-    <dimen name="food_ue_attr_stroke_width">1dp</dimen>
+    <dimen name="pxe_attr_text_size">10sp</dimen>
+    <dimen name="pxe_attr_stroke_width">1dp</dimen>
+
+    <!--方向盘边距-->
+    <dimen name="pxe_wheel_margin">18dp</dimen>
 </resources>

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- base colors-->
-    <color name="food_ue_white">#ffffffff</color>
-    <color name="food_ue_gray">#999999</color>
-    <color name="food_ue_light_black">#333333</color>
+    <color name="pxe_white">#ffffffff</color>
+    <color name="pxe_gray">#999999</color>
+    <color name="pxe_light_black">#333333</color>
 
     <!--按钮-->
-    <color name="food_ue_sub_mean_text_color">#3B2F2F</color>
+    <color name="pxe_menu_item_text_color">#3B2F2F</color>
+    <color name="pxe_menu_item_text_color_selected">#06c1ae</color>
     <!--测量条-->
-    <color name="food_ue_measure_bar_bg_color">#26FF0000</color>
+    <color name="pxe_measure_bar_bg_color">#26FF0000</color>
 
     <!--属性捕捉-->
-    <color name="food_ue_attr_selected_view_bg">#30000000</color>
+    <color name="pxe_attr_selected_view_bg">#30000000</color>
 
     <!--dialog-->
-    <color name="food_ue_attr_dialog_bg">#C0000000</color>
+    <color name="pxe_attr_dialog_bg">#C0000000</color>
 
     <!--相对位置-->
-    <color name="food_ue_relative_dash_link_color">#90FF0000</color>
+    <color name="pxe_relative_dash_link_color">#90FF0000</color>
 
 </resources>

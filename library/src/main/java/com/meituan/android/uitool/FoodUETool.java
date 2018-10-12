@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.meituan.android.uitool.biz.element.provider.impl.FoodUEDefaultAttrProvider;
-import com.meituan.android.uitool.plugin.FoodUEMenu;
-import com.meituan.android.uitool.utils.FoodUEActivityUtils;
-import com.meituan.android.uitool.utils.FoodUEPermissionUtils;
-import com.meituan.android.uitool.utils.SimpleActivityLifecycleCallbacks;
+import com.meituan.android.uitool.biz.attr.provider.impl.PxeDefaultAttrProvider;
+import com.meituan.android.uitool.plugin.PxeMenu;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
+import com.meituan.android.uitool.utils.PxePermissionUtils;
+import com.meituan.android.uitool.utils.PxeSimpleActivityLifecycleCallbacks;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
@@ -28,9 +28,9 @@ import java.util.Set;
 public final class FoodUETool {
     private static WeakReference<Context> APPLICATION_CONTEXT_REF;
     private WeakReference<Activity> targetActivityRef;
-    private FoodUEMenu ueMenu;
+    private PxeMenu ueMenu;
 
-    private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new SimpleActivityLifecycleCallbacks() {
+    private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new PxeSimpleActivityLifecycleCallbacks() {
 
         @Override
         public void onActivityStarted(Activity activity) {
@@ -41,10 +41,9 @@ public final class FoodUETool {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (FoodUEActivityUtils.getCurrentActivity() == null) {
+            if (PxeActivityUtils.getCurrentTopActivity() == null) {
                 if (ueMenu != null) {
                     ueMenu.dismiss();
-                    closeAct();
                 }
             }
         }
@@ -100,7 +99,7 @@ public final class FoodUETool {
         this.targetActivityRef = new WeakReference<>(targetActivityRef);
     }
 
-    public void setOnExitListener(FoodUEMenu.SubMenuClickEvent exportEvent) {
+    public void setOnExitListener(PxeMenu.SubMenuClickEvent exportEvent) {
         initMenu();
         ueMenu.setOnExitListener(exportEvent);
     }
@@ -108,7 +107,7 @@ public final class FoodUETool {
     public void open() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(FoodUETool.APPLICATION_CONTEXT_REF.get())) {
-                FoodUEPermissionUtils.requestOverlayPermission(FoodUETool.APPLICATION_CONTEXT_REF.get());
+                PxePermissionUtils.requestOverlayPermission(FoodUETool.APPLICATION_CONTEXT_REF.get());
                 Toast.makeText(FoodUETool.APPLICATION_CONTEXT_REF.get(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -117,14 +116,14 @@ public final class FoodUETool {
         initMenu();
         ueMenu.show();
 
-        Application application = FoodUEActivityUtils.getApplication();
+        Application application = PxeActivityUtils.getApplication();
         if (application != null) {
             application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
         }
     }
 
     public void exit() {
-        Application application = FoodUEActivityUtils.getApplication();
+        Application application = PxeActivityUtils.getApplication();
         if (application != null) {
             application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
         }
@@ -135,6 +134,12 @@ public final class FoodUETool {
         }
         closeAct();
         release();
+    }
+
+    public void triggerMenuAnim() {
+        if (ueMenu != null) {
+            ueMenu.startAnim();
+        }
     }
 
     //释放资源
@@ -160,7 +165,7 @@ public final class FoodUETool {
 
     private void initMenu() {
         if (ueMenu == null) {
-            ueMenu = new FoodUEMenu(FoodUETool.APPLICATION_CONTEXT_REF.get());
+            ueMenu = new PxeMenu(FoodUETool.APPLICATION_CONTEXT_REF.get());
         }
     }
 
@@ -169,13 +174,13 @@ public final class FoodUETool {
         private static FoodUETool instance = new FoodUETool();
 
         static {
-            attrsProviderSet.add(FoodUEDefaultAttrProvider.class.getName());
+            attrsProviderSet.add(PxeDefaultAttrProvider.class.getName());
         }
     }
 
     //关闭ui工具的activity
     private void closeAct() {
-        Activity act = FoodUEActivityUtils.getCurrentActivity();
+        Activity act = PxeActivityUtils.getCurrentTopActivity();
         if (act instanceof FoodUEToolsActivity) {
             act.finish();
         }

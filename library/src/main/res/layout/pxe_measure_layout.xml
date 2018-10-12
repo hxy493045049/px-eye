@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.meituan.android.uitool.plugin.PxeGriddingLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.meituan.android.uitool.plugin.PxeDraggingRectView
+        android:id="@+id/pxe_measure_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+
+    <com.meituan.android.uitool.plugin.PxeSteeringWheel
+        android:id="@+id/pxe_wheel"
+        android:layout_width="@dimen/pxe_measure_wheel_size"
+        android:layout_height="@dimen/pxe_measure_wheel_size"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/pxe_wheel_margin"
+        android:layout_marginEnd="@dimen/pxe_wheel_margin"
+        android:layout_marginRight="@dimen/pxe_wheel_margin" />
+
+    <com.meituan.android.uitool.plugin.PxeBoardTextView
+        android:id="@+id/pxe_view_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>

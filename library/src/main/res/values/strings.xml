@@ -13,4 +13,8 @@
     <!--attr-->
     <string name="ue_attr_view_not_found">坐标 (%1$.0f , %2$.0f) 中找不到有效view</string>
 
+    <!--pxe_error-->
+    <string name="empty_info">暂无此信息</string>
+    <string name="check_network_then_click_for_retry">请检查网络后点击重新加载</string>
+    <string name="fetch_data_failed">数据获取失败</string>
 </resources>

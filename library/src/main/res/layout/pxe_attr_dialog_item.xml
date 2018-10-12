@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/pxe_attr_dialog_padding"
+    android:paddingRight="@dimen/pxe_attr_dialog_padding"
+    android:paddingStart="@dimen/pxe_attr_dialog_padding"
+    tools:background="@color/pxe_gray">
+
+    <HorizontalScrollView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/attrName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
+            android:paddingBottom="@dimen/pxe_attr_dialog_vertical_padding"
+            android:paddingTop="@dimen/pxe_attr_dialog_vertical_padding"
+            android:textColor="@color/pxe_white"
+            android:textSize="14sp"
+            tools:text="字体:" />
+    </HorizontalScrollView>
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/attrValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|start"
+            android:paddingBottom="@dimen/pxe_attr_dialog_vertical_padding"
+            android:paddingTop="@dimen/pxe_attr_dialog_vertical_padding"
+            android:textColor="@color/pxe_white"
+            android:textSize="14sp"
+            tools:text="宋体" />
+    </HorizontalScrollView>
+
+</LinearLayout>

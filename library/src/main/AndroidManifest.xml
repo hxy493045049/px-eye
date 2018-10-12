@@ -7,7 +7,7 @@
         <activity
             android:name="com.meituan.android.uitool.FoodUEToolsActivity"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:theme="@style/Food.UE.Translucent"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
