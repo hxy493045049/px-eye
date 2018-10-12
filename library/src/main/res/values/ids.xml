@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="food_ui_tools_measure_bar" type="id" />
-    <item name="food_ui_tools_ignore" type="id" />
+    <item name="pxe_measure_bar" type="id" />
+    <item name="pxe_ignore" type="id" />
 </resources>
