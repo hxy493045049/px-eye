@@ -83,6 +83,9 @@ public final class FoodUETool {
             isShowMenu = true;
         }
     }
+    public boolean isShowing() {
+        return FoodUEMenu.isShowing();
+    }
 
     public void exit() {
         isShowMenu = false;

@@ -10,4 +10,7 @@
 
     <!--方向盘边距-->
     <dimen name="pxe_wheel_margin">18dp</dimen>
+    <dimen name="food_ue_attr_text_size">10sp</dimen>
+    <dimen name="food_ue_attr_stroke_width">1dp</dimen>
+    <dimen name="uet_info_text_size">12sp</dimen>
 </resources>

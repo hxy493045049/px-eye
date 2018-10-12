@@ -317,6 +317,9 @@ public class PxeViewUtils {
     }
 
     public static Bitmap getDrawableBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
         try {
             if (drawable instanceof BitmapDrawable) {
                 return ((BitmapDrawable) drawable).getBitmap();
@@ -342,8 +345,8 @@ public class PxeViewUtils {
                 }
             } else if (drawable instanceof StateListDrawable) {
                 return ((BitmapDrawable) drawable.getCurrent()).getBitmap();
-            } else if (drawable instanceof VectorDrawableCompat) {
-                Field mVectorStateField = VectorDrawableCompat.class.getDeclaredField("mVectorState");
+            } else if (drawable.getClass().toString().equals("class android.graphics.drawable.VectorDrawable")) {
+                Field mVectorStateField = Class.forName("android.support.graphics.drawable.VectorDrawableCompat").getDeclaredField("mVectorState");
                 mVectorStateField.setAccessible(true);
                 Field mCachedBitmapField = Class.forName("android.support.graphics.drawable.VectorDrawableCompat$VectorDrawableCompatState").getDeclaredField("mCachedBitmap");
                 mCachedBitmapField.setAccessible(true);
