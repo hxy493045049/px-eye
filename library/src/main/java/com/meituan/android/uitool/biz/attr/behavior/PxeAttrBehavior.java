@@ -1,11 +1,13 @@
-package com.meituan.android.uitool.base.behavior;
+package com.meituan.android.uitool.biz.attr.behavior;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
-import com.meituan.android.uitool.FoodUETool;
+import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
 import com.meituan.android.uitool.base.painter.PxeBasePainter;
 import com.meituan.android.uitool.library.R;
+import com.meituan.android.uitool.utils.PxeResourceUtils;
 
 /**
  * @author shawn
@@ -15,7 +17,16 @@ import com.meituan.android.uitool.library.R;
 public class PxeAttrBehavior extends PxeBaseBehavior.PxeSimpleBehavior {
     public PxeAttrBehavior(PxeBasePainter painter) {
         super(painter);
-        basePainter.areaPaint.setColor(FoodUETool.getResource().getColor(R.color.pxe_attr_selected_view_bg));
+        basePainter.areaPaint.setColor(PxeResourceUtils.getResource().getColor(R.color.pxe_attr_selected_view_bg));
+    }
+
+    @Override
+    public boolean onActionUp(MotionEvent event) {
+        super.onActionUp(event);
+        if (mViewChangeListener != null) {
+            mViewChangeListener.onSelectedViewChange();
+        }
+        return false;
     }
 
     //绘制边框线

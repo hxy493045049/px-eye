@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
+import com.meituan.android.uitool.utils.PxeResourceUtils;
 
 /**
  * Author: gaojin
@@ -26,8 +27,8 @@ public class PxeSetValueDialog extends Dialog implements View.OnClickListener {
     private EditText editHeight, editWidth;
 
     private String
-            measureBarWidth = FoodUETool.getResource().getString(R.string.ue_dialog_set_width),
-            measureBarHeight = FoodUETool.getResource().getString(R.string.ue_dialog_set_height);
+            measureBarWidth = PxeResourceUtils.getResource().getString(R.string.ue_dialog_set_width),
+            measureBarHeight = PxeResourceUtils.getResource().getString(R.string.ue_dialog_set_height);
 
     public PxeSetValueDialog(@NonNull Context context) {
         this(context, R.style.Food_UE_Measure_Dialog);

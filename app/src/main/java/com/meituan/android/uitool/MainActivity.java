@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         });
 
-        FoodUETool.getInstance(getApplicationContext()).setOnExitListener(new PxeMenu.SubMenuClickEvent() {
+        FoodUETool.getInstance().setOnExitListener(new PxeMenu.SubMenuClickEvent() {
             @Override
             public void onClick(Context context) {
                 Toast.makeText(context, "退出啦！！！", Toast.LENGTH_SHORT).show();
@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            FoodUETool.getInstance(getApplicationContext()).open();
+            FoodUETool.getInstance().open();
         } else {
-            FoodUETool.getInstance(getApplicationContext()).exit();
+            FoodUETool.getInstance().exit();
         }
     }
 }

@@ -1,9 +1,10 @@
-package com.meituan.android.uitool.base.behavior;
+package com.meituan.android.uitool.biz.relative.behavior;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
 import com.meituan.android.uitool.biz.relative.painter.PxeRelativePainter;
 import com.meituan.android.uitool.model.PxeViewInfo;
 
@@ -27,15 +28,16 @@ public class PxeRelativeBehavior extends PxeBaseBehavior.PxeSimpleBehavior {
     }
 
     @Override
-    public void triggerActionUp(MotionEvent event) {
-        super.triggerActionUp(event);
+    public boolean onActionUp(MotionEvent event) {
+        super.onActionUp(event);
         if (selectedViewInfo != null) {
             relativeViews[clickCount % 2] = selectedViewInfo;
             clickCount++;
             if (mViewChangeListener != null) {
-                mViewChangeListener.onViewChange();
+                mViewChangeListener.onSelectedViewChange();
             }
         }
+        return false;
     }
 
     @Override
@@ -50,8 +52,8 @@ public class PxeRelativeBehavior extends PxeBaseBehavior.PxeSimpleBehavior {
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    public void onDetachedFromView() {
+        super.onDetachedFromView();
         clickCount = 0;
         relativeViews = null;
     }

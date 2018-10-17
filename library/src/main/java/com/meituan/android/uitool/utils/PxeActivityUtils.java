@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 
 import com.meituan.android.uitool.FoodUETool;
-import com.meituan.android.uitool.FoodUEToolsActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,13 +20,14 @@ import java.util.Map;
  * Author: gaojin
  * Time: 2018/6/25 下午6:04
  */
+@SuppressLint("PrivateApi")
 public class PxeActivityUtils {
 
     private PxeActivityUtils() {
     }
 
     public static int getStatusBarHeight() {
-        Resources resources = FoodUETool.getApplicationContext().getResources();
+        Resources resources = PxeResourceUtils.getResource();
         int resId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resId > 0 ? resources.getDimensionPixelSize(resId) : 0;
     }
@@ -56,22 +56,37 @@ public class PxeActivityUtils {
     }
 
     /**
-     * 通过反射获取最上层的activity, activity必须执行完oncreate才能被获取
-     *
-     * @return 最上层的activity
+     * 获取进程中最上层的activity, 这个activity的生命周期必须在{@link Activity#onPause()}之前
      */
-    @SuppressLint("PrivateApi")
-    public static Activity getCurrentTopActivity() {
-        return getTargetActivity(true);
+    public static Activity getCurrentActivity() {
+        try {
+            Class activityThreadClass = Class.forName("android.app.ActivityThread");
+            Method currentActivityThreadMethod = activityThreadClass.getMethod("currentActivityThread");
+            Object currentActivityThread = currentActivityThreadMethod.invoke(null);
+            Field mActivitiesField = activityThreadClass.getDeclaredField("mActivities");
+            mActivitiesField.setAccessible(true);
+            Map activities = (Map) mActivitiesField.get(currentActivityThread);
+            for (Object record : activities.values()) {
+                Class recordClass = record.getClass();
+                Field pausedField = recordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!(boolean) pausedField.get(record)) {
+                    Field activityField = recordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    return (Activity) activityField.get(record);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("FoodUEActivityUtils", "getCurrentActivity", e);
+        }
+        return null;
     }
 
     /**
-     * 获取任务栈顶部的act, 当FoodUEToolsActivity在栈顶时,isContainFunctionAct=false将会忽略FoodUEToolsActivity获取下一个
-     *
-     * @param isContainFunctionAct 是否包含{@link FoodUEToolsActivity}
-     * @return 获取任务栈顶部的act
+     * 获取进程最上层的activity,无论出于何种生命周期状态下
      */
-    public static Activity getTargetActivity(boolean isContainFunctionAct) {
+    @SuppressLint("PrivateApi")
+    public static Activity getTopActivity(boolean isContainFunctionAct) {
         try {
             Class activityThreadClass = Class.forName("android.app.ActivityThread");
             Method currentActivityThreadMethod = activityThreadClass.getMethod("currentActivityThread");
@@ -83,11 +98,6 @@ public class PxeActivityUtils {
                 Class recordClass = record.getClass();
                 Field activityField = recordClass.getDeclaredField("activity");
                 activityField.setAccessible(true);
-                if (isContainFunctionAct) {
-                    return (Activity) activityField.get(record);
-                } else if (!(activityField.get(record) instanceof FoodUEToolsActivity)) {
-                    return (Activity) activityField.get(record);
-                }
             }
         } catch (Exception e) {
             Log.e("PxeActivityUtils", "getFunctionActivity", e);

@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
+import android.widget.FrameLayout;
 
 import com.meituan.android.uitool.base.behavior.IPxeBehavior;
 import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
@@ -19,7 +19,7 @@ import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
  * 2. 接受点击事件和view的绘制流程
  * 3. 具体的功能逻辑抽象于{@link IPxeBehavior}的实现
  */
-public class PxeFunctionView extends View implements PxeBaseBehavior.OnViewChangeListener {
+public class PxeFunctionView extends FrameLayout implements PxeBaseBehavior.OnSelectedViewChangeListener {
     private IPxeBehavior mBehavior;
 
     public PxeFunctionView(Context context) {
@@ -32,6 +32,7 @@ public class PxeFunctionView extends View implements PxeBaseBehavior.OnViewChang
 
     public PxeFunctionView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setWillNotDraw(false);
     }
 
     public void setBehavior(IPxeBehavior behaviorImpl) {
@@ -48,29 +49,42 @@ public class PxeFunctionView extends View implements PxeBaseBehavior.OnViewChang
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (mBehavior != null) {
-            mBehavior.onDetachedFromWindow();
+            mBehavior.onDetachedFromView();
+            mBehavior = null;
         }
     }
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev);
+        // TODO: 2018/9/19 考虑下要不要做代理滚动,将滚动事件转移到目标act中
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mBehavior == null) {
-            return false;
+        if (mBehavior != null) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mBehavior.onActionDown(event);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    mBehavior.onActionMove(event);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    mBehavior.onActionUp(event);
+                    performClick();
+                    break;
+            }
+            return true;
+        } else {
+            return super.onTouchEvent(event);
         }
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mBehavior.onActionDown(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                mBehavior.triggerActionMove(event);
-                break;
-            case MotionEvent.ACTION_UP:
-                mBehavior.triggerActionUp(event);
-                break;
-            // TODO: 2018/9/19 考虑下要不要处理点击事件
-            // TODO: 2018/9/19 考虑下要不要做代理滚动,将滚动事件转移到目标act中
-        }
-        return true;
+
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     @Override
@@ -81,9 +95,10 @@ public class PxeFunctionView extends View implements PxeBaseBehavior.OnViewChang
         }
     }
 
-    //选中的viewinfo发生了变化,重绘边框
+    //选中的viewInfo发生了变化,重绘边框
     @Override
-    public void onViewChange() {
+    public void onSelectedViewChange() {
+        requestLayout();
         invalidate();
     }
 }

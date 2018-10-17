@@ -28,6 +28,7 @@ import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.plugin.adapter.PxeSubMenuAdapter;
 import com.meituan.android.uitool.plugin.model.PxeMenuModel;
+import com.meituan.android.uitool.utils.ApplicationSingleton;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
 
@@ -66,7 +67,7 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
         setGravity(Gravity.END);
 
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        windowManager = (WindowManager) FoodUETool.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager = (WindowManager) ApplicationSingleton.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
         mMainMenu = findViewById(R.id.menu);
         vSubMenuContainer = findViewById(R.id.sub_menu_container);
@@ -120,13 +121,10 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
      */
     private boolean isAttachedToWindowCompat() {
         if (Build.VERSION.SDK_INT >= 19) {
-            if (isAttachedToWindow()) {
-                return true;
-            }
-        } else if (hasAttach2Window) {
-            return true;
+            return isAttachedToWindow();
+        } else {
+            return hasAttach2Window;
         }
-        return false;
     }
 
     private List<PxeMenuModel> initMenuData() {
@@ -185,14 +183,14 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
             if (exitListener != null) {
                 exitListener.onClick(getContext());
             }
-            FoodUETool.getInstance(null).exit();
+            FoodUETool.getInstance().exit();
         } else {
             triggerOpen(model.getType());
         }
     }
 
     private void triggerOpen(@FoodUEToolsActivity.Type int type) {
-        Activity currentTopActivity = PxeActivityUtils.getCurrentTopActivity();
+        Activity currentTopActivity = PxeActivityUtils.getCurrentActivity();
         if (currentTopActivity == null) {
             return;
         }

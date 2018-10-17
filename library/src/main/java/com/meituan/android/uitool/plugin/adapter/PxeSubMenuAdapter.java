@@ -19,8 +19,8 @@ import java.util.List;
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/24 on 下午2:46
+ * todo  单选功能, viewpage切换带动menu切换
  */
-
 public class PxeSubMenuAdapter extends RecyclerView.Adapter<PxeSubMenuAdapter.SubMenuHolder> implements View.OnClickListener {
     private List<PxeMenuModel> subPxeMenuModels = new ArrayList<>();
     private SubMenuClickListener subMenuClickListener;

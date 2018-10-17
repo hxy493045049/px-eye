@@ -8,17 +8,19 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.base.fragment.PxeBaseFunctionFragment;
 import com.meituan.android.uitool.biz.measure.dialog.PxeSetValueDialog;
+import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.plugin.PxeBoardTextView;
 import com.meituan.android.uitool.plugin.PxeDraggingRectView;
 import com.meituan.android.uitool.plugin.PxeGriddingLayout;
 import com.meituan.android.uitool.plugin.PxeSteeringWheel;
+import com.meituan.android.uitool.utils.ApplicationSingleton;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
+import com.meituan.android.uitool.utils.PxeResourceUtils;
 
 /**
  * @author shawn
@@ -45,7 +47,7 @@ public class PxeMeasureFragment extends PxeBaseFunctionFragment implements View.
     @Override
     protected View createContentView() {
         if (getContext() == null) {
-            return new LinearLayout(FoodUETool.getApplicationContext());
+            return new LinearLayout(ApplicationSingleton.getApplicationContext());
         }
         View root = LayoutInflater.from(getContext()).inflate(R.layout.pxe_measure_layout, null, true);
 
@@ -63,13 +65,13 @@ public class PxeMeasureFragment extends PxeBaseFunctionFragment implements View.
     }
 
     private void initBottom(View root) {
-        Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
+        Activity targetActivity = PxeActivityRecorder.getInstance().getTargetActivity();
         String defaultInfo = "";
         if (targetActivity != null && !PxeActivityUtils.isActivityInvalid(targetActivity)) {
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();
         }
         PxeBoardTextView board = root.findViewById(R.id.pxe_view_info);
-        board.setText(FoodUETool.getResource().getString(R.string.ue_measure_bottom_hint,
+        board.setText(PxeResourceUtils.getResource().getString(R.string.ue_measure_bottom_hint,
                 String.valueOf(PxeGriddingLayout.LINE_INTERVAL_DP), defaultInfo));
     }
 

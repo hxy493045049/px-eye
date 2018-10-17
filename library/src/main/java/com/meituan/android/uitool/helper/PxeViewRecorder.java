@@ -1,9 +1,12 @@
-package com.meituan.android.uitool.utils;
+package com.meituan.android.uitool.helper;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
+import com.meituan.android.uitool.utils.PxeCollectionUtils;
+import com.meituan.android.uitool.utils.PxeViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +16,23 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * 2018/9/18 on 下午3:11
  */
-public class PxeViewOperator {
+public class PxeViewRecorder {
 
     private List<PxeViewInfo> viewsInfo;//捕捉到的activity中元素的集合
 
-    public static PxeViewOperator getInstance() {
+    public static PxeViewRecorder getInstance() {
         return Holder.instance;
     }
 
+    /**
+     * 返回指定坐标的view,每次选中新的view之后,对用的anchor和cursor都会变化
+     *
+     * @param x          触摸时,X轴的坐标
+     * @param y          Y坐标
+     * @param anchorView 锚点view,用于区分在哪个viewGroup中查找元素
+     * @param cursorView 游标View
+     * @return 返回3个view元素, 1:新的anchorView,2: cursorView, 3: selectedView
+     */
     @Nullable
     public PxeViewInfo[] getViewInfoByPosition(float x, float y,
                                                PxeViewInfo anchorView, PxeViewInfo cursorView) {
@@ -36,7 +48,7 @@ public class PxeViewOperator {
                 if (PxeViewUtils.isViewInfoNotVisible(viewInfo.getParentViewInfo())) {
                     continue;
                 }
-                //点击同一个坐标范围的元素时viewInfo一定是该viewTree的最上层元素
+                //点击同一个坐标范围的元素时viewInfo一定是该viewGroup的最上层元素
                 //所以如果viewInfo和锚点元素不同时,表明更换了元素树,这时重新设置锚点和游标
                 if (viewInfo != anchorView) {
                     anchorView = viewInfo;
@@ -93,11 +105,11 @@ public class PxeViewOperator {
     }
     //-------------private -----------------
 
-    private PxeViewOperator() {
+    private PxeViewRecorder() {
     }
 
     private static class Holder {
-        private static PxeViewOperator instance = new PxeViewOperator();
+        private static PxeViewRecorder instance = new PxeViewRecorder();
     }
 
 }

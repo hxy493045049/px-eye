@@ -58,7 +58,7 @@ public class PxeAttrDialogAdapter extends Adapter<PxeBaseViewHolder> {
     //------------ private ---------------
     private void generateAttrMap() {
         attrs.clear();
-        for (String providerName : FoodUETool.getInstance(null).getAttrProviderNames()) {
+        for (String providerName : FoodUETool.getInstance().getAttrProviderNames()) {
             IPxeAttrProvider provider = PxeAttrUtils.getCachedProviderByName(providerName);
             if (provider != null) {
                 attrs.addAll(provider.getAttrs(mViewInfo));

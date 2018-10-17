@@ -2,22 +2,22 @@ package com.meituan.android.uitool;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.meituan.android.uitool.biz.attr.provider.impl.PxeDefaultAttrProvider;
+import com.meituan.android.uitool.helper.PxeActivityRecorder;
+import com.meituan.android.uitool.helper.PxeViewRecorder;
 import com.meituan.android.uitool.plugin.PxeMenu;
+import com.meituan.android.uitool.utils.ApplicationSingleton;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
+import com.meituan.android.uitool.utils.PxeCollectionUtils;
 import com.meituan.android.uitool.utils.PxePermissionUtils;
 import com.meituan.android.uitool.utils.PxeSimpleActivityLifecycleCallbacks;
 
-import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,22 +26,24 @@ import java.util.Set;
  * FoodUE工具的开关, 提供了默认的属性获取器
  */
 public final class FoodUETool {
-    private static WeakReference<Context> APPLICATION_CONTEXT_REF;
-    private WeakReference<Activity> targetActivityRef;
     private PxeMenu ueMenu;
+    private boolean isShowMenu;
 
     private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new PxeSimpleActivityLifecycleCallbacks() {
 
         @Override
         public void onActivityStarted(Activity activity) {
-            if (ueMenu != null) {
+            PxeActivityRecorder.getInstance().recordActivity(activity);
+            if (isShowMenu) {
+                checkMenu();
                 ueMenu.show();
             }
         }
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (PxeActivityUtils.getCurrentTopActivity() == null) {
+            PxeActivityRecorder.getInstance().removeActivity(activity);
+            if (PxeActivityUtils.getCurrentActivity() == null) {
                 if (ueMenu != null) {
                     ueMenu.dismiss();
                 }
@@ -50,83 +52,40 @@ public final class FoodUETool {
     };
 
     //------------public------------
-
-    public static FoodUETool getInstance(Context applicationContext) {
-        if (FoodUETool.APPLICATION_CONTEXT_REF == null || FoodUETool.APPLICATION_CONTEXT_REF.get() == null) {
-            if (applicationContext == null) {
-                throw new IllegalArgumentException("初始化的context不能为空");
-            } else {
-                APPLICATION_CONTEXT_REF = new WeakReference<>(applicationContext.getApplicationContext());
-            }
-        }
-        return Holder.instance;
-    }
-
     public static FoodUETool getInstance() {
-        if (FoodUETool.APPLICATION_CONTEXT_REF == null || FoodUETool.APPLICATION_CONTEXT_REF.get() == null) {
-            throw new IllegalArgumentException("context为空,必须先执行初始化");
-        }
+        initContext();
         return Holder.instance;
-    }
-
-    @NonNull
-    public static Context getApplicationContext() {
-        if (APPLICATION_CONTEXT_REF != null && APPLICATION_CONTEXT_REF.get() != null) {
-            return APPLICATION_CONTEXT_REF.get();
-        } else {
-            throw new IllegalStateException("context为空,必须先执行初始化");
-        }
-    }
-
-    @NonNull
-    public static Resources getResource() {
-        if (APPLICATION_CONTEXT_REF != null && APPLICATION_CONTEXT_REF.get() != null) {
-            return APPLICATION_CONTEXT_REF.get().getResources();
-        } else {
-            throw new IllegalStateException("context为空,必须先执行初始化");
-        }
-    }
-
-    @Nullable
-    public Activity getTargetActivity() {
-        if (targetActivityRef != null && targetActivityRef.get() != null) {
-            return targetActivityRef.get();
-        }
-        return null;
-    }
-
-    public void setTargetActivity(Activity targetActivityRef) {
-        this.targetActivityRef = new WeakReference<>(targetActivityRef);
     }
 
     public void setOnExitListener(PxeMenu.SubMenuClickEvent exportEvent) {
-        initMenu();
+        checkMenu();
         ueMenu.setOnExitListener(exportEvent);
     }
 
     public void open() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(FoodUETool.APPLICATION_CONTEXT_REF.get())) {
-                PxePermissionUtils.requestOverlayPermission(FoodUETool.APPLICATION_CONTEXT_REF.get());
-                Toast.makeText(FoodUETool.APPLICATION_CONTEXT_REF.get(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
+            if (!Settings.canDrawOverlays(ApplicationSingleton.getApplicationContext())) {
+                PxePermissionUtils.requestOverlayPermission(ApplicationSingleton.getApplicationContext());
+                Toast.makeText(ApplicationSingleton.getApplicationContext(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
-        initMenu();
-        ueMenu.show();
-
-        Application application = PxeActivityUtils.getApplication();
-        if (application != null) {
+        Application application = ApplicationSingleton.getInstance();
+        Activity act = PxeActivityUtils.getCurrentActivity();
+        if (application != null && act != null && !PxeActivityUtils.isActivityInvalid(act)) {
+            //第一次的时候, 需要额外将activity添加到{@link PxeActivityRecorder}中, 因为当前的act已经走了onStart方法
+            PxeActivityRecorder.getInstance().recordActivity(act);
             application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+
+            checkMenu();
+            ueMenu.show();
+            isShowMenu = true;
         }
     }
 
     public void exit() {
-        Application application = PxeActivityUtils.getApplication();
-        if (application != null) {
-            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
-        }
+        isShowMenu = false;
 
         if (ueMenu != null) {
             ueMenu.dismiss();
@@ -134,6 +93,11 @@ public final class FoodUETool {
         }
         closeAct();
         release();
+
+        Application application = ApplicationSingleton.getInstance();
+        if (application != null) {
+            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        }
     }
 
     public void triggerMenuAnim() {
@@ -144,10 +108,8 @@ public final class FoodUETool {
 
     //释放资源
     public void release() {
-        if (targetActivityRef != null) {
-            targetActivityRef.clear();
-            targetActivityRef = null;
-        }
+        PxeViewRecorder.getInstance().reset();
+        PxeActivityRecorder.getInstance().release();
     }
 
     public void setAttrProvider(String providerClassName) {
@@ -160,12 +122,25 @@ public final class FoodUETool {
 
     //------------private------------
     private FoodUETool() {
-        initMenu();
+        checkMenu();
     }
 
-    private void initMenu() {
+    private static void initContext() {
+        if (ApplicationSingleton.getInstance() != null) {
+            return;
+        }
+        Activity act = PxeActivityUtils.getTopActivity(false);
+        act = act != null ? act : PxeActivityUtils.getCurrentActivity();
+        if (act != null) {
+            ApplicationSingleton.bindInstance(act.getApplication());
+        } else {
+            ApplicationSingleton.bindInstance(PxeActivityUtils.getApplication());
+        }
+    }
+
+    private void checkMenu() {
         if (ueMenu == null) {
-            ueMenu = new PxeMenu(FoodUETool.APPLICATION_CONTEXT_REF.get());
+            ueMenu = new PxeMenu(ApplicationSingleton.getInstance().getApplicationContext());
         }
     }
 
@@ -180,9 +155,11 @@ public final class FoodUETool {
 
     //关闭ui工具的activity
     private void closeAct() {
-        Activity act = PxeActivityUtils.getCurrentTopActivity();
-        if (act instanceof FoodUEToolsActivity) {
-            act.finish();
+        List<Activity> activities = PxeActivityRecorder.getInstance().getFunctionActivities();
+        if (!PxeCollectionUtils.isEmpty(activities)) {
+            for (Activity act : activities) {
+                act.finish();
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
+import com.meituan.android.uitool.utils.PxeResourceUtils;
 
 /**
  * @author shawn
@@ -38,9 +39,9 @@ public class PxeBasePainter {
     public Paint textPaint = new Paint() {
         {
             setAntiAlias(true);
-            setTextSize(FoodUETool.getResource().getDimension(R.dimen.pxe_attr_text_size));
+            setTextSize(PxeResourceUtils.getResource().getDimension(R.dimen.pxe_attr_text_size));
             setColor(Color.RED);
-            setStrokeWidth(FoodUETool.getResource().getDimension(R.dimen.pxe_attr_stroke_width));
+            setStrokeWidth(PxeResourceUtils.getResource().getDimension(R.dimen.pxe_attr_stroke_width));
         }
     };
 

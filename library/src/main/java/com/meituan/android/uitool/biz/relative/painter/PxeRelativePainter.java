@@ -12,6 +12,7 @@ import com.meituan.android.uitool.base.painter.PxeBasePainter;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.model.PxeViewInfo;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
+import com.meituan.android.uitool.utils.PxeResourceUtils;
 
 /**
  * @author shawn
@@ -29,7 +30,7 @@ public class PxeRelativePainter extends PxeBasePainter {
 
         int solidWidth = PxeDimensionUtils.dip2px(4);
         int dashWidth = PxeDimensionUtils.dip2px(8);
-        dashLinePaint.setColor(FoodUETool.getResource().getColor(R.color.pxe_relative_dash_link_color));
+        dashLinePaint.setColor(PxeResourceUtils.getResource().getColor(R.color.pxe_relative_dash_link_color));
         dashLinePaint.setPathEffect(new DashPathEffect(new float[]{solidWidth, dashWidth}, 0));
     }
 

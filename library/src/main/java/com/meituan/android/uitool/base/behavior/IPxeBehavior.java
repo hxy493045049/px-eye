@@ -12,13 +12,13 @@ import android.view.MotionEvent;
 public interface IPxeBehavior {
     void onDraw(Canvas canvas);
 
-    void onActionDown(MotionEvent event);
+    boolean onActionDown(MotionEvent event);
 
-    void triggerActionMove(MotionEvent event);
+    boolean onActionMove(MotionEvent event);
 
-    void triggerActionUp(MotionEvent event);
+    boolean onActionUp(MotionEvent event);
 
     void onAttach2View();
 
-    void onDetachedFromWindow();
+    void onDetachedFromView();
 }

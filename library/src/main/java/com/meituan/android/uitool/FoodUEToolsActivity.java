@@ -5,36 +5,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.meituan.android.uitool.base.activity.PxeBaseActivity;
 import com.meituan.android.uitool.base.adapter.PxeFragmentAdapter;
+import com.meituan.android.uitool.helper.PxeActivityRecorder;
+import com.meituan.android.uitool.helper.PxeViewRecorder;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeCollectionUtils;
-import com.meituan.android.uitool.utils.PxeViewOperator;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: shawn
  * Time: 2018/6/19 下午4:03
  */
-public class FoodUEToolsActivity extends AppCompatActivity {
-    public static final String ACTION = "imeituan://www.meituan.com/food/ui/tool";
+public class FoodUEToolsActivity extends PxeBaseActivity {
+    public static final String ACTION = "imeituan://www.meituan.com/food/pxe";
     public static final String CURRENT_FUNCTION_TYPE = "functionType";
     //当前正在展示的的功能
     private int mCurrentFunctionType = -1;
     private ViewPager mViewPager;
-    private List<Integer> functions;
     private View loadingView;
 
     //loader的id,用于在子线程中加载view信息
@@ -58,6 +52,12 @@ public class FoodUEToolsActivity extends AppCompatActivity {
         functions = initFragmentList();
         PxeFragmentAdapter mAdapter = new PxeFragmentAdapter(getSupportFragmentManager(), functions);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+        });
 
         loadViews();
         mCurrentFunctionType = -1;
@@ -83,70 +83,39 @@ public class FoodUEToolsActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        FoodUETool.getInstance(FoodUETool.getApplicationContext()).release();
-        PxeViewOperator.getInstance().reset();
-    }
-
     //-----------------private-----------------
-
     private void processExtraData(Bundle bundle) {
+        FoodUETool.getInstance().triggerMenuAnim();
         if (bundle != null) {
             int type = bundle.getInt(CURRENT_FUNCTION_TYPE);
-            if (mCurrentFunctionType == type) {
-                //当再次点击相同功能时,关闭
-                FoodUETool.getInstance().triggerMenuAnim();
+            if (mCurrentFunctionType == type || PxeCollectionUtils.isEmpty(functions)) {
+                //当再次点击相同功能时或没有功能列表(理论上不存在),关闭功能
                 finish();
             } else {
-                if (!PxeCollectionUtils.isEmpty(functions)) {
-                    mCurrentFunctionType = type;
-                    mViewPager.setCurrentItem(functions.indexOf(mCurrentFunctionType), true);
+                //切换到新功能
+                mCurrentFunctionType = type;
+                int functionIndex = functions.indexOf(mCurrentFunctionType);
+                if (functionIndex >= 0) {
+                    mViewPager.setCurrentItem(functionIndex, true);
+                } else {
+                    //找不到指定功能
+                    finish();
                 }
             }
         }
     }
 
-    /**
-     * 配置功能列表,注意顺序
-     *
-     * @return 功能列表
-     */
-    private List<Integer> initFragmentList() {
-        List<Integer> types = new ArrayList<>();
-        types.add(Type.TYPE_MEASURE, Type.TYPE_MEASURE);
-        types.add(Type.TYPE_RELATIVE_POSITION, Type.TYPE_RELATIVE_POSITION);
-        types.add(Type.TYPE_EDIT_ATTR, Type.TYPE_EDIT_ATTR);
-        types.add(Type.TYPE_COLOR, Type.TYPE_COLOR);
-        return types;
-    }
 
     private void loadViews() {
-        FoodUETool.getInstance().setTargetActivity(PxeActivityUtils.getTargetActivity(false));
+        PxeActivityRecorder.getInstance().setTargetActivity(PxeActivityRecorder.getInstance().getTopActivity(false));
         loadingView.setVisibility(View.VISIBLE);
         LoaderManager manager = getSupportLoaderManager();
         manager.restartLoader(LOADER_VIEWS_ID, null, loaderCallback);
     }
 
     /**
-     * 注意, 以下属性的值不能乱填, 必须是连续的, 并且属性的值和menu中的item以及显示的功能顺序相等
+     * 加载原activity中的所有view到{@link PxeViewRecorder}中
      */
-    @IntDef({
-            Type.TYPE_EDIT_ATTR,
-            Type.TYPE_MEASURE,
-            Type.TYPE_RELATIVE_POSITION,
-            Type.TYPE_COLOR
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Type {
-        int TYPE_MEASURE = 0;//测量类型
-        int TYPE_RELATIVE_POSITION = 1;//相对位置
-        int TYPE_EDIT_ATTR = 2;//属性捕捉
-        int TYPE_COLOR = 3;//关闭
-        int TYPE_EXIT = 4;//关闭
-    }
-
     private static class SimpleLoader extends AsyncTaskLoader<Void> {
         private SimpleLoader(Context context) {
             super(context);
@@ -154,7 +123,7 @@ public class FoodUEToolsActivity extends AppCompatActivity {
 
         @Override
         protected void onStartLoading() {
-            Activity act = FoodUETool.getInstance().getTargetActivity();
+            Activity act = PxeActivityRecorder.getInstance().getTargetActivity();
             if (!PxeActivityUtils.isActivityInvalid(act)) {
                 forceLoad();
             } else {
@@ -164,9 +133,9 @@ public class FoodUEToolsActivity extends AppCompatActivity {
 
         @Override
         public Void loadInBackground() {
-            Activity act = FoodUETool.getInstance().getTargetActivity();
+            Activity act = PxeActivityRecorder.getInstance().getTargetActivity();
             if (!PxeActivityUtils.isActivityInvalid(act)) {
-                PxeViewOperator.getInstance().recordViews(act);
+                PxeViewRecorder.getInstance().recordViews(act);
             }
             return null;
         }
@@ -178,12 +147,12 @@ public class FoodUEToolsActivity extends AppCompatActivity {
 
         @Override
         public void cancelLoadInBackground() {
-            PxeViewOperator.getInstance().reset();
+            PxeViewRecorder.getInstance().reset();
         }
 
         @Override
         protected void onReset() {
-            PxeViewOperator.getInstance().reset();
+            PxeViewRecorder.getInstance().reset();
         }
     }
 

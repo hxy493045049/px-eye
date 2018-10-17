@@ -47,15 +47,15 @@ project(':pxe').projectDir = new File(../pxe/library)
 ```java
     Context context=ApplicationSingleton.getInstance();
     //exit listener
-    FoodUETool.getInstance(context).setOnExitListener(
+    FoodUETool.getInstance().setOnExitListener(
             context -> {
                 // ...
             }
     );
     //open
-    FoodUETool.getInstance(context).open();
+    FoodUETool.getInstance().open();
     //close
-    FoodUETool.getInstance(context).exit();
+    FoodUETool.getInstance().exit();
 
 ```
 

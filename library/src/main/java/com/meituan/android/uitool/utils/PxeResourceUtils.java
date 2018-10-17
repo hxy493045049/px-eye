@@ -3,8 +3,6 @@ package com.meituan.android.uitool.utils;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.meituan.android.uitool.FoodUETool;
-
 import static android.view.View.NO_ID;
 
 /**
@@ -13,8 +11,12 @@ import static android.view.View.NO_ID;
  * 2018/8/13 on 下午4:09
  */
 public class PxeResourceUtils {
+    public static Resources getResource() {
+        return ApplicationSingleton.getApplicationContext().getResources();
+    }
+
     public static String getResourceName(int id) {
-        Resources resources = FoodUETool.getApplicationContext().getResources();
+        Resources resources = getResource();
         try {
             if (id == NO_ID || id == 0) {
                 return "";

@@ -11,10 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.meituan.android.uitool.FoodUETool;
+import com.meituan.android.uitool.helper.PxeActivityRecorder;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
 
 /**
  * 测量功能的边框
+ * todo 重构这个view
  */
 public class PxeGriddingLayout extends View {
 
@@ -24,7 +27,6 @@ public class PxeGriddingLayout extends View {
     private final int SCREEN_HEIGHT = PxeDimensionUtils.getScreenHeight();
 
     private Paint paintRed = new Paint();
-    private Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
 
     public PxeGriddingLayout(Context context) {
         this(context, null);
@@ -53,7 +55,10 @@ public class PxeGriddingLayout extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        targetActivity.dispatchTouchEvent(event);
+        Activity targetActivity = PxeActivityRecorder.getInstance().getTargetActivity();
+        if (targetActivity != null && !PxeActivityUtils.isActivityInvalid(targetActivity)) {
+            targetActivity.dispatchTouchEvent(event);
+        }
         return super.dispatchTouchEvent(event);
     }
 
@@ -62,9 +67,4 @@ public class PxeGriddingLayout extends View {
         return true;
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        targetActivity = null;
-    }
 }

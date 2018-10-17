@@ -18,7 +18,7 @@
 
                 <data
                     android:host="www.meituan.com"
-                    android:path="/food/ui/tool"
+                    android:path="/food/pxe"
                     android:scheme="imeituan" />
             </intent-filter>
         </activity>
