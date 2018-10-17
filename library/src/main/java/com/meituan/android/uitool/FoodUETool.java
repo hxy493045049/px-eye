@@ -84,7 +84,7 @@ public final class FoodUETool {
         }
     }
     public boolean isShowing() {
-        return FoodUEMenu.isShowing();
+        return PxeMenu.isShowing();
     }
 
     public void exit() {

@@ -10,7 +10,8 @@ import android.widget.TextView;
 import com.meituan.android.uitool.biz.uitest.base.UITestDialogCallback;
 import com.meituan.android.uitool.biz.uitest.base.Element;
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.utils.FoodUEResourceUtils;
+
+import static com.meituan.android.uitool.utils.PxeResourceUtils.getResourceName;
 
 
 public class BriefDescItem extends ElementItem {
@@ -73,7 +74,7 @@ public class BriefDescItem extends ElementItem {
         View view = getElement().getView();
         StringBuilder sb = new StringBuilder();
         sb.append(view.getClass().getName());
-        String resName = FoodUEResourceUtils.getResourceName(view.getId());
+        String resName = getResourceName(view.getId());
         if (!TextUtils.isEmpty(resName)) {
             sb.append("@").append(resName);
         }

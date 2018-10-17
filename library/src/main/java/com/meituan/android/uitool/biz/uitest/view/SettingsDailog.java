@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.meituan.android.uitool.biz.uitest.utils.DataManager;
+import com.meituan.android.uitool.biz.uitest.utils.DensityUtils;
 import com.meituan.android.uitool.library.R;
 
 
@@ -31,8 +32,8 @@ public class SettingsDailog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DataManager.saveUser(userName.getText().toString());
-
                 DataManager.saveDensity(uetDensityView.getText().toString());
+                DensityUtils.changeAppDensity();
 
             }
         });

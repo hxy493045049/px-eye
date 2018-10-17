@@ -19,8 +19,9 @@ import com.meituan.android.uitool.biz.uitest.base.Element;
 import com.meituan.android.uitool.biz.uitest.utils.DataManager;
 import com.meituan.android.uitool.biz.uitest.utils.ScreenshotUtils;
 
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.dip2px;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.px2dip;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.px2dip;
+
 
 public class FoodUEUITestLayout extends FoodUECollectViewsLayout {
 

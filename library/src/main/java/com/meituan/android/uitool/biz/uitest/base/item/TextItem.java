@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.utils.FoodUEActivityUtils;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
 
 
 public class TextItem extends TitleItem {
@@ -69,7 +69,7 @@ public class TextItem extends TitleItem {
         return itemView;
     }
     private static void clipText(String clipText) {
-        Context context = FoodUEActivityUtils.getApplication();
+        Context context = PxeActivityUtils.getApplication();
         ClipData clipData = ClipData.newPlainText("", clipText);
         ((ClipboardManager) (context.getSystemService(Context.CLIPBOARD_SERVICE))).setPrimaryClip(clipData);
         Toast.makeText(context, "copied", Toast.LENGTH_SHORT).show();

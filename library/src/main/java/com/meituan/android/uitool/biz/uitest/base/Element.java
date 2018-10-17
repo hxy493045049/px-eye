@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 
-import static com.meituan.android.uitool.utils.FoodUEActivityUtils.getStatusBarHeight;
+import static com.meituan.android.uitool.utils.PxeActivityUtils.getStatusBarHeight;
 
 
 public class Element {

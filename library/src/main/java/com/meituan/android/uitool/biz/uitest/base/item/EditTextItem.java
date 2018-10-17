@@ -16,7 +16,7 @@ import com.meituan.android.uitool.library.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.dip2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
 
 
 public class EditTextItem extends ElementItem {

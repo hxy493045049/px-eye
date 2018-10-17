@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.dip2px;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.getScreenHeight;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.getScreenWidth;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.px2dip;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.sp2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.getScreenHeight;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.getScreenWidth;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.px2dip;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.sp2px;
 
 
 public class FoodUECollectViewsLayout extends View {

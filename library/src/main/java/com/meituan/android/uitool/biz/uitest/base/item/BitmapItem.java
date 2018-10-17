@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.meituan.android.uitool.library.R;
 
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.dip2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
 
 
 public class BitmapItem extends Item {

@@ -25,9 +25,10 @@ import com.meituan.android.uitool.library.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.dip2px;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.getScreenHeight;
-import static com.meituan.android.uitool.utils.FoodUEDimensionUtils.getScreenWidth;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.getScreenHeight;
+import static com.meituan.android.uitool.utils.PxeDimensionUtils.getScreenWidth;
+
 
 public class UITestDialog extends Dialog implements View.OnClickListener{
 

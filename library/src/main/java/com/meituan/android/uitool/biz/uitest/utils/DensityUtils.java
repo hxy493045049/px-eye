@@ -1,46 +1,13 @@
 package com.meituan.android.uitool.biz.uitest.utils;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.LinearGradient;
-import android.graphics.NinePatch;
-import android.graphics.Paint;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.NinePatchDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannedString;
-import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
-import android.util.Pair;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.meituan.android.uitool.utils.FoodUEActivityUtils;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static android.view.View.NO_ID;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
 
 public class DensityUtils {
 
@@ -80,7 +47,7 @@ public class DensityUtils {
 
     public static void changeAppDensity() {
         try {
-            Activity context = FoodUEActivityUtils.getCurrentActivity();
+            Activity context = PxeActivityUtils.getCurrentTopActivity();
             if (context == null) {
                 return;
             }
@@ -106,7 +73,7 @@ public class DensityUtils {
 
     public static void resetAppDensity() {
         try {
-            Activity context = FoodUEActivityUtils.getCurrentActivity();
+            Activity context = PxeActivityUtils.getCurrentTopActivity();
             if (context == null || origin_density_dpi == 0) {
                 return;
             }

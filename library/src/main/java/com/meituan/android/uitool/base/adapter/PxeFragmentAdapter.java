@@ -11,6 +11,7 @@ import com.meituan.android.uitool.biz.attr.fragment.PxeAttrFragment;
 import com.meituan.android.uitool.biz.color.PxeColorFragment;
 import com.meituan.android.uitool.biz.measure.fragment.PxeMeasureFragment;
 import com.meituan.android.uitool.biz.relative.fragment.PxeRelativeFragment;
+import com.meituan.android.uitool.biz.uitest.fragment.PxeUiTestFragment;
 import com.meituan.android.uitool.utils.PxeCollectionUtils;
 
 import java.util.List;
@@ -59,6 +60,9 @@ public class PxeFragmentAdapter extends FragmentPagerAdapter {
                 break;
             case FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION:
                 fragment = PxeRelativeFragment.newInstance();
+                break;
+            case FoodUEToolsActivity.Type.TYPE_UITEST:
+                fragment = PxeUiTestFragment.newInstance();
                 break;
         }
         return fragment;
