@@ -7,10 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.base.painter.PxeBasePainter;
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
 import com.meituan.android.uitool.utils.PxeResourceUtils;
 

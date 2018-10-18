@@ -1,6 +1,6 @@
-package com.meituan.android.uitool.biz.attr.provider;
+package com.meituan.android.uitool.biz.attr.dialog.provider;
 
-import com.meituan.android.uitool.constant.PxeHolderType;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType;
 
 /**
  * @author shawn

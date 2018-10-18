@@ -18,7 +18,6 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.SpannedString;
 import android.text.style.ImageSpan;
 import android.util.Pair;
@@ -30,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package com.meituan.android.uitool.model.attr;
+package com.meituan.android.uitool.biz.attr.dialog.mode;
 
-import com.meituan.android.uitool.constant.PxeHolderType;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 /**
  * @author shawn

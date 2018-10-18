@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.meituan.android.uitool.biz.attr.provider.IPxeAttrProvider;
-import com.meituan.android.uitool.biz.attr.provider.impl.PxeImageViewProvider;
-import com.meituan.android.uitool.biz.attr.provider.impl.PxeTextViewProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeAttrProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.impl.PxeImageViewProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.impl.PxeTextViewProvider;
 
 import java.util.WeakHashMap;
 

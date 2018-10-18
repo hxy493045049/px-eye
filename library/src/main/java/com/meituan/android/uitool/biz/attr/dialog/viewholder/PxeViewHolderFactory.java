@@ -3,9 +3,7 @@ package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.meituan.android.uitool.model.PxeBaseViewHolder;
-
-import static com.meituan.android.uitool.constant.PxeHolderType.AttrDialogHolder;
+import static com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType.AttrDialogHolder;
 
 /**
  * @author shawn
@@ -37,4 +35,10 @@ public class PxeViewHolderFactory {
     private static class Holder {
         private static PxeViewHolderFactory factory = new PxeViewHolderFactory();
     }
+
+
+
+
+
+
 }

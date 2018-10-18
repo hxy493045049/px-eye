@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 
 import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
 import com.meituan.android.uitool.biz.relative.painter.PxeRelativePainter;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 /**
  * @author shawn

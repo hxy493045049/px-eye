@@ -1,4 +1,4 @@
-package com.meituan.android.uitool.model;
+package com.meituan.android.uitool.helper.mode;
 
 import android.graphics.Rect;
 import android.os.Build;

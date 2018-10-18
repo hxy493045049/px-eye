@@ -1,7 +1,7 @@
-package com.meituan.android.uitool.biz.attr.provider;
+package com.meituan.android.uitool.biz.attr.dialog.provider;
 
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 import java.util.List;
 

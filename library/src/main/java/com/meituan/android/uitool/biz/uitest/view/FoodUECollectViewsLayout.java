@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.biz.uitest.UETool;
 import com.meituan.android.uitool.biz.uitest.base.Element;
+import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.library.R;
 
 import java.lang.reflect.Field;
@@ -84,7 +85,7 @@ public class FoodUECollectViewsLayout extends View {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         try {
-            Activity targetActivity = FoodUETool.getInstance().getTargetActivity();
+            Activity targetActivity = PxeActivityRecorder.getInstance().getTargetActivity();
             WindowManager windowManager = targetActivity.getWindowManager();
             Field mGlobalField = Class.forName("android.view.WindowManagerImpl").getDeclaredField("mGlobal");
             mGlobalField.setAccessible(true);

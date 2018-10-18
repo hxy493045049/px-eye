@@ -33,9 +33,7 @@ import com.meituan.android.uitool.utils.ApplicationSingleton;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,6 +91,7 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
     public void show() {
         try {
             if (!isAttachedToWindowCompat()) {
+                //todo 这个功能是否应该放到functionActivity启动时再开启
                 DensityUtils.changeAppDensity();
                 windowManager.addView(this, initToolParams());
                 hasAttach2Window = true;
@@ -113,57 +112,6 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
         } catch (Exception e) {
             Log.e("FoodUEMenu", "dismiss", e);
         }
-    }
-
-    /**
-     * 是否有UI检测的悬浮框在展示
-     */
-    public static boolean isShowing() {
-        List<View> rootViews = getRootViews();
-        for (View view : rootViews) {
-            if (view instanceof PxeMenu) {
-                return true;
-            }
-        }
-        return false;
-    }
-    private static List<View> getRootViews() {
-        List<View> rootViews = new ArrayList<>();
-        try {
-            Activity targetActivity = PxeActivityUtils.getCurrentTopActivity();
-            WindowManager windowManager = targetActivity.getWindowManager();
-            Field mGlobalField = Class.forName("android.view.WindowManagerImpl").getDeclaredField("mGlobal");
-            mGlobalField.setAccessible(true);
-
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                Field mViewsField = Class.forName("android.view.WindowManagerGlobal").getDeclaredField("mViews");
-                mViewsField.setAccessible(true);
-                List<View> views = (List<View>) mViewsField.get(mGlobalField.get(windowManager));
-                rootViews.addAll(views);
-            } else {
-                Field mRootsField = Class.forName("android.view.WindowManagerGlobal").getDeclaredField("mRoots");
-                mRootsField.setAccessible(true);
-                List viewRootImpls;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    viewRootImpls = (List) mRootsField.get(mGlobalField.get(windowManager));
-                } else {
-                    viewRootImpls = Arrays.asList((Object[]) mRootsField.get(mGlobalField.get(windowManager)));
-                }
-                for (int i = viewRootImpls.size() - 1; i >= 0; i--) {
-                    Class clazz = Class.forName("android.view.ViewRootImpl");
-                    Object object = viewRootImpls.get(i);
-                    Field mWindowAttributesField = clazz.getDeclaredField("mWindowAttributes");
-                    mWindowAttributesField.setAccessible(true);
-                    Field mViewField = clazz.getDeclaredField("mView");
-                    mViewField.setAccessible(true);
-                    View decorView = (View) mViewField.get(object);
-                    rootViews.add(decorView);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rootViews;
     }
 
     public void setOnExitListener(SubMenuClickEvent exportEvent) {

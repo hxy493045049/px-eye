@@ -1,15 +1,15 @@
-package com.meituan.android.uitool.biz.attr.provider.impl;
+package com.meituan.android.uitool.biz.attr.dialog.provider.impl;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.meituan.android.uitool.biz.attr.provider.IPxeAttrProvider;
-import com.meituan.android.uitool.constant.PxeHolderType;
-import com.meituan.android.uitool.model.PxeViewInfo;
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
-import com.meituan.android.uitool.model.attr.PxeNormalAttr;
+import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeAttrProvider;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeNormalAttr;
 import com.meituan.android.uitool.utils.PxeAttrUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
 import com.meituan.android.uitool.utils.PxeResourceUtils;

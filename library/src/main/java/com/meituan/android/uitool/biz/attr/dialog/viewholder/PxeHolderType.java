@@ -1,4 +1,4 @@
-package com.meituan.android.uitool.constant;
+package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 
 import android.support.annotation.IntDef;
 
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created with IntelliJ IDEA.
  * 2018/8/20 on 下午5:25
  */
-public class PxeHolderType {
+public interface PxeHolderType {
     @IntDef({
             AttrDialogHolder.NORMAL,
             AttrDialogHolder.BITMAP,
@@ -18,7 +18,7 @@ public class PxeHolderType {
             AttrDialogHolder.TITLE
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface AttrDialogHolder {
+    @interface AttrDialogHolder {
         int NONE = 0;//为指定泛型类型
         int NORMAL = 1;//
         int TITLE = 2;//

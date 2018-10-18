@@ -3,8 +3,7 @@ package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 import android.graphics.Bitmap;
 import android.view.ViewGroup;
 
-import com.meituan.android.uitool.model.PxeBaseViewHolder;
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
 
 /**
  * @author shawn

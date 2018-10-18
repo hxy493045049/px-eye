@@ -14,8 +14,8 @@ import com.meituan.android.uitool.utils.PxeResourceUtils;
  * Created with IntelliJ IDEA.
  * 2018/8/11 on 下午12:38
  */
-public class PxeAttrBehavior extends PxeBaseBehavior.PxeSimpleBehavior {
-    public PxeAttrBehavior(PxeBasePainter painter) {
+public class PxeViewShowBehavior extends PxeBaseBehavior.PxeSimpleBehavior {
+    public PxeViewShowBehavior(PxeBasePainter painter) {
         super(painter);
         basePainter.areaPaint.setColor(PxeResourceUtils.getResource().getColor(R.color.pxe_attr_selected_view_bg));
     }

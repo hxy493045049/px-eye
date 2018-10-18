@@ -5,13 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.meituan.android.uitool.FoodUEToolsActivity;
-import com.meituan.android.uitool.base.fragment.PxeBaseFunctionFragment;
 import com.meituan.android.uitool.base.fragment.PxeLazyBaseFragment;
+import com.meituan.android.uitool.base.interfaces.IPxeFunction;
 import com.meituan.android.uitool.biz.attr.fragment.PxeAttrFragment;
 import com.meituan.android.uitool.biz.color.PxeColorFragment;
 import com.meituan.android.uitool.biz.measure.fragment.PxeMeasureFragment;
 import com.meituan.android.uitool.biz.relative.fragment.PxeRelativeFragment;
-import com.meituan.android.uitool.biz.uitest.fragment.PxeUiTestFragment;
+import com.meituan.android.uitool.biz.uitest.fragment.PxeUiCheckFragment;
 import com.meituan.android.uitool.utils.PxeCollectionUtils;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class PxeFragmentAdapter extends FragmentPagerAdapter {
                 fragment = PxeRelativeFragment.newInstance();
                 break;
             case FoodUEToolsActivity.Type.TYPE_UITEST:
-                fragment = PxeUiTestFragment.newInstance();
+                fragment = PxeUiCheckFragment.newInstance();
                 break;
         }
         return fragment;
@@ -70,9 +70,10 @@ public class PxeFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        PxeBaseFunctionFragment f = (PxeBaseFunctionFragment) object;
-        int functionType = f.getCurrentFunctionType();
-        int index = indexOfType(functionType);
+        int index = -1;
+        if (object instanceof IPxeFunction) {
+            index = indexOfType(((IPxeFunction) object).getCurrentFunctionType());
+        }
         return index == -1 ? POSITION_NONE : index;
     }
 

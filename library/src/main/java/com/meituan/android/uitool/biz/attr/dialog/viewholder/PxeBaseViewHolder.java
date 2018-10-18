@@ -1,9 +1,9 @@
-package com.meituan.android.uitool.model;
+package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
 
 /**
  * @author shawn

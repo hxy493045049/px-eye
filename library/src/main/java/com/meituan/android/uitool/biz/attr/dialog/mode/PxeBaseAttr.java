@@ -1,13 +1,13 @@
-package com.meituan.android.uitool.model.attr;
+package com.meituan.android.uitool.biz.attr.dialog.mode;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
-import com.meituan.android.uitool.biz.attr.provider.IPxeHolderTypeFactory;
-import com.meituan.android.uitool.constant.PxeHolderType;
+import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeHolderTypeFactory;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType;
 import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeViewHolderFactory;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
