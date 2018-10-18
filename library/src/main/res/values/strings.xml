@@ -17,4 +17,11 @@
     <string name="empty_info">暂无此信息</string>
     <string name="check_network_then_click_for_retry">请检查网络后点击重新加载</string>
     <string name="fetch_data_failed">数据获取失败</string>
+
+    <string name="uet_target_element_not_found">could not found view in (%1$.0f , %2$.0f), please select view again</string>
+    <string name="uet_disable">DESABLE_UETOOL</string>
+    <string name="uet_setting">设置</string>
+    <string name="uet_click_to_open_attr_change">开启UI调整</string>
+    <string name="uet_click_to_close_attr_change">关闭UI调整</string>
+
 </resources>

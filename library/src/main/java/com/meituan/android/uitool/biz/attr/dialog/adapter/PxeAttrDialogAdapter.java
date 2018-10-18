@@ -3,11 +3,11 @@ package com.meituan.android.uitool.biz.attr.dialog.adapter;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.ViewGroup;
 
-import com.meituan.android.uitool.biz.attr.provider.IPxeAttrProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeAttrProvider;
 import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeViewHolderFactory;
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
-import com.meituan.android.uitool.model.PxeBaseViewHolder;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeBaseViewHolder;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.utils.PxeAttrUtils;
 

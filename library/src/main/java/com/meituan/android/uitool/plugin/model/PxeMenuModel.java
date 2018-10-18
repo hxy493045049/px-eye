@@ -1,7 +1,5 @@
 package com.meituan.android.uitool.plugin.model;
 
-import com.meituan.android.uitool.FoodUEToolsActivity;
-
 /**
  * @author shawn
  * Created with IntelliJ IDEA.

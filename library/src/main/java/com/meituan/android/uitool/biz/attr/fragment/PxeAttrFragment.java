@@ -10,11 +10,11 @@ import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.base.behavior.PxeBaseBehavior;
 import com.meituan.android.uitool.base.fragment.PxeBaseFunctionFragment;
 import com.meituan.android.uitool.base.painter.PxeBasePainter;
-import com.meituan.android.uitool.biz.attr.behavior.PxeAttrBehavior;
+import com.meituan.android.uitool.biz.attr.behavior.PxeViewShowBehavior;
 import com.meituan.android.uitool.biz.attr.dialog.PxeAttrsDialog;
 import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.plugin.PxeBoardTextView;
 import com.meituan.android.uitool.plugin.PxeFunctionView;
 import com.meituan.android.uitool.plugin.PxeGriddingLayout;
@@ -50,7 +50,7 @@ public class PxeAttrFragment extends PxeBaseFunctionFragment implements PxeBaseB
         }
         View root = LayoutInflater.from(getContext()).inflate(R.layout.pxe_relative_layout, new FrameLayout(getContext()), true);
 
-        PxeAttrBehavior behavior = new PxeAttrBehavior(new PxeBasePainter());
+        PxeViewShowBehavior behavior = new PxeViewShowBehavior(new PxeBasePainter());
         behavior.setViewSelectedListener(this);
 
         PxeFunctionView functionView = root.findViewById(R.id.function_view);

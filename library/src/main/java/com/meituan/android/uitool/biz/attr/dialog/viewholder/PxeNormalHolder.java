@@ -4,8 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.meituan.android.uitool.model.PxeBaseViewHolder;
-import com.meituan.android.uitool.model.attr.PxeBaseAttr;
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
 import com.meituan.android.uitool.library.R;
 
 /**

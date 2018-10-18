@@ -18,7 +18,6 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.SpannedString;
 import android.text.style.ImageSpan;
 import android.util.Pair;
@@ -30,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -317,6 +316,9 @@ public class PxeViewUtils {
     }
 
     public static Bitmap getDrawableBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
         try {
             if (drawable instanceof BitmapDrawable) {
                 return ((BitmapDrawable) drawable).getBitmap();
@@ -342,8 +344,8 @@ public class PxeViewUtils {
                 }
             } else if (drawable instanceof StateListDrawable) {
                 return ((BitmapDrawable) drawable.getCurrent()).getBitmap();
-            } else if (drawable instanceof VectorDrawableCompat) {
-                Field mVectorStateField = VectorDrawableCompat.class.getDeclaredField("mVectorState");
+            } else if (drawable.getClass().toString().equals("class android.graphics.drawable.VectorDrawable")) {
+                Field mVectorStateField = Class.forName("android.support.graphics.drawable.VectorDrawableCompat").getDeclaredField("mVectorState");
                 mVectorStateField.setAccessible(true);
                 Field mCachedBitmapField = Class.forName("android.support.graphics.drawable.VectorDrawableCompat$VectorDrawableCompatState").getDeclaredField("mCachedBitmap");
                 mCachedBitmapField.setAccessible(true);

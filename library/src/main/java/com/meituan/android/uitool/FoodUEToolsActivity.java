@@ -99,7 +99,7 @@ public class FoodUEToolsActivity extends PxeBaseActivity {
                     mViewPager.setCurrentItem(functionIndex, true);
                 } else {
                     //找不到指定功能
-                    finish();
+                    finish(); 
                 }
             }
         }

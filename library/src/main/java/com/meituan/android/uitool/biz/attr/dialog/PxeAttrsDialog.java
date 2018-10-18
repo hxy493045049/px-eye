@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.meituan.android.uitool.biz.attr.dialog.adapter.PxeAttrDialogAdapter;
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;

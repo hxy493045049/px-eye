@@ -3,7 +3,7 @@ package com.meituan.android.uitool.helper;
 import android.app.Activity;
 import android.support.annotation.Nullable;
 
-import com.meituan.android.uitool.model.PxeViewInfo;
+import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeCollectionUtils;
 import com.meituan.android.uitool.utils.PxeViewUtils;

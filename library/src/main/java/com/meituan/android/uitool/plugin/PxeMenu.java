@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 
 import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.FoodUEToolsActivity;
+import com.meituan.android.uitool.biz.uitest.utils.DensityUtils;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.plugin.adapter.PxeSubMenuAdapter;
 import com.meituan.android.uitool.plugin.model.PxeMenuModel;
@@ -90,6 +91,8 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
     public void show() {
         try {
             if (!isAttachedToWindowCompat()) {
+                //todo 这个功能是否应该放到functionActivity启动时再开启
+                DensityUtils.changeAppDensity();
                 windowManager.addView(this, initToolParams());
                 hasAttach2Window = true;
             }
@@ -102,6 +105,7 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
     public void dismiss() {
         try {
             if (isAttachedToWindowCompat()) {
+                DensityUtils.resetAppDensity();
                 windowManager.removeView(this);
                 hasAttach2Window = false;
             }
@@ -137,6 +141,8 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
                 new PxeMenuModel("属性", R.drawable.food_pxe_attr_selector, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
         pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_COLOR,
                 new PxeMenuModel("取色器", R.drawable.food_pxe_attr_selector, FoodUEToolsActivity.Type.TYPE_COLOR));
+        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_UITEST,
+                new PxeMenuModel("ui检测", R.drawable.food_pxe_measure_selector, FoodUEToolsActivity.Type.TYPE_UITEST));
         pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_EXIT,
                 new PxeMenuModel("关闭", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_EXIT));
         return pxeMenuModels;

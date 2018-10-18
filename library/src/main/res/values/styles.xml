@@ -23,4 +23,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="uet_Theme.Holo.Dialog.background.Translucent" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

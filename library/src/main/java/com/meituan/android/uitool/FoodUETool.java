@@ -6,7 +6,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import com.meituan.android.uitool.biz.attr.provider.impl.PxeDefaultAttrProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.impl.PxeDefaultAttrProvider;
 import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.helper.PxeViewRecorder;
 import com.meituan.android.uitool.plugin.PxeMenu;
@@ -26,7 +26,7 @@ import java.util.Set;
  * FoodUE工具的开关, 提供了默认的属性获取器
  */
 public final class FoodUETool {
-    private PxeMenu ueMenu;
+    private PxeMenu pxeMenu;
     private boolean isShowMenu;
 
     private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new PxeSimpleActivityLifecycleCallbacks() {
@@ -36,7 +36,7 @@ public final class FoodUETool {
             PxeActivityRecorder.getInstance().recordActivity(activity);
             if (isShowMenu) {
                 checkMenu();
-                ueMenu.show();
+                pxeMenu.show();
             }
         }
 
@@ -44,8 +44,8 @@ public final class FoodUETool {
         public void onActivityStopped(Activity activity) {
             PxeActivityRecorder.getInstance().removeActivity(activity);
             if (PxeActivityUtils.getCurrentActivity() == null) {
-                if (ueMenu != null) {
-                    ueMenu.dismiss();
+                if (pxeMenu != null) {
+                    pxeMenu.dismiss();
                 }
             }
         }
@@ -59,7 +59,7 @@ public final class FoodUETool {
 
     public void setOnExitListener(PxeMenu.SubMenuClickEvent exportEvent) {
         checkMenu();
-        ueMenu.setOnExitListener(exportEvent);
+        pxeMenu.setOnExitListener(exportEvent);
     }
 
     public void open() {
@@ -79,7 +79,7 @@ public final class FoodUETool {
             application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
             checkMenu();
-            ueMenu.show();
+            pxeMenu.show();
             isShowMenu = true;
         }
     }
@@ -87,9 +87,9 @@ public final class FoodUETool {
     public void exit() {
         isShowMenu = false;
 
-        if (ueMenu != null) {
-            ueMenu.dismiss();
-            ueMenu = null;
+        if (pxeMenu != null) {
+            pxeMenu.dismiss();
+            pxeMenu = null;
         }
         closeAct();
         release();
@@ -101,8 +101,8 @@ public final class FoodUETool {
     }
 
     public void triggerMenuAnim() {
-        if (ueMenu != null) {
-            ueMenu.startAnim();
+        if (pxeMenu != null) {
+            pxeMenu.startAnim();
         }
     }
 
@@ -139,8 +139,8 @@ public final class FoodUETool {
     }
 
     private void checkMenu() {
-        if (ueMenu == null) {
-            ueMenu = new PxeMenu(ApplicationSingleton.getInstance().getApplicationContext());
+        if (pxeMenu == null) {
+            pxeMenu = new PxeMenu(ApplicationSingleton.getInstance().getApplicationContext());
         }
     }
 
