@@ -129,7 +129,7 @@ public final class FoodUETool {
         if (ApplicationSingleton.getInstance() != null) {
             return;
         }
-        Activity act = PxeActivityUtils.getTopActivity(false);
+        Activity act = PxeActivityUtils.getTopActivity();
         act = act != null ? act : PxeActivityUtils.getCurrentActivity();
         if (act != null) {
             ApplicationSingleton.bindInstance(act.getApplication());

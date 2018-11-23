@@ -89,4 +89,60 @@
             android:background="#33ff0000"/>
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/bg_seckill"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="该套餐正在限时秒杀"
+            android:textColor="#FFFF6633"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="距结束"
+            android:textColor="#FFFF6633"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_seckill_time"
+            android:gravity="center"
+            android:text="04"
+            android:textColor="#fff"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_seckill_time"
+            android:gravity="center"
+            android:text="06"
+            android:textColor="#fff"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_seckill_time"
+            android:gravity="center"
+            android:text="57"
+            android:textColor="#fff"
+            android:textSize="11sp" />
+
+    </LinearLayout>
 </LinearLayout>

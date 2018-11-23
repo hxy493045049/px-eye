@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream;
 public class ScreenshotUtils {
     public static void shotViewAndUpload(final Context context, String user, View view, final Rect rect) {
         Bitmap bitmap = getCacheBitmap(view, rect);
-        bitmap = compressBitmap(context,bitmap);
+        bitmap = compressBitmap(context, bitmap);
         if (bitmap != null) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -27,12 +27,13 @@ public class ScreenshotUtils {
                 @Override
                 public void onSuccess(UiTestUploadResult result) {
                     if (result != null) {
-                        Toast.makeText(context,result.message,Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, result.message, Toast.LENGTH_LONG).show();
                     }
                 }
+
                 @Override
                 public void onFailue() {
-                    Toast.makeText(context,"网络请求失败",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "网络请求失败", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
@@ -74,24 +75,25 @@ public class ScreenshotUtils {
 
     /**
      * 等比例压缩图片
-     * @param context activity
+     *
+     * @param context   activity
      * @param resBitmap 原图片bitmap
      * @return
      */
-    private static Bitmap compressBitmap(Context context,Bitmap resBitmap) {
+    private static Bitmap compressBitmap(Context context, Bitmap resBitmap) {
 
         if (resBitmap == null || !(context instanceof Activity)) {
             return resBitmap;
         }
 
-        Display display = ((Activity)context).getWindow().getWindowManager().getDefaultDisplay();
+        Display display = ((Activity) context).getWindow().getWindowManager().getDefaultDisplay();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         display.getMetrics(displayMetrics);
 
-        float scale = 750.0f/displayMetrics.widthPixels;
+        float scale = DataManager.getDensity() * 1.0f / displayMetrics.widthPixels;
         Matrix matrix = new Matrix();
-        matrix.postScale(scale,scale);
-        return Bitmap.createBitmap(resBitmap,0,0,resBitmap.getWidth(),resBitmap.getHeight(),matrix,true);
+        matrix.postScale(scale, scale);
+        return Bitmap.createBitmap(resBitmap, 0, 0, resBitmap.getWidth(), resBitmap.getHeight(), matrix, true);
 
     }
 }

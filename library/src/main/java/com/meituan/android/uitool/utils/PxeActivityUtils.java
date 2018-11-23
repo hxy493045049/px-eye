@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
-import com.meituan.android.uitool.FoodUETool;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -86,7 +84,7 @@ public class PxeActivityUtils {
      * 获取进程最上层的activity,无论出于何种生命周期状态下
      */
     @SuppressLint("PrivateApi")
-    public static Activity getTopActivity(boolean isContainFunctionAct) {
+    public static Activity getTopActivity() {
         try {
             Class activityThreadClass = Class.forName("android.app.ActivityThread");
             Method currentActivityThreadMethod = activityThreadClass.getMethod("currentActivityThread");
@@ -98,6 +96,7 @@ public class PxeActivityUtils {
                 Class recordClass = record.getClass();
                 Field activityField = recordClass.getDeclaredField("activity");
                 activityField.setAccessible(true);
+                return (Activity) activityField.get(record);
             }
         } catch (Exception e) {
             Log.e("PxeActivityUtils", "getFunctionActivity", e);
