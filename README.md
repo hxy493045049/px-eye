@@ -28,7 +28,7 @@ develop: 下一个版本的开发分支；在第一轮提测之后，会merge到
 # 接入方式： Gradle:
 
 ```groovy
-compile('com.meituan.android.food:pxe:1.0.14')
+compile('com.meituan.android.food:pxe:1.0.19')
 ```
 
 If you want include with project, you can do like belows:
@@ -57,6 +57,11 @@ project(':pxe').projectDir = new File(../pxe/library)
     //close
     FoodUETool.getInstance().exit();
 
+```
+
+## 版本变化
+```
+1.0.19    代码优化,bug修复,支持直接切换工具子模块
 ```
 
 # 其它备注
