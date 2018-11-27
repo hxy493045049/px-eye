@@ -9,7 +9,7 @@
     <ProgressBar
         android:layout_width="69dp"
         android:layout_height="93dp"
-        android:indeterminateDrawable="@drawable/loading_animtaion" />
+        android:indeterminateDrawable="@anim/food_pxe_loading_animtaion" />
 
     <TextView
         android:layout_width="wrap_content"
