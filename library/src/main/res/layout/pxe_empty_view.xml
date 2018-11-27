@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_info_empty" />
+        android:background="@drawable/food_pxe_bg_info_empty" />
 
     <TextView
         android:id="@+id/empty_text"
