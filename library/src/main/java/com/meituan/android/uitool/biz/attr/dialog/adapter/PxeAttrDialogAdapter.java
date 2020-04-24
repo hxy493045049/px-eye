@@ -1,8 +1,5 @@
 package com.meituan.android.uitool.biz.attr.dialog.adapter;
 
-import android.support.v4.util.ArrayMap;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.ViewGroup;
 
 import com.meituan.android.uitool.FoodUETool;
@@ -18,12 +15,15 @@ import com.meituan.android.uitool.utils.PxeCollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.collection.ArrayMap;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/11 on 下午4:05
  */
-public class PxeAttrDialogAdapter extends Adapter<PxeBaseViewHolder> implements PxeExtendableHolder.OnExpandedCallBack {
+public class PxeAttrDialogAdapter extends RecyclerView.Adapter<PxeBaseViewHolder> implements PxeExtendableHolder.OnExpandedCallBack {
     private List<PxeBaseItem> items = new ArrayList<>();
     //通过wrapperItem生成的subItem数据集
     private ArrayMap<IPxeItemsProvider, List<PxeBaseItem>> subItems = new ArrayMap<>();

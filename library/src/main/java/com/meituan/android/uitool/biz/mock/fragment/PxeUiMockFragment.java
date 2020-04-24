@@ -1,10 +1,6 @@
 package com.meituan.android.uitool.biz.mock.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +20,16 @@ import com.meituan.android.uitool.biz.mock.adapter.PxeMockDetailAdapter;
 import com.meituan.android.uitool.biz.mock.adapter.PxeVersionAdapter;
 import com.meituan.android.uitool.biz.mock.structure.PxeFixedLinkedList;
 import com.meituan.android.uitool.library.R;
-import com.meituan.android.uitool.network.PxeRetrofits;
 import com.meituan.android.uitool.utils.ApplicationSingleton;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeCollectionUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
-import com.meituan.android.uitool.utils.PxeLoaderIdUtils;
-import com.meituan.retrofit2.androidadapter.CallLoaderCallbacks;
-import com.sankuai.meituan.retrofit2.Call;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author shawn
@@ -42,7 +38,7 @@ import java.util.List;
  */
 public class PxeUiMockFragment extends PxeBaseFunctionFragment implements PxeVersionAdapter.OnVersionSelectedListener, PxeMockDetailAdapter.OnCaseSelectedListener {
     private PxeFixedLinkedList<String> cache = new PxeFixedLinkedList<>(10);
-    private CallLoaderCallbacks<PxeMockBean> mockDataCallBack;
+//    private CallLoaderCallbacks<PxeMockBean> mockDataCallBack;
     private PxeMockBean mockData;
     private PxeVersionAdapter versionAdapter;
     private PxeMockDetailAdapter detailAdapter;
@@ -51,11 +47,11 @@ public class PxeUiMockFragment extends PxeBaseFunctionFragment implements PxeVer
 
     @Override
     protected void lazyLoad() {
-        showProgressView();
-        if (mockDataCallBack == null) {
-            mockDataCallBack = getDataCallBack();
-        }
-        getLoaderManager().restartLoader(PxeLoaderIdUtils.IdList.PXE_MOCK_INFO, null, mockDataCallBack);
+//        showProgressView();
+//        if (mockDataCallBack == null) {
+//            mockDataCallBack = getDataCallBack();
+//        }
+//        getLoaderManager().restartLoader(PxeLoaderIdUtils.IdList.PXE_MOCK_INFO, null, mockDataCallBack);
     }
 
     @Nullable
@@ -122,25 +118,25 @@ public class PxeUiMockFragment extends PxeBaseFunctionFragment implements PxeVer
         return fragment;
     }
 
-    private CallLoaderCallbacks<PxeMockBean> getDataCallBack() {
-        return new CallLoaderCallbacks<PxeMockBean>(getContext()) {
-            @Override
-            public Call<PxeMockBean> onCreateCall(int id, Bundle args) {
-                return PxeRetrofits.getInstances().getMockInfo();
-            }
-
-            @Override
-            public void onSuccess(Loader loader, PxeMockBean data) {
-                mockData = data;
-                onDataSuccess();
-            }
-
-            @Override
-            public void onFailure(Loader loader, Throwable throwable) {
-                showErrorEmptyView();
-            }
-        };
-    }
+//    private CallLoaderCallbacks<PxeMockBean> getDataCallBack() {
+//        return new CallLoaderCallbacks<PxeMockBean>(getContext()) {
+//            @Override
+//            public Call<PxeMockBean> onCreateCall(int id, Bundle args) {
+//                return PxeRetrofits.getInstances().getMockInfo();
+//            }
+//
+//            @Override
+//            public void onSuccess(Loader loader, PxeMockBean data) {
+//                mockData = data;
+//                onDataSuccess();
+//            }
+//
+//            @Override
+//            public void onFailure(Loader loader, Throwable throwable) {
+//                showErrorEmptyView();
+//            }
+//        };
+//    }
 
     /**
      * 成功收到服务器数据,展示ui

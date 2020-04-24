@@ -1,9 +1,9 @@
 package com.meituan.android.uitool.base.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.Fragment;
 
 /**
  * @author shawn

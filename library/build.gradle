@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
@@ -25,16 +25,9 @@ android {
     }
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    compile('com.squareup.okhttp:okhttp-mt:2.7.6') // direct
-    compile('com.sankuai.meituan.retrofit2:callfactory-okhttp:1.7.7') { transitive = false } // direct
-    compile('com.sankuai.meituan.retrofit2:retrofit-mt:1.7.7') // direct
-    compile('com.sankuai.meituan.retrofit2:androidadapter:1.7.7') // direct
-//    compile 'com.sankuai.meituan.retrofit2:cache:1.7.9'
-    compile 'com.sankuai.meituan.retrofit2:converter-gson:1.7.9' // 使用gson完成对json数据格式的解析
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 }

@@ -1,6 +1,5 @@
 package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseItem;
 import com.meituan.android.uitool.biz.attr.dialog.mode.PxeWrapperItem;
 import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeItemsProvider;
 import com.meituan.android.uitool.library.R;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author shawn

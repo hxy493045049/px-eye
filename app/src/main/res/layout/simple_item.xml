@@ -23,7 +23,7 @@
         android:layout_toRightOf="@id/iv1"
         android:text="android" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true" />

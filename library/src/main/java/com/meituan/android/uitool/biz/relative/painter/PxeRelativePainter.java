@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.meituan.android.uitool.base.painter.PxeBasePainter;
 import com.meituan.android.uitool.library.R;

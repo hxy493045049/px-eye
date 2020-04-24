@@ -1,7 +1,7 @@
 package com.meituan.android.uitool.base.activity;
 
-import android.support.annotation.IntDef;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.IntDef;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.meituan.android.uitool.FoodUEToolsActivity;
 

@@ -1,7 +1,5 @@
 package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 
-import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.meituan.android.uitool.biz.attr.dialog.adapter.PxeAttrDialogAdapter;
@@ -9,6 +7,9 @@ import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseItem;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author shawn

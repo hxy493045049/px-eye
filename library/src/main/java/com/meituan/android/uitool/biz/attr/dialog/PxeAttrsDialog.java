@@ -4,9 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +13,10 @@ import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
 import com.meituan.android.uitool.utils.PxeDimensionUtils;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author shawn

@@ -3,8 +3,8 @@ package com.meituan.android.uitool.plugin;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageButton;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 

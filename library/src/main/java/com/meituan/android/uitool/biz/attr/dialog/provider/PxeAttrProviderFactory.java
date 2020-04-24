@@ -1,6 +1,6 @@
 package com.meituan.android.uitool.biz.attr.dialog.provider;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -9,7 +9,7 @@ import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeBaseViewHolder.P
  * @author shawn
  * Created with IntelliJ IDEA.
  * 2018/8/20 on 下午4:45
- * {@link android.support.v7.widget.RecyclerView.ViewHolder} 创建器
+ * {@link androidx.appcompat.widget.RecyclerView.ViewHolder} 创建器
  */
 public class PxeViewHolderFactory {
     private PxeViewHolderFactory() {

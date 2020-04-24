@@ -1,9 +1,10 @@
 package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeItemsProvider;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author shawn

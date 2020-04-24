@@ -2,7 +2,7 @@ package com.meituan.android.uitool.helper.mode;
 
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.meituan.android.uitool.utils.PxeActivityUtils;

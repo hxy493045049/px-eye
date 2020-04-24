@@ -17,7 +17,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannedString;
 import android.text.style.ImageSpan;
 import android.util.Pair;

@@ -1,8 +1,8 @@
 package com.meituan.android.uitool.helper;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.meituan.android.uitool.base.activity.PxeBaseActivity;
 import com.meituan.android.uitool.utils.PxeActivityUtils;
