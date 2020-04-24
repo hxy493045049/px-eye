@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.meituan.android.uitool.FoodUETool;
 import com.meituan.android.uitool.FoodUEToolsActivity;
 import com.meituan.android.uitool.base.fragment.PxeBaseFunctionFragment;
 import com.meituan.android.uitool.biz.relative.behavior.PxeRelativeBehavior;
@@ -61,7 +60,7 @@ public class PxeRelativeFragment extends PxeBaseFunctionFragment {
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();
         }
         PxeBoardTextView board = root.findViewById(R.id.pxe_view_info);
-        board.setText(PxeResourceUtils.getResource().getString(R.string.ue_measure_bottom_hint,
+        board.setText(PxeResourceUtils.getResource().getString(R.string.pxe_measure_bottom_hint,
                 String.valueOf(PxeGriddingLayout.LINE_INTERVAL_DP), defaultInfo));
     }
 }

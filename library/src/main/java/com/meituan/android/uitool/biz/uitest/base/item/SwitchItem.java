@@ -72,7 +72,7 @@ public class SwitchItem extends ElementItem {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
                     if (getType() == SwitchItem.Type.TYPE_MOVE) {
-                        if (callback != null && isChecked) {
+                        if (callback != null && isChecked) { 
                             callback.enableMove();
                         }
                         return;

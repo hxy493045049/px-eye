@@ -20,6 +20,9 @@ public abstract class PxeBaseFunctionFragment extends PxeLazyBaseFragment implem
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
+        if (bundle == null) {
+            return;
+        }
         currentFunctionType = bundle.getInt(KEY_CURRENT_TYPE);
     }
 

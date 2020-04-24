@@ -27,4 +27,9 @@
     <style name="uet_Theme.Holo.Dialog.background.Translucent" parent="@android:style/Theme.Translucent.NoTitleBar">
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="PopUpAnimation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/out_anim</item>
+    </style>
 </resources>

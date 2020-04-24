@@ -54,6 +54,13 @@ public abstract class PxeBaseFragment extends PxeProgressDialogFragment {
     protected View createDefaultEmptyView() {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.pxe_empty_view, null);
         ((TextView) view.findViewById(R.id.empty_text)).setText(getEmptyText());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressView();
+                loadData();
+            }
+        });
         return view;
     }
 
@@ -98,6 +105,6 @@ public abstract class PxeBaseFragment extends PxeProgressDialogFragment {
     }
 
     protected CharSequence getEmptyText() {
-        return getString(R.string.empty_info);
+        return getString(R.string.pxe_empty_info);
     }
 }

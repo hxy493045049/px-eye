@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textColor="#ccc"
-        android:textSize="@dimen/uet_info_text_size"
+        android:textSize="@dimen/pxe_text_size_12"
         tools:text="text"
         />
 
@@ -30,7 +30,7 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:src="@drawable/uet_menu"
+            tools:src="@drawable/uet_right_arrow"
             />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:textColor="#fff"
-            android:textSize="@dimen/uet_info_text_size"
+            android:textSize="@dimen/pxe_text_size_12"
             tools:text="300*300"
             tools:textColor="#999"
             />

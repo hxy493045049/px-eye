@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/food_ue_round_corner_dialog_bg"
+    android:background="@drawable/pxe_round_corner_dialog_bg"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">

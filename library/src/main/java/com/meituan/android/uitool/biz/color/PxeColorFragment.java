@@ -60,7 +60,7 @@ public class PxeColorFragment extends PxeBaseFunctionFragment {
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();
         }
         PxeBoardTextView board = root.findViewById(R.id.pxe_view_info);
-        board.setText(PxeResourceUtils.getResource().getString(R.string.ue_measure_bottom_hint,
+        board.setText(PxeResourceUtils.getResource().getString(R.string.pxe_measure_bottom_hint,
                 String.valueOf(PxeGriddingLayout.LINE_INTERVAL_DP), defaultInfo));
     }
 }

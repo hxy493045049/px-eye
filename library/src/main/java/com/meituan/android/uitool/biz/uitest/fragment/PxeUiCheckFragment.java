@@ -22,7 +22,7 @@ public class PxeUiCheckFragment extends PxeBaseFunctionFragment {
 
     public static PxeUiCheckFragment newInstance() {
         PxeUiCheckFragment fragment = new PxeUiCheckFragment();
-        setArgument(fragment, FoodUEToolsActivity.Type.TYPE_UITEST);
+        setArgument(fragment, FoodUEToolsActivity.Type.TYPE_UI_CHECK);
         return fragment;
     }
 
@@ -45,7 +45,7 @@ public class PxeUiCheckFragment extends PxeBaseFunctionFragment {
             defaultInfo = "ui检测" + " / " + targetActivity.getClass().getName();
         }
         PxeBoardTextView board = root.findViewById(R.id.pxe_view_info);
-        board.setText(PxeResourceUtils.getResource().getString(R.string.ue_measure_bottom_hint,
+        board.setText(PxeResourceUtils.getResource().getString(R.string.pxe_measure_bottom_hint,
                 String.valueOf(PxeGriddingLayout.LINE_INTERVAL_DP), defaultInfo));
     }
 }

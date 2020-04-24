@@ -106,7 +106,7 @@ public class UITestDialog extends Dialog implements View.OnClickListener{
                 }else {
                     customListView.setVisibility(View.GONE);
                 }
-                rightArrowText.setText(getContext().getResources().getString(R.string.uet_click_to_open_attr_change));
+                rightArrowText.setText(getContext().getResources().getString(R.string.pxe_click_to_open_attr_change));
                 rightArrow.setImageResource(R.drawable.uet_right_arrow);
             }
         });
@@ -165,13 +165,13 @@ public class UITestDialog extends Dialog implements View.OnClickListener{
         if (i == R.id.uploadImg) {
             callback.generateScreenshot(customListView.getCurrentClickedItem());
         }else if (i == R.id.rightArrowContainer) {
-            if (TextUtils.equals(rightArrowText.getText(),this.getContext().getResources().getString(R.string.uet_click_to_open_attr_change))) {
+            if (TextUtils.equals(rightArrowText.getText(),this.getContext().getResources().getString(R.string.pxe_click_to_open_attr_change))) {
                 validViews.setChecked(false);
-                rightArrowText.setText(this.getContext().getResources().getString(R.string.uet_click_to_close_attr_change));
+                rightArrowText.setText(this.getContext().getResources().getString(R.string.pxe_click_to_close_attr_change));
                 rightArrow.setImageResource(R.drawable.uet_left_arrow);
                 customListView.setVisibility(View.VISIBLE);
             }else {
-                rightArrowText.setText(this.getContext().getResources().getString(R.string.uet_click_to_open_attr_change));
+                rightArrowText.setText(this.getContext().getResources().getString(R.string.pxe_click_to_open_attr_change));
                 rightArrow.setImageResource(R.drawable.uet_right_arrow);
                 customListView.setVisibility(View.GONE);
             }

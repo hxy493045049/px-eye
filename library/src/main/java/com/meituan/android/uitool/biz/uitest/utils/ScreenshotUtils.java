@@ -8,38 +8,47 @@ import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
-import android.widget.Toast;
 
-import com.meituan.android.uitool.biz.uitest.base.UiTestUploadResult;
 import com.meituan.android.uitool.biz.uitest.base.Element;
 
 import java.io.ByteArrayOutputStream;
 
 
 public class ScreenshotUtils {
-    public static void shotViewAndUpload(final Context context, String user, View view, final Rect rect) {
+    public static byte[] getByteFromView(final Context context, View view, final Rect rect) {
         Bitmap bitmap = getCacheBitmap(view, rect);
         bitmap = compressBitmap(context, bitmap);
         if (bitmap != null) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            NetWorkUtils.uploadImage(byteArrayOutputStream.toByteArray(), user, new NetWorkUtils.OnResponse() {
-                @Override
-                public void onSuccess(UiTestUploadResult result) {
-                    if (result != null) {
-                        Toast.makeText(context, result.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailue() {
-                    Toast.makeText(context, "网络请求失败", Toast.LENGTH_LONG).show();
-                }
-            });
-        } else {
-            Toast.makeText(context, "获取图片失败", Toast.LENGTH_SHORT).show();
+            return byteArrayOutputStream.toByteArray();
         }
+        return null;
     }
+
+//    public static void shotViewAndUpload(final Context context, String user, View view, final Rect rect) {
+//        Bitmap bitmap = getCacheBitmap(view, rect);
+//        bitmap = compressBitmap(context, bitmap);
+//        if (bitmap != null) {
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//            NetWorkUtils.uploadImage(byteArrayOutputStream.toByteArray(), user, new NetWorkUtils.OnResponse() {
+//                @Override
+//                public void onSuccess(UiTestUploadResult result) {
+//                    if (result != null) {
+//                        Toast.makeText(context, result.message, Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailue() {
+//                    Toast.makeText(context, "网络请求失败", Toast.LENGTH_LONG).show();
+//                }
+//            });
+//        } else {
+//            Toast.makeText(context, "获取图片失败", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private static Bitmap getCacheBitmap(View rootView, Rect rect) {
         rootView.setDrawingCacheEnabled(true);

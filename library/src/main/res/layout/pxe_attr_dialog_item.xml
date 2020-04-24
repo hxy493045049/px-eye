@@ -6,9 +6,9 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/pxe_attr_dialog_padding"
-    android:paddingRight="@dimen/pxe_attr_dialog_padding"
-    android:paddingStart="@dimen/pxe_attr_dialog_padding"
+    android:paddingLeft="@dimen/pxe_common_horizontal_padding"
+    android:paddingRight="@dimen/pxe_common_horizontal_padding"
+    android:paddingStart="@dimen/pxe_common_horizontal_padding"
     tools:background="@color/pxe_gray">
 
     <HorizontalScrollView

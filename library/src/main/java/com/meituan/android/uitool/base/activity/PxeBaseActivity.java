@@ -19,38 +19,36 @@ public abstract class PxeBaseActivity extends AppCompatActivity {
     protected List<Integer> functions;
 
     /**
-     * 配置功能列表,注意顺序
-     *
      * @return 功能列表
      */
     protected List<Integer> initFragmentList() {
         List<Integer> types = new ArrayList<>();
-        types.add(FoodUEToolsActivity.Type.TYPE_MEASURE, FoodUEToolsActivity.Type.TYPE_MEASURE);
-        types.add(FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION);
-        types.add(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR);
-        types.add(FoodUEToolsActivity.Type.TYPE_COLOR, FoodUEToolsActivity.Type.TYPE_COLOR);
-        types.add(FoodUEToolsActivity.Type.TYPE_UITEST, FoodUEToolsActivity.Type.TYPE_UITEST);
+        types.add(FoodUEToolsActivity.Type.TYPE_MEASURE);
+        types.add(FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION);
+        types.add(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR);
+        types.add(FoodUEToolsActivity.Type.TYPE_COLOR);
+        types.add(FoodUEToolsActivity.Type.TYPE_UI_CHECK);
+        types.add(FoodUEToolsActivity.Type.TYPE_MOCK);
         return types;
     }
 
 
-    /**
-     * 注意, 以下属性的值不能乱填, 必须是连续的, 并且属性的值和menu中的item以及显示的功能顺序相等
-     */
     @IntDef({
             Type.TYPE_EDIT_ATTR,
             Type.TYPE_MEASURE,
             Type.TYPE_RELATIVE_POSITION,
             Type.TYPE_COLOR,
-            Type.TYPE_UITEST
+            Type.TYPE_UI_CHECK,
+            Type.TYPE_MOCK
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {
         int TYPE_MEASURE = 0;//测量类型
         int TYPE_RELATIVE_POSITION = 1;//相对位置
         int TYPE_EDIT_ATTR = 2;//属性捕捉
-        int TYPE_COLOR = 3;//关闭
-        int TYPE_UITEST = 4;//UI检测
+        int TYPE_COLOR = 3;//取色器
+        int TYPE_UI_CHECK = 4;//UI检测
         int TYPE_EXIT = 5;//关闭
+        int TYPE_MOCK = 6;//MOCK
     }
 }

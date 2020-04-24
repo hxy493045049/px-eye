@@ -46,7 +46,8 @@ public class PxeViewInfo {
         int left = location[0];
         int right = left + width;
         int top = location[1];
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {//19及以下,去掉statusbar高度
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            //19及以下,去掉statusBar高度,因为21及以上才开启了全屏
             top -= PxeActivityUtils.getStatusBarHeight();
         }
         int bottom = top + height;

@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.meituan.android.uitool.base.activity.PxeBaseActivity;
 import com.meituan.android.uitool.base.adapter.PxeFragmentAdapter;
@@ -46,18 +49,21 @@ public class FoodUEToolsActivity extends PxeBaseActivity {
         PxeActivityUtils.setStatusBarColor(getWindow(), Color.TRANSPARENT);
         PxeActivityUtils.enableFullscreen(getWindow());
 
+
+        //设置状态栏颜色
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.pxe_light_black));
+        }
+
         setContentView(R.layout.pxe_activity_transparent);
         loadingView = findViewById(R.id.loading_view);
         mViewPager = findViewById(R.id.container);
         functions = initFragmentList();
         PxeFragmentAdapter mAdapter = new PxeFragmentAdapter(getSupportFragmentManager(), functions);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-        });
 
         loadViews();
         mCurrentFunctionType = -1;
@@ -99,7 +105,7 @@ public class FoodUEToolsActivity extends PxeBaseActivity {
                     mViewPager.setCurrentItem(functionIndex, true);
                 } else {
                     //找不到指定功能
-                    finish(); 
+                    finish();
                 }
             }
         }

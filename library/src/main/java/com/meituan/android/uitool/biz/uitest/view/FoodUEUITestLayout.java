@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -13,11 +16,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import com.meituan.android.uitool.biz.uitest.base.UITestDialogCallback;
 import com.meituan.android.uitool.biz.uitest.base.Element;
+import com.meituan.android.uitool.biz.uitest.base.UITestDialogCallback;
+import com.meituan.android.uitool.biz.uitest.base.UiTestUploadResult;
 import com.meituan.android.uitool.biz.uitest.utils.DataManager;
 import com.meituan.android.uitool.biz.uitest.utils.ScreenshotUtils;
+import com.meituan.android.uitool.network.PxeRetrofits;
+import com.meituan.android.uitool.utils.PxeActivityUtils;
+import com.meituan.android.uitool.utils.PxeLoaderIdUtils;
+import com.meituan.retrofit2.androidadapter.CallLoaderCallbacks;
+import com.sankuai.meituan.retrofit2.Call;
 
 import static com.meituan.android.uitool.utils.PxeDimensionUtils.dip2px;
 import static com.meituan.android.uitool.utils.PxeDimensionUtils.px2dip;
@@ -198,7 +206,17 @@ public class FoodUEUITestLayout extends FoodUECollectViewsLayout {
                                 SettingsDailog.showDialog(getContext());
                                 return;
                             }
-                            ScreenshotUtils.shotViewAndUpload(getContext(), user, element.getView().getRootView(), element.getRect());
+                            //todo 这个代码后续优化,将事件放到外部
+                            AppCompatActivity act = PxeActivityUtils.getActivityFromContext(getContext());
+                            if (act != null) {
+                                byte[] img = ScreenshotUtils.getByteFromView(getContext(), element.getView().getRootView(), element.getRect());
+                                if (img == null || img.length == 0) {
+                                    Toast.makeText(getContext(), "获取图片失败", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                act.getSupportLoaderManager().restartLoader(PxeLoaderIdUtils.IdList.PXE_UPLOAD_IMAGE, null,
+                                        getUploadCallback(img, user));
+                            }
                         }
                     });
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -227,5 +245,24 @@ public class FoodUEUITestLayout extends FoodUECollectViewsLayout {
 
     public interface OnDragListener {
         void showOffset(String offsetContent);
+    }
+
+    private CallLoaderCallbacks<UiTestUploadResult> getUploadCallback(byte[] img, String user) {
+        return new CallLoaderCallbacks<UiTestUploadResult>(getContext()) {
+            @Override
+            public Call<UiTestUploadResult> onCreateCall(int id, Bundle args) {
+                return PxeRetrofits.getInstances().addImage(img, user);
+            }
+
+            @Override
+            public void onSuccess(Loader loader, UiTestUploadResult data) {
+                Toast.makeText(getContext(), data.message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Loader loader, Throwable throwable) {
+                Toast.makeText(getContext(), "网络请求失败", Toast.LENGTH_LONG).show();
+            }
+        };
     }
 }

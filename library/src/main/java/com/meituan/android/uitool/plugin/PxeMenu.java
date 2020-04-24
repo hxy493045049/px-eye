@@ -133,18 +133,20 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
 
     private List<PxeMenuModel> initMenuData() {
         List<PxeMenuModel> pxeMenuModels = new ArrayList<>();
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_MEASURE,
-                new PxeMenuModel("测量条", R.drawable.food_pxe_measure_selector, FoodUEToolsActivity.Type.TYPE_MEASURE));
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION,
-                new PxeMenuModel("相对位置", R.drawable.food_pxe_relative_selector, FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_EDIT_ATTR,
-                new PxeMenuModel("属性", R.drawable.food_pxe_attr_selector, FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_COLOR,
-                new PxeMenuModel("取色器", R.drawable.food_pxe_attr_selector, FoodUEToolsActivity.Type.TYPE_COLOR));
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_UITEST,
-                new PxeMenuModel("ui检测", R.drawable.food_pxe_measure_selector, FoodUEToolsActivity.Type.TYPE_UITEST));
-        pxeMenuModels.add(FoodUEToolsActivity.Type.TYPE_EXIT,
-                new PxeMenuModel("关闭", R.drawable.food_ue_close, FoodUEToolsActivity.Type.TYPE_EXIT));
+        pxeMenuModels.add(new PxeMenuModel("测量条", R.drawable.pxe_measure_selector,
+                FoodUEToolsActivity.Type.TYPE_MEASURE));
+        pxeMenuModels.add(new PxeMenuModel("相对位置", R.drawable.pxe_relative_selector,
+                FoodUEToolsActivity.Type.TYPE_RELATIVE_POSITION));
+        pxeMenuModels.add(new PxeMenuModel("属性", R.drawable.pxe_attr_selector,
+                FoodUEToolsActivity.Type.TYPE_EDIT_ATTR));
+        pxeMenuModels.add(new PxeMenuModel("取色器", R.drawable.pxe_attr_selector,
+                FoodUEToolsActivity.Type.TYPE_COLOR));
+        pxeMenuModels.add(new PxeMenuModel("ui检测", R.drawable.pxe_measure_selector,
+                FoodUEToolsActivity.Type.TYPE_UI_CHECK));
+        pxeMenuModels.add(new PxeMenuModel("MOCK", R.drawable.pxe_measure_selector,
+                FoodUEToolsActivity.Type.TYPE_MOCK));
+        pxeMenuModels.add(new PxeMenuModel("关闭", R.drawable.food_ue_close,
+                FoodUEToolsActivity.Type.TYPE_EXIT));
         return pxeMenuModels;
     }
 
@@ -206,6 +208,8 @@ public class PxeMenu extends LinearLayout implements View.OnTouchListener, PxeSu
     private void startFunctionByType(@FoodUEToolsActivity.Type int type, Activity act) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri.Builder builder = Uri.parse(FoodUEToolsActivity.ACTION).buildUpon();
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setPackage(act.getPackageName());
         intent.setData(builder.build());
         intent.putExtra(FoodUEToolsActivity.CURRENT_FUNCTION_TYPE, type);
 

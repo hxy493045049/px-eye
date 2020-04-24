@@ -3,7 +3,7 @@ package com.meituan.android.uitool.biz.attr.dialog.viewholder;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import static com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeHolderType.AttrDialogHolder;
+import com.meituan.android.uitool.biz.attr.dialog.viewholder.PxeBaseViewHolder.PxeAttrHolderType;
 
 /**
  * @author shawn
@@ -21,24 +21,18 @@ public class PxeViewHolderFactory {
 
     public PxeBaseViewHolder createViewHolder(ViewGroup parent, int type) {
         switch (type) {
-            case AttrDialogHolder.TITLE:
+            case PxeAttrHolderType.TITLE:
                 return new PxeTitleHolder(parent);
-            case AttrDialogHolder.NORMAL:
-                return new PxeNormalHolder(parent);
-            case AttrDialogHolder.BITMAP:
+            case PxeAttrHolderType.TEXT:
+                return new PxeTextHolder(parent);
+            case PxeAttrHolderType.BITMAP:
                 return new PxeBitmapHolder(new LinearLayout(parent.getContext()));//todo 待完善
             default:
-                return new PxeNormalHolder(parent);
+                return new PxeTextHolder(parent);
         }
     }
 
     private static class Holder {
         private static PxeViewHolderFactory factory = new PxeViewHolderFactory();
     }
-
-
-
-
-
-
 }

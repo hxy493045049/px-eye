@@ -1,27 +1,30 @@
 <resources>
-    <string name="app_name">library</string>
-
-    <string name="ue_dialog_title">测量条尺寸</string>
-    <string name="ue_dialog_set_height">设置高度</string>
-    <string name="ue_dialog_set_width">设置宽度</string>
-    <string name="ue_dialog_ensure">确定</string>
+    <string name="app_name">Pixel Eye</string>
+    <!--mock-->
+    <string name="pxe_mock_switch">mock开关</string>
+    <string name="pxe_mock_mis_number_hint">请输入mis号</string>
 
     <!--measure-->
-
-    <string name="ue_measure_bottom_hint">间距: %1$s dp; %2$s</string>
+    <string name="pxe_measure_bottom_hint">间距: %1$s dp; %2$s</string>
 
     <!--attr-->
-    <string name="ue_attr_view_not_found">坐标 (%1$.0f , %2$.0f) 中找不到有效view</string>
+    <string name="pxe_attr_view_not_found">坐标 (%1$.0f , %2$.0f) 中找不到有效view</string>
+
+    <!--attr dialog-->
+    <string name="pxe_dialog_title">测量条尺寸</string>
+    <string name="pxe_dialog_set_height">设置高度</string>
+    <string name="pxe_dialog_set_width">设置宽度</string>
+    <string name="pxe_dialog_ensure">确定</string>
 
     <!--pxe_error-->
-    <string name="empty_info">暂无此信息</string>
-    <string name="check_network_then_click_for_retry">请检查网络后点击重新加载</string>
-    <string name="fetch_data_failed">数据获取失败</string>
+    <string name="pxe_empty_info">暂无此信息</string>
+    <string name="pxe_check_network_then_click_for_retry">请检查网络后点击重新加载</string>
+    <string name="pxe_fetch_data_failed">数据获取失败</string>
 
-    <string name="uet_target_element_not_found">could not found view in (%1$.0f , %2$.0f), please select view again</string>
-    <string name="uet_disable">DESABLE_UETOOL</string>
-    <string name="uet_setting">设置</string>
-    <string name="uet_click_to_open_attr_change">开启UI调整</string>
-    <string name="uet_click_to_close_attr_change">关闭UI调整</string>
+    <string name="pxe_target_element_not_found">could not found view in (%1$.0f , %2$.0f), please select view again</string>
+    <string name="pxe_disable">DESABLE_UETOOL</string>
+    <string name="pxe_setting">设置</string>
+    <string name="pxe_click_to_open_attr_change">开启UI调整</string>
+    <string name="pxe_click_to_close_attr_change">关闭UI调整</string>
 
 </resources>

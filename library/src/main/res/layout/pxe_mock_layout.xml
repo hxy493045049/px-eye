@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/tooltip_horizontal_padding"
+    android:paddingLeft="@dimen/tooltip_horizontal_padding"
+    android:paddingRight="@dimen/tooltip_horizontal_padding"
+    android:paddingStart="@dimen/tooltip_horizontal_padding">
+
+    <TextView
+        android:id="@+id/tv_mock_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/pxe_text_size_12"
+        tools:text="相关提示相关提示相关提示" />
+
+    <Switch
+        android:id="@+id/switch_mock"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxe_common_small_item_height"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/pxe_mock_switch"
+        android:textSize="@dimen/pxe_text_size_12" />
+
+    <AutoCompleteTextView
+        android:id="@+id/edit_mock_mis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/pxe_mock_mis_number_hint"
+        android:inputType="textAutoComplete"
+        android:textSize="@dimen/pxe_text_size_12" />
+
+    <LinearLayout
+        android:id="@+id/mock_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mock_version"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/pxe_light_black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mock_detail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+    </LinearLayout>
+
+</LinearLayout>

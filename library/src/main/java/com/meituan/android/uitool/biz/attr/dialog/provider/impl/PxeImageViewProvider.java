@@ -1,7 +1,9 @@
 package com.meituan.android.uitool.biz.attr.dialog.provider.impl;
 
-import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeAttrProvider;
-import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseAttr;
+import android.widget.ImageView;
+
+import com.meituan.android.uitool.biz.attr.dialog.mode.PxeBaseItem;
+import com.meituan.android.uitool.biz.attr.dialog.provider.IPxeItemsProvider;
 import com.meituan.android.uitool.helper.mode.PxeViewInfo;
 
 import java.util.List;
@@ -12,9 +14,13 @@ import java.util.List;
  * 2018/8/13 on 下午5:00
  * 提供ImageView类型特有的属性
  */
-public class PxeImageViewProvider implements IPxeAttrProvider {
+public class PxeImageViewProvider implements IPxeItemsProvider {
     @Override
-    public List<PxeBaseAttr> getAttrs(PxeViewInfo viewInfo) {
-        return null;// TODO: 2018/8/13
+    public List<? extends PxeBaseItem> getItems(PxeViewInfo viewInfo) {
+        if (viewInfo.getView() instanceof ImageView) {
+            // TODO: 2018/10/23
+        }
+
+        return null;
     }
 }

@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:maxLines="1"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/uet_info_text_size"
+        android:textSize="@dimen/pxe_text_size_12"
         tools:text="text" />
 
     <Switch

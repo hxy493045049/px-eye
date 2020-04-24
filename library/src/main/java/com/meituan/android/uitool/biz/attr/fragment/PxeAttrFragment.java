@@ -13,8 +13,8 @@ import com.meituan.android.uitool.base.painter.PxeBasePainter;
 import com.meituan.android.uitool.biz.attr.behavior.PxeViewShowBehavior;
 import com.meituan.android.uitool.biz.attr.dialog.PxeAttrsDialog;
 import com.meituan.android.uitool.helper.PxeActivityRecorder;
-import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.helper.mode.PxeViewInfo;
+import com.meituan.android.uitool.library.R;
 import com.meituan.android.uitool.plugin.PxeBoardTextView;
 import com.meituan.android.uitool.plugin.PxeFunctionView;
 import com.meituan.android.uitool.plugin.PxeGriddingLayout;
@@ -67,7 +67,7 @@ public class PxeAttrFragment extends PxeBaseFunctionFragment implements PxeBaseB
             defaultInfo = "food" + " / " + targetActivity.getClass().getName();
         }
         PxeBoardTextView board = root.findViewById(R.id.pxe_view_info);
-        board.setText(PxeResourceUtils.getResource().getString(R.string.ue_measure_bottom_hint,
+        board.setText(PxeResourceUtils.getResource().getString(R.string.pxe_measure_bottom_hint,
                 String.valueOf(PxeGriddingLayout.LINE_INTERVAL_DP), defaultInfo));
     }
 
@@ -83,6 +83,14 @@ public class PxeAttrFragment extends PxeBaseFunctionFragment implements PxeBaseB
             dialog.dismiss();
         } else {
             dialog.show(selectedViewInfo);
+        }
+    }
+
+    @Override
+    protected void onInvisible() {
+        super.onInvisible();
+        if (dialog != null) {
+            dialog.dismiss();
         }
     }
 }

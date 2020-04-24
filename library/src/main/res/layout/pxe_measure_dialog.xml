@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/ue_dialog_title"
+        android:text="@string/pxe_dialog_title"
         android:textColor="@color/pxe_light_black"
         android:textSize="20sp" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:hint="@string/ue_dialog_set_width"
+        android:hint="@string/pxe_dialog_set_width"
         android:inputType="number"
         android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:hint="@string/ue_dialog_set_height"
+        android:hint="@string/pxe_dialog_set_height"
         android:inputType="number"
         android:textSize="16sp" />
 
@@ -48,11 +48,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/food_ensure_button"
+        android:background="@drawable/pxe_ensure_button"
         android:gravity="center"
         android:paddingBottom="9dp"
         android:paddingTop="9dp"
-        android:text="@string/ue_dialog_ensure"
+        android:text="@string/pxe_dialog_ensure"
         android:textColor="@color/pxe_white"
         android:textSize="16sp" />
 

@@ -86,7 +86,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="12sp"
-                android:text="@string/uet_click_to_open_attr_change"/>
+                android:text="@string/pxe_click_to_open_attr_change"/>
             <ImageView
                 android:id="@+id/rightArrow"
                 android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="12sp"
-                android:text="@string/uet_setting"/>
+                android:text="@string/pxe_setting"/>
         </LinearLayout>
     </LinearLayout>
     <View

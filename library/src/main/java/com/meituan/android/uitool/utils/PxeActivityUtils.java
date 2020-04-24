@@ -3,9 +3,13 @@ package com.meituan.android.uitool.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -119,5 +123,24 @@ public class PxeActivityUtils {
             e.printStackTrace();
         }
         return application;
+    }
+
+    /**
+     * @param context attached Context, associated with activity
+     * @return attached Activity
+     * Attention 1. 勿使用成员变量直接持有Activity    2. 勿使用静态变量持有Activity
+     */
+    @Nullable
+    public static AppCompatActivity getActivityFromContext(@NonNull Context context) {
+        AppCompatActivity activity = null;
+        while (context instanceof ContextWrapper) {
+            if (context instanceof AppCompatActivity) {
+                activity = (AppCompatActivity) context;
+                break;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return activity;
+
     }
 }

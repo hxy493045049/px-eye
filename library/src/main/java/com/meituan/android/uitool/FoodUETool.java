@@ -6,7 +6,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import com.meituan.android.uitool.biz.attr.dialog.provider.impl.PxeDefaultAttrProvider;
+import com.meituan.android.uitool.biz.attr.dialog.provider.impl.PxeDefaultItemsProvider;
 import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.helper.PxeViewRecorder;
 import com.meituan.android.uitool.plugin.PxeMenu;
@@ -149,7 +149,7 @@ public final class FoodUETool {
         private static FoodUETool instance = new FoodUETool();
 
         static {
-            attrsProviderSet.add(PxeDefaultAttrProvider.class.getName());
+            attrsProviderSet.add(PxeDefaultItemsProvider.class.getName());
         }
     }
 

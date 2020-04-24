@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.meituan.android.uitool.FoodUETool;
-import com.meituan.android.uitool.biz.uitest.UETool;
 import com.meituan.android.uitool.biz.uitest.base.Element;
 import com.meituan.android.uitool.helper.PxeActivityRecorder;
 import com.meituan.android.uitool.library.R;
@@ -141,7 +139,7 @@ public class FoodUECollectViewsLayout extends View {
 
     private void traverse(View view) {
         if (view.getAlpha() == 0 || view.getVisibility() != View.VISIBLE) return;
-        if (getResources().getString(R.string.uet_disable).equals(view.getTag())) return;
+        if (getResources().getString(R.string.pxe_disable).equals(view.getTag())) return;
         elements.add(new Element(view));
         if (view instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) view;
@@ -188,7 +186,7 @@ public class FoodUECollectViewsLayout extends View {
             }
         }
         if (target == null) {
-            Toast.makeText(getContext(), getResources().getString(R.string.uet_target_element_not_found, x, y), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.pxe_target_element_not_found, x, y), Toast.LENGTH_SHORT).show();
         }
         return target;
     }

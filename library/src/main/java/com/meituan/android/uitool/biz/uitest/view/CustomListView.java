@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.meituan.android.uitool.biz.uitest.UETool;
-import com.meituan.android.uitool.biz.uitest.base.UITestDialogCallback;
 import com.meituan.android.uitool.biz.uitest.base.Element;
 import com.meituan.android.uitool.biz.uitest.base.IAttrs;
 import com.meituan.android.uitool.biz.uitest.base.ItemArrayList;
+import com.meituan.android.uitool.biz.uitest.base.UITestDialogCallback;
 import com.meituan.android.uitool.biz.uitest.base.item.BriefDescItem;
 import com.meituan.android.uitool.biz.uitest.base.item.Item;
 import com.meituan.android.uitool.biz.uitest.base.item.SwitchItem;
@@ -31,6 +31,7 @@ public class CustomListView extends ScrollView {
     private List<Item> itemsCore = new ItemArrayList<>();
     private UITestDialogCallback callback;
     private Element currentElement;
+
     public CustomListView(Context context) {
         super(context);
         init();
@@ -42,14 +43,14 @@ public class CustomListView extends ScrollView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.uet_scroll_view_layout,this,true);
+        LayoutInflater.from(getContext()).inflate(R.layout.uet_scroll_view_layout, this, true);
         listViewContainer = findViewById(R.id.listViewContainer);
     }
 
-
-    public  Element getCurrentClickedItem() {
+    public Element getCurrentClickedItem() {
         return currentElement;
     }
+
     public void updateCurrentItem(Element element) {
         currentElement = element;
         for (Item item : validItems) {
@@ -57,7 +58,7 @@ public class CustomListView extends ScrollView {
                 BriefDescItem briefDescItem = (BriefDescItem) item;
                 if (element.equals(briefDescItem.getElement())) {
                     briefDescItem.setSelected(true);
-                }else {
+                } else {
                     briefDescItem.setSelected(false);
                 }
             }
@@ -67,8 +68,10 @@ public class CustomListView extends ScrollView {
     public void setAttrDialogCallback(UITestDialogCallback callback) {
         this.callback = callback;
     }
+
     /**
      * 其他附加功能的初始化
+     *
      * @param element 当前选中的element
      */
     public void notifyViewAttrChanged(Element element) {
@@ -89,6 +92,7 @@ public class CustomListView extends ScrollView {
 
     /**
      * 显示View层级
+     *
      * @param validItems
      */
     public void notifyValidViewItemInserted(List<Item> validItems) {
@@ -103,6 +107,7 @@ public class CustomListView extends ScrollView {
     public void notifyValidViewItemRemoved() {
         notifyViewAttrChanged(currentElement);
     }
+
     private void notifyDataSetChanged() {
         listViewContainer.removeAllViews();
         for (Item item : items) {

@@ -19,8 +19,9 @@ public abstract class PxeLazyBaseFragment extends PxeBaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getUserVisibleHint())
+        if (getUserVisibleHint()) {
             loadData();
+        }
     }
 
     @Nullable
@@ -32,18 +33,23 @@ public abstract class PxeLazyBaseFragment extends PxeBaseFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //view被销毁后,重新刷新数据
+        isCreateView = false;
+        isLoadData = false;
+    }
+
+    @Override
     protected void loadData() {
         lazyLoad();
         isLoadData = true;
     }
 
-    /**
-     * @param isVisibleToUser true if this fragment's UI is currently visible to the user (default),
-     *                        false if it is not.
-     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        //view创建完毕 并且 用户可见 并且 还未加载数据
         if (isVisibleToUser && isCreateView && !isLoadData) {
             loadData();
         } else if (!isVisibleToUser) {
@@ -54,5 +60,8 @@ public abstract class PxeLazyBaseFragment extends PxeBaseFragment {
     protected void onInvisible() {
     }
 
+    /**
+     * 这个方法会确保在view创建完毕后才调用
+     */
     protected abstract void lazyLoad();
 }
